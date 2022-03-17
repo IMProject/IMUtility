@@ -85,16 +85,17 @@ CalculateCRC32(
     uint32_t counter;
     uint8_t temp;
     uint32_t crc = crc_initial_value;
+    const uint8_t* temp_data_ptr = crc_data_ptr;
 
     for (counter = 0u; counter < crc_length; ++counter) {
         if (reflected_input) {
-            temp = Reflect(*crc_data_ptr, 8u);
+            temp = Reflect(*temp_data_ptr, 8u);
         } else {
-            temp = *crc_data_ptr;
+            temp = *temp_data_ptr;
         }
 
         crc = (crc << 8u) ^ s_crc_table[(uint8_t)((crc >> 24u) ^ temp)];
-        ++crc_data_ptr;
+        ++temp_data_ptr;
 
     }
 
@@ -111,7 +112,8 @@ CalculateCRC32(
 static uint32_t
 Reflect(uint32_t data, uint8_t n_bits) {
 
-    uint32_t  reflection = 0u;
+    uint32_t reflection = 0u;
+    uint32_t temp_data = data;
 
     /*
     * Reflect the data about the center bit.
@@ -120,11 +122,11 @@ Reflect(uint32_t data, uint8_t n_bits) {
         /*
         * If the LSB bit is set, set the reflection of it.
         */
-        if (data & 0x01) {
+        if (1u == (temp_data & 1u) ) {
             reflection |= (1u << ((n_bits - 1u) - bit));
         }
 
-        data = (data >> 1u);
+        temp_data = (temp_data >> 1u);
     }
 
     return (reflection);
