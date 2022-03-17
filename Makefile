@@ -65,6 +65,37 @@ SRC_FILES1=\
 INC_DIRS=-IInc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS=-DUNITY_FIXTURE_NO_EXTRAS
 
+#######################################
+# Astyle
+#######################################
+.PHONY: check_format format
+
+check_format:
+	$(call colorecho,'Checking formatting with astyle')
+	@Tools/astyle/check_code_style_all.sh
+	@git diff --check
+
+format:
+	$(call colorecho,'Formatting with astyle')
+	@Tools/astyle/check_code_style_all.sh --fix
+	
+#######################################
+# Cppcheck
+#######################################
+.PHONY: cppcheck misra
+cppcheck:
+	$(call colorecho,'Checking code with cppcheck')
+	@cppcheck --error-exitcode=1 Bootloader
+	
+misra:
+	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
+	@cppcheck cppcheck Inc Src --force --addon=misra.py --inline-suppr --error-exitcode=1 \
+	-i Tests
+	
+#######################################
+# Unit test
+#######################################
+
 all: clean default
 
 default:
