@@ -102,7 +102,6 @@ Base64_decode (char* in, size_t inLen, unsigned char* out, size_t* outLen) {
     char iter = 0;
     uint32_t buf = 0;
     size_t len = 0;
-    unsigned char* out_start = out;
 
     while (in < end) {
         unsigned char c = d[(int) * in++];
@@ -126,7 +125,6 @@ Base64_decode (char* in, size_t inLen, unsigned char* out, size_t* outLen) {
                     *(out++) = buf & 255;
                     buf = 0;
                     iter = 0;
-
                 }
         }
     }
@@ -140,9 +138,6 @@ Base64_decode (char* in, size_t inLen, unsigned char* out, size_t* outLen) {
         *(out++) = (buf >> 4) & 255;
     }
 
-    if (len > *outLen) { return 1; } /* buffer overflow */
-
-    out_start[len] = '\0';
     *outLen = len; /* modify to reflect the actual output size */
     return 0;
 }
