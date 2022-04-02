@@ -1,143 +1,155 @@
 /*
- * Base64 Encode/Decode
- * Source code from:
- * https://en.wikibooks.org/wiki/Algorithm_Implementation/Miscellaneous/Base64
+ * Base64 Decode
+ * Polfosol
+ *
+ * Base64 encoding/decoding (RFC1341)
+ * Copyright (c) 2005-2011, Jouni Malinen <j@w1.fi>
+ *
+ * This software may be distributed under the terms of the BSD license.
+ * See README for more details.
+ *
  */
 
-#include <inttypes.h>
-#include <string.h>
+// Source code from Polfosol: https://stackoverflow.com/questions/180947/base64-decode-snippet-in-c/13935718
+// Source code from Jouni Malinen: https://web.mit.edu/freebsd/head/contrib/wpa/src/utils/base64.c
+
+
+// Encode/Decode functions are modified by Juraj Ciberlin (jciberlin1@gmail.com) to be MISRA compliant
+
 #include "base64.h"
+#include <stdbool.h>
 
-#define WHITESPACE 64
-#define EQUALS     65
-#define INVALID    66
-
-static const unsigned char d[] = {
-    66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 64, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
-    66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 62, 66, 66, 66, 63, 52, 53,
-    54, 55, 56, 57, 58, 59, 60, 61, 66, 66, 66, 65, 66, 66, 66, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-    10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 66, 66, 66, 66, 66, 66, 26, 27, 28,
-    29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 66, 66,
-    66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
-    66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
-    66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
-    66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
-    66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
-    66, 66, 66, 66, 66, 66
+// cppcheck-suppress misra-c2012-8.9
+static const unsigned int base64_index[256] = {
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 62U, 63U, 62U, 62U, 63U, 52U, 53U, 54U, 55U, 56U, 57U, 58U, 59U, 60U,
+    61U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U,
+    12U, 13U, 14U, 15U, 16U, 17U, 18U, 19U, 20U, 21U, 22U, 23U, 24U, 25U, 0U, 0U, 0U,
+    0U, 63U, 0U, 26U, 27U, 28U, 29U, 30U, 31U, 32U, 33U, 34U, 35U, 36U, 37U, 38U, 39U,
+    40U, 41U, 42U, 43U, 44U, 45U, 46U, 47U, 48U, 49U, 50U, 51U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U
 };
 
 int
-Base64_encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
-    const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    const uint8_t* data = (const uint8_t*)data_buf;
-    size_t resultIndex = 0;
-    size_t x;
-    uint32_t n = 0;
-    int padCount = dataLength % 3;
-    uint8_t n0, n1, n2, n3;
+Base64_encode(const void* data, size_t data_length, char* result, size_t max_result_length) {
+    int success = 0;
+    const unsigned char base64_table[65] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    unsigned char* out;
+    unsigned char* pos;
+    // cppcheck-suppress misra-c2012-11.5
+    const unsigned char* in = (const unsigned char*)data;
 
-    /* increment over the length of the string, three characters at a time */
-    for (x = 0; x < dataLength; x += 3) {
-        /* these three 8-bit (ASCII) characters become one 24-bit number */
-        n = ((uint32_t)data[x]) << 16; //parenthesis needed, compiler depending on flags can do the shifting before conversion to uint32_t, resulting to 0
+    size_t len = 4U * ((data_length + 2U) / 3U);;
+    size_t current_length = 0U;
+    size_t in_position = 0U;
 
-        if ((x + 1) < dataLength)
-        { n += ((uint32_t)data[x + 1]) << 8; } //parenthesis needed, compiler depending on flags can do the shifting before conversion to uint32_t, resulting to 0
+    if (len < data_length)
+    { success = 1; }
 
-        if ((x + 2) < dataLength)
-        { n += data[x + 2]; }
-
-        /* this 24-bit number gets separated into four 6-bit numbers */
-        n0 = (uint8_t)(n >> 18) & 63;
-        n1 = (uint8_t)(n >> 12) & 63;
-        n2 = (uint8_t)(n >> 6) & 63;
-        n3 = (uint8_t)n & 63;
-
-        /*
-         * if we have one byte available, then its encoding is spread
-         * out over two characters
-         */
-        if (resultIndex >= resultSize) { return 1; }  /* indicate failure: buffer too small */
-        result[resultIndex++] = base64chars[n0];
-        if (resultIndex >= resultSize) { return 1; }  /* indicate failure: buffer too small */
-        result[resultIndex++] = base64chars[n1];
-
-        /*
-         * if we have only two bytes available, then their encoding is
-         * spread out over three chars
-         */
-        if ((x + 1) < dataLength) {
-            if (resultIndex >= resultSize) { return 1; }  /* indicate failure: buffer too small */
-            result[resultIndex++] = base64chars[n2];
+    if (success == 0) {
+        out = (unsigned char*)&result[0];
+        pos = out;
+        while ((data_length - in_position) >= 3U) {
+            current_length += 4U;
+            if (current_length > max_result_length) {
+                success = 1;
+                break;
+            }
+            *pos = base64_table[in[0] >> 2];
+            ++pos;
+            *pos = base64_table[((in[0] & 0x03U) << 4) | (in[1] >> 4)];
+            ++pos;
+            *pos = base64_table[((in[1] & 0x0FU) << 2) | (in[2] >> 6)];
+            ++pos;
+            *pos = base64_table[in[2] & 0x3FU];
+            ++pos;
+            ++in;
+            ++in;
+            ++in;
+            in_position += 3U;
         }
 
-        /*
-         * if we have all three bytes available, then their encoding is spread
-         * out over four characters
-         */
-        if ((x + 2) < dataLength) {
-            if (resultIndex >= resultSize) { return 1; }  /* indicate failure: buffer too small */
-            result[resultIndex++] = base64chars[n3];
+        if ((success == 0) && ((data_length - in_position) != 0U)) {
+            current_length += 4U;
+            if (current_length > max_result_length) {
+                success = 1;
+            }
+
+            if (success == 0) {
+                *pos = base64_table[in[0] >> 2];
+                ++pos;
+                if ((data_length - in_position) == 1U) {
+                    *pos = base64_table[(in[0] & 0x03U) << 4];
+                    ++pos;
+                    *pos = '=';
+                    ++pos;
+                } else {
+                    *pos = base64_table[((in[0] & 0x03U) << 4) | (in[1] >> 4)];
+                    ++pos;
+                    *pos = base64_table[(in[1] & 0x0FU) << 2];
+                    ++pos;
+                }
+                *pos = '=';
+                ++pos;
+            }
         }
+
+        *pos = '\0';
     }
 
-    /*
-     * create and add padding that is required if we did not have a multiple of 3
-     * number of characters available
-     */
-    if (padCount > 0) {
-        for (; padCount < 3; padCount++) {
-            if (resultIndex >= resultSize) { return 1; }  /* indicate failure: buffer too small */
-            result[resultIndex++] = '=';
-        }
-    }
-    if (resultIndex >= resultSize) { return 1; }  /* indicate failure: buffer too small */
-    result[resultIndex] = 0;
-    return 0;   /* indicate success */
+    return success;
 }
 
 int
-Base64_decode (char* in, size_t inLen, unsigned char* out, size_t* outLen) {
-    char* end = in + inLen;
-    char iter = 0;
-    uint32_t buf = 0;
-    size_t len = 0;
+Base64_decode(char* in, size_t in_len, unsigned char* out, size_t max_out_len) {
+    int success = 0;
+    unsigned char* p = (unsigned char*)in;
+    bool pad_bool = (in_len > 0U) && ((in_len % 4U) || (p[in_len - 1U] == (unsigned char)'='));
+    unsigned int pad_uint = 0U;
+    if (pad_bool) {
+        pad_uint = 1U;
+    }
+    const size_t len = (((in_len + 3U) / 4U) - pad_uint) * 4U;
+    const size_t out_len = ((len / 4U) * 3U) + pad_uint;
 
-    while (in < end) {
-        unsigned char c = d[(int) * in++];
+    if (out_len > max_out_len) {
+        success = 1;
+    }
 
-        switch (c) {
-            case WHITESPACE:
-                continue;   /* skip whitespace */
-            case INVALID:
-                return 1;   /* invalid input, return error */
-            case EQUALS:                 /* pad character, end of data */
-                in = end;
-                continue;
-            default:
-                buf = buf << 6 | c;
-                iter++; // increment the number of iteration
-                /* If the buffer is full, split it into bytes */
-                if (iter == 4) {
-                    if ((len += 3) > *outLen) { return 1; } /* buffer overflow */
-                    *(out++) = (buf >> 16) & 255;
-                    *(out++) = (buf >> 8) & 255;
-                    *(out++) = buf & 255;
-                    buf = 0;
-                    iter = 0;
+    if (success == 0) {
+        size_t j = 0U;
+        for (size_t i = 0U; i < len; i += 4U) {
+            unsigned int n = (base64_index[p[i]] << 18U) | (base64_index[p[i + 1U]] << 12U) |
+                             (base64_index[p[i + 2U]] << 6U) | (base64_index[p[i + 3U]]);
+            out[j] = n >> 16U;
+            ++j;
+            out[j] = (n >> 8U) & 0xFFU;
+            ++j;
+            out[j] = n & 0xFFU;
+            ++j;
+        }
+        if (pad_bool) {
+            unsigned int n = (base64_index[p[len]] << 18U) | (base64_index[p[len + 1U]] << 12U);
+            out[out_len - 1U] = n >> 16U;
+
+            if ((in_len > (len + 2U)) && (p[len + 2U] != (unsigned char)'=')) {
+                if ((out_len + 1U) > max_out_len) {
+                    success = 1;
+                } else {
+                    n |= base64_index[p[len + 2U]] << 6U;
+                    out[out_len] = (n >> 8U) & 0xFFU;
                 }
+            }
         }
     }
 
-    if (iter == 3) {
-        if ((len += 2) > *outLen) { return 1; } /* buffer overflow */
-        *(out++) = (buf >> 10) & 255;
-        *(out++) = (buf >> 2) & 255;
-    } else if (iter == 2) {
-        if (++len > *outLen) { return 1; } /* buffer overflow */
-        *(out++) = (buf >> 4) & 255;
-    }
-
-    *outLen = len; /* modify to reflect the actual output size */
-    return 0;
+    return success;
 }
