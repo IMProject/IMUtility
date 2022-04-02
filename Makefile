@@ -89,7 +89,7 @@ cppcheck:
 	
 misra:
 	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
-	@cppcheck cppcheck Inc Src --force --addon=misra.py --inline-suppr --error-exitcode=1 \
+	@cppcheck cppcheck -IInc Src --force --addon=misra.py --inline-suppr --error-exitcode=1 \
 	-i Tests
 	
 #######################################

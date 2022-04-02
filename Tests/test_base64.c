@@ -16,26 +16,65 @@ TEST_GROUP_RUNNER(Base64) {
 }
 
 TEST(Base64, Base64_encode) {
-    const char string[] = "IMProject is a very cool project!";
-    char base64[200];
-    Base64_encode(string, strlen(string), base64, sizeof(base64));
-    TEST_ASSERT_EQUAL_STRING("SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh", base64);
+    {
+        const char string[] = "IMProject is a very cool project!";
+        char base64[200];
+        int success = Base64_encode(string, strlen(string), base64, sizeof(base64));
+        TEST_ASSERT_EQUAL_STRING("SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh", base64);
+        TEST_ASSERT_EQUAL_INT(0, success);
+    }
+    {
+        // Result length is too small
+        const char string[] = "IMProject is a very cool project!";
+        char base64[10];
+        int success = Base64_encode(string, strlen(string), base64, sizeof(base64));
+        TEST_ASSERT_EQUAL_INT(1, success);
+    }
+    {
+        const char string[] = "Hehe";
+        char base64[200];
+        int success = Base64_encode(string, strlen(string), base64, sizeof(base64));
+        TEST_ASSERT_EQUAL_STRING("SGVoZQ==", base64);
+        TEST_ASSERT_EQUAL_INT(0, success);
+    }
+    {
+        // Result length is too small
+        const char string[] = "Hehe";
+        char base64[4];
+        int success = Base64_encode(string, strlen(string), base64, sizeof(base64));
+        TEST_ASSERT_EQUAL_INT(1, success);
+    }
 }
 
 TEST(Base64, Base64_decode) {
-
-    char text_1[] = "IMProject is a very cool project!";
-    char base64_1[] = "SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh";
-    unsigned char string[200];
-    size_t string_size = 200;
-    Base64_decode(base64_1, strlen(base64_1), string, &string_size);
-    TEST_ASSERT_EQUAL_MEMORY(text_1, string, strlen(text_1));
-
-    char text_2[] = "B?E(H+MbQeThWmZq4t7w!z%C*F)J@NcR";
-    char base64_2[] =  "Qj9FKEgrTWJRZVRoV21acTR0N3cheiVDKkYpSkBOY1I=";
-    unsigned char string_2[200];
-    size_t string_size_2 = 200;
-    Base64_decode(base64_2, strlen(base64_2), string_2, &string_size_2);
-    TEST_ASSERT_EQUAL_MEMORY(text_2, string_2, strlen(text_2));
+    {
+        char text[] = "IMProject is a very cool project!";
+        char base64[] = "SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh";
+        unsigned char string[200];
+        int success = Base64_decode(base64, strlen(base64), string, sizeof(string));
+        TEST_ASSERT_EQUAL_MEMORY(text, string, strlen(text));
+        TEST_ASSERT_EQUAL_INT(0, success);
+    }
+    {
+        // Output size is too big
+        char base64[] = "SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh";
+        unsigned char string[10];
+        int success = Base64_decode(base64, strlen(base64), string, sizeof(string));
+        TEST_ASSERT_EQUAL_INT(1, success);
+    }
+    {
+        char text[] = "B?E(H+MbQeThWmZq4t7w!z%C*F)J@NcR";
+        char base64[] = "Qj9FKEgrTWJRZVRoV21acTR0N3cheiVDKkYpSkBOY1I=";
+        unsigned char string[200];
+        int success = Base64_decode(base64, strlen(base64), string, sizeof(string));
+        TEST_ASSERT_EQUAL_MEMORY(text, string, strlen(text));
+        TEST_ASSERT_EQUAL_INT(0, success);
+    }
+    {
+        // Output size is too big
+        char base64[] = "Qj9FKEgrTWJRZVRoV21acTR0N3cheiVDKkYpSkBOY1I=";
+        unsigned char string[31];
+        int success = Base64_decode(base64, strlen(base64), string, sizeof(string));
+        TEST_ASSERT_EQUAL_INT(1, success);
+    }
 }
-
