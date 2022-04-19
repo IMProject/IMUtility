@@ -19,7 +19,7 @@
 #include "base64.h"
 #include <stdbool.h>
 
-// cppcheck-suppress misra-c2012-8.9
+// cppcheck-suppress misra-c2012-8.9; better readability
 static const unsigned int base64_index[256] = {
     0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
     0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
@@ -44,7 +44,7 @@ Base64_encode(const void* data, size_t data_length, char* result, size_t max_res
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     unsigned char* out;
     unsigned char* pos;
-    // cppcheck-suppress misra-c2012-11.5
+    // cppcheck-suppress misra-c2012-11.5; conversion from void* to unsigned char* is needed here
     const unsigned char* in = (const unsigned char*)data;
 
     size_t len = 4U * ((data_length + 2U) / 3U);;
@@ -109,10 +109,10 @@ Base64_encode(const void* data, size_t data_length, char* result, size_t max_res
 }
 
 int
-Base64_decode(char* in, size_t in_len, unsigned char* out, size_t max_out_len) {
+Base64_decode(const char* in, size_t in_len, unsigned char* out, size_t max_out_len) {
     int success = 0;
-    unsigned char* p = (unsigned char*)in;
-    bool pad_bool = (in_len > 0U) && ((in_len % 4U) || (p[in_len - 1U] == (unsigned char)'='));
+    const unsigned char* in_data_uchar = (const unsigned char*)in;
+    bool pad_bool = (in_len > 0U) && ((in_len % 4U) || (in_data_uchar[in_len - 1U] == (unsigned char)'='));
     unsigned int pad_uint = 0U;
     if (pad_bool) {
         pad_uint = 1U;
@@ -127,8 +127,8 @@ Base64_decode(char* in, size_t in_len, unsigned char* out, size_t max_out_len) {
     if (success == 0) {
         size_t j = 0U;
         for (size_t i = 0U; i < len; i += 4U) {
-            unsigned int n = (base64_index[p[i]] << 18U) | (base64_index[p[i + 1U]] << 12U) |
-                             (base64_index[p[i + 2U]] << 6U) | (base64_index[p[i + 3U]]);
+            unsigned int n = (base64_index[in_data_uchar[i]] << 18U) | (base64_index[in_data_uchar[i + 1U]] << 12U) |
+                             (base64_index[in_data_uchar[i + 2U]] << 6U) | (base64_index[in_data_uchar[i + 3U]]);
             out[j] = n >> 16U;
             ++j;
             out[j] = (n >> 8U) & 0xFFU;
@@ -137,14 +137,14 @@ Base64_decode(char* in, size_t in_len, unsigned char* out, size_t max_out_len) {
             ++j;
         }
         if (pad_bool) {
-            unsigned int n = (base64_index[p[len]] << 18U) | (base64_index[p[len + 1U]] << 12U);
+            unsigned int n = (base64_index[in_data_uchar[len]] << 18U) | (base64_index[in_data_uchar[len + 1U]] << 12U);
             out[out_len - 1U] = n >> 16U;
 
-            if ((in_len > (len + 2U)) && (p[len + 2U] != (unsigned char)'=')) {
+            if ((in_len > (len + 2U)) && (in_data_uchar[len + 2U] != (unsigned char)'=')) {
                 if ((out_len + 1U) > max_out_len) {
                     success = 1;
                 } else {
-                    n |= base64_index[p[len + 2U]] << 6U;
+                    n |= base64_index[in_data_uchar[len + 2U]] << 6U;
                     out[out_len] = (n >> 8U) & 0xFFU;
                 }
             }
