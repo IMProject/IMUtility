@@ -34,6 +34,7 @@
 
 #include "crc32.h"
 
+// cppcheck-suppress misra-c2012-8.9; better readability
 static uint32_t s_crc_table[256] = {
     0x00000000, 0x04C11DB7, 0x09823B6E, 0x0D4326D9, 0x130476DC, 0x17C56B6B, 0x1A864DB2, 0x1E475005,
     0x2608EDB8, 0x22C9F00F, 0x2F8AD6D6, 0x2B4BCB61, 0x350C9B64, 0x31CD86D3, 0x3C8EA00A, 0x384FBDBD,
@@ -118,12 +119,12 @@ Reflect(uint32_t data, uint8_t n_bits) {
     /*
     * Reflect the data about the center bit.
     */
-    for (uint8_t bit = 0u; bit < n_bits; ++bit) {
+    for (uint32_t bit = 0u; bit < n_bits; ++bit) {
         /*
         * If the LSB bit is set, set the reflection of it.
         */
         if (1u == (temp_data & 1u) ) {
-            reflection |= (1u << ((n_bits - 1u) - bit));
+            reflection |= (1u << (((uint32_t)n_bits - 1u) - bit));
         }
 
         temp_data = (temp_data >> 1u);

@@ -42,7 +42,7 @@ Json_startString(char* buffer, size_t size) {
     bool success = false;
 
     if (size >  MINIMAL_SIZE) {
-        // cppcheck-suppress misra-c2012-17.7
+        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[0], "{");
         success = true;
     }
@@ -60,26 +60,26 @@ Json_addData(char* buffer, size_t size, const char* key,  const char* value) {
     total_size += strlen("\"\":\"\"") + strlen(key) + strlen(value) + 1U;
 
     if (0 == strcmp(&buffer[index - 1U], "\"")) {
-        // cppcheck-suppress misra-c2012-17.7
+        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], ",");
         ++index;
     }
 
     if (total_size <= (size - index)) {
 
-        // cppcheck-suppress misra-c2012-17.7
+        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], "\"");
         index += strlen("\"");
-        // cppcheck-suppress misra-c2012-17.7
+        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], key);
         index += strlen(key);
-        // cppcheck-suppress misra-c2012-17.7
+        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], "\":\"");
         index += strlen("\":\"");
-        // cppcheck-suppress misra-c2012-17.7
+        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], value);
         index += strlen(value);
-        // cppcheck-suppress misra-c2012-17.7
+        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], "\"");
 
         success = true;
@@ -94,7 +94,7 @@ Json_endString(char* buffer, size_t size) {
 
     size_t index = strlen(buffer);
     if (size >= (MINIMAL_SIZE + index)) {
-        // cppcheck-suppress misra-c2012-17.7
+        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], "}");
         success = true;
     }
