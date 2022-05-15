@@ -32,13 +32,13 @@
  *
  ****************************************************************************/
 
-#ifndef INC_VERSION_H_
-#define INC_VERSION_H_
+#ifndef INC_SOFTWARE_INFO_H_
+#define INC_SOFTWARE_INFO_H_
 
 #include <stdint.h>
 #include <stdbool.h>
 
-bool Version_getDataJson(uint8_t* buffer, uint16_t size);
-bool Version_getData(uint8_t* buffer, uint16_t size);
+bool SwInfo_getDataJson(uint8_t* buffer, uint16_t size);
+bool SwInfo_getVersion(uint8_t* buffer, uint16_t size);
 
-#endif /* INC_VERSION_H_ */
+#endif /* INC_SOFTWARE_INFO_H_ */
