@@ -33,8 +33,8 @@
  ****************************************************************************/
 
 #include <string.h>
-#include "version.h"
 #include "json.h"
+#include "software_info.h"
 
 #define GIT_BRANCH_SIZE 40
 #define GIT_HASH_SIZE   42
@@ -54,25 +54,31 @@ static const char git_tag[GIT_TAG_SIZE] = GIT_TAG;
  * {
 *   "git_branch":"master",
 *   "git_hash":"be387ad0b2ba6dc0877e8e255e872ee310a9127c",
-*   "git_tag":"v1.1.0"
+*   "git_tag":"v1.1.0",
+*   "ld_script_variant":"FLASH"
 *  }
 */
 
 bool
-Version_getDataJson(uint8_t* buffer, uint16_t size) {
+SwInfo_getDataJson(uint8_t* buffer, uint16_t size) {
 
     bool success = true;
     success &= Json_startString((char*)buffer, size);
     success &= Json_addData((char*)buffer, size, "git_branch", git_branch);
     success &= Json_addData((char*)buffer, size, "git_hash", git_hash);
     success &= Json_addData((char*)buffer, size, "git_tag", git_tag);
+#ifdef LDS_RAM_VERSION
+    success &= Json_addData((char*)buffer, size, "ld_script_variant", "RAM");
+#else
+    success &= Json_addData((char*)buffer, size, "ld_script_variant", "FLASH");
+#endif
     success &= Json_endString((char*)buffer, size);
 
     return success;
 }
 
 bool
-Version_getData(uint8_t* buffer, uint16_t size) {
+SwInfo_getVersion(uint8_t* buffer, uint16_t size) {
 
     bool success = false;
     uint16_t str_size = strlen(BRANCH_NAME_STR) + strlen(COMMIT_HASH_STR) + strlen(LAST_TAG_STR);

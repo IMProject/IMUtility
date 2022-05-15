@@ -57,8 +57,8 @@ SRC_FILES1=\
   Src/base64.c \
   Src/crc32.c \
   Src/json.c \
+  Src/software_info.c \
   Src/utils.c \
-  Src/version.c \
   Tests/test_main.c \
   Tests/test_crc32.c \
   Tests/test_base64.c
