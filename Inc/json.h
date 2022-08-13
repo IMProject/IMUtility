@@ -40,9 +40,9 @@
 #include <stdbool.h>
 #include <string.h>
 
-bool Json_startString(char* buffer, size_t size);
-bool Json_addData(char* buffer, size_t size, const char* key,  const char* value);
-bool Json_endString(char* buffer, size_t size);
+bool Json_startString(char* buffer, size_t buffer_size);
+bool Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value);
+bool Json_endString(char* buffer, size_t buffer_size);
 
 
 #endif /* BOOTLOADER_UTILITY_INC_JSON_H_ */
