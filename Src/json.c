@@ -101,3 +101,54 @@ Json_endString(char* buffer, size_t buffer_size) {
 
     return success;
 }
+
+bool
+Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t* value_size) {
+
+    bool success = false;
+
+    uint32_t max_search_size = buffer_size - strlen(key);
+
+    uint32_t index;
+    size_t key_size = strlen(key);
+
+    for (index = 0; index < max_search_size; ++index) {
+
+        if (0 == strncmp(&buffer[index], key, key_size)) {
+
+            if (buffer[index + key_size] == '"') {
+                success = true;
+            }
+
+            break;
+        }
+    }
+
+    if (success) {
+
+        for (index = index + key_size + 1u; index < buffer_size; ++index) {
+
+            if (buffer[index] == '"') {
+                break;
+            }
+        }
+
+        *value_size = 0;
+        ++index;
+
+        for ( ; index < buffer_size; ++index) {
+
+            value[*value_size] = buffer[index];
+
+            if (buffer[index] == '"') {
+                value[*value_size] = '\0';
+                success = true;
+                break;
+            }
+
+            ++(*value_size);
+        }
+    }
+
+    return success;
+}
