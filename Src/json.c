@@ -103,7 +103,7 @@ Json_endString(char* buffer, size_t buffer_size) {
 }
 
 bool
-Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t* value_size) {
+Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t max_value_size) {
 
     bool success = false;
 
@@ -126,6 +126,7 @@ Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t
 
     if (success) {
 
+        success = false;
         for (index = index + key_size + 1u; index < buffer_size; ++index) {
 
             if (buffer[index] == '"') {
@@ -133,20 +134,20 @@ Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t
             }
         }
 
-        *value_size = 0;
+        size_t value_size = 0;
         ++index;
 
-        for ( ; index < buffer_size; ++index) {
+        for ( ; (index < buffer_size) && (value_size < max_value_size); ++index) {
 
-            value[*value_size] = buffer[index];
+            value[value_size] = buffer[index];
 
             if (buffer[index] == '"') {
-                value[*value_size] = '\0';
+                value[value_size] = '\0';
                 success = true;
                 break;
             }
 
-            ++(*value_size);
+            ++value_size;
         }
     }
 

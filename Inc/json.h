@@ -43,7 +43,7 @@
 bool Json_startString(char* buffer, size_t buffer_size);
 bool Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value);
 bool Json_endString(char* buffer, size_t buffer_size);
-bool Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t* value_size);
+bool Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t max_value_size);
 
 
 #endif /* BOOTLOADER_UTILITY_INC_JSON_H_ */
