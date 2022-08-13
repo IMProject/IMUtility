@@ -37,11 +37,11 @@
 #define MINIMAL_SIZE 2U // size of '{' or '}' + '\0'
 
 bool
-Json_startString(char* buffer, size_t size) {
+Json_startString(char* buffer, size_t buffer_size) {
 
     bool success = false;
 
-    if (size >  MINIMAL_SIZE) {
+    if (buffer_size >  MINIMAL_SIZE) {
         // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[0], "{");
         success = true;
@@ -51,7 +51,7 @@ Json_startString(char* buffer, size_t size) {
 }
 
 bool
-Json_addData(char* buffer, size_t size, const char* key,  const char* value) {
+Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value) {
 
     bool success = false;
 
@@ -65,7 +65,7 @@ Json_addData(char* buffer, size_t size, const char* key,  const char* value) {
         ++index;
     }
 
-    if (total_size <= (size - index)) {
+    if (total_size <= (buffer_size - index)) {
 
         // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], "\"");
@@ -88,12 +88,12 @@ Json_addData(char* buffer, size_t size, const char* key,  const char* value) {
     return success;
 }
 bool
-Json_endString(char* buffer, size_t size) {
+Json_endString(char* buffer, size_t buffer_size) {
 
     bool success = false;
 
     size_t index = strlen(buffer);
-    if (size >= (MINIMAL_SIZE + index)) {
+    if (buffer_size >= (MINIMAL_SIZE + index)) {
         // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], "}");
         success = true;

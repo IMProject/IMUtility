@@ -60,8 +60,9 @@ SRC_FILES1=\
   Src/software_info.c \
   Src/utils.c \
   Tests/test_main.c \
+  Tests/test_base64.c \
   Tests/test_crc32.c \
-  Tests/test_base64.c
+  Tests/test_json.c
 INC_DIRS=-IInc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS=-DUNITY_FIXTURE_NO_EXTRAS
 
