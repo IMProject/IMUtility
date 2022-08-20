@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2021 - 2022 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,13 +38,21 @@
 #include <stdint.h>
 
 uint32_t Utils_StringToInt(uint8_t* buf, uint32_t lenght);
+
+// Big-endian
+void Utils_SerializeBlobBE(uint8_t* buf, const uint8_t* src, uint32_t size);
 void Utils_Serialize32BE(uint8_t* buf, uint32_t value);
 void Utils_Serialize24BE(uint8_t* buf, uint32_t value);
 void Utils_Serialize16BE(uint8_t* buf, uint16_t value);
 void Utils_Serialize8BE(uint8_t* buf, uint8_t value);
+void Utils_DeserializeBlobBE(const uint8_t* buf, uint8_t* dst, uint32_t size);
 void Utils_Deserialize32BE(uint8_t* buf, uint32_t* value);
 void Utils_Deserialize16BE(uint8_t* buf, uint16_t* value);
 void Utils_Deserialize8BE(uint8_t* buf, uint8_t* value);
+
+// Little-endian
+void Utils_SerializeBlobLE(uint8_t* buf, const uint8_t* src, uint32_t size);
+void Utils_DeserializeBlobLE(const uint8_t* buf, uint8_t* dst, uint32_t size);
 
 
 #endif /* INC_UTILS_H_ */
