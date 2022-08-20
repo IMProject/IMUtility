@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2021 - 2022 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,6 +48,13 @@ Utils_StringToInt(uint8_t* buf, uint32_t lenght) {
 }
 
 void
+Utils_SerializeBlobBE(uint8_t* buf, const uint8_t* src, uint32_t size) {
+    for (uint32_t i = 0; i < size; i++) {
+        buf[i] = src[i];
+    }
+}
+
+void
 Utils_Serialize32BE(uint8_t* buf, uint32_t value) {
     buf[0] = (uint8_t)(value >> 24u) & 0xFFu;
     buf[1] = (uint8_t)(value >> 16u) & 0xFFu;
@@ -74,6 +81,31 @@ Utils_Serialize8BE(uint8_t* buf, uint8_t value) {
 }
 
 void
+Utils_DeserializeBlobBE(const uint8_t* buf, uint8_t* dst, uint32_t size) {
+    for (uint32_t i = 0; i < size; i++) {
+        dst[i] = buf[i];
+    }
+}
+
+void
+Utils_SerializeBlobLE(uint8_t* buf, const uint8_t* src, uint32_t size) {
+    int32_t j = 0;
+    for (int32_t i = ((int32_t)size - 1); i >= 0; --i) {
+        buf[j] = src[i];
+        ++j;
+    }
+}
+
+void
+Utils_DeserializeBlobLE(const uint8_t* buf, uint8_t* dst, uint32_t size) {
+    int32_t  j = 0;
+    for (int32_t i = ((int32_t)size - 1); i >= 0; --i) {
+        dst[j] = buf[i];
+        ++j;
+    }
+}
+
+void
 Utils_Deserialize32BE(uint8_t* buf, uint32_t* value) {
     *value = (uint32_t)(buf[0] << 24u);
     *value |= (uint32_t)(buf[1] << 16u);
@@ -91,5 +123,3 @@ void
 Utils_Deserialize8BE(uint8_t* buf, uint8_t* value) {
     *value = (uint32_t)(buf[0] << 0u);
 }
-
-
