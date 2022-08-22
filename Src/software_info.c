@@ -72,6 +72,12 @@ SwInfo_getDataJson(uint8_t* buffer, uint16_t size) {
 #else
     success &= Json_addData((char*)buffer, size, "ld_script_variant", "FLASH");
 #endif
+
+#ifdef SECURED
+    success &= Json_addData((char*)buffer, size, "build_variant", "secured");
+#else
+    success &= Json_addData((char*)buffer, size, "build_variant", "normal");
+#endif
     success &= Json_endString((char*)buffer, size);
 
     return success;
