@@ -1,4 +1,4 @@
-#We try to detect the OS we are running on, and adjust commands as needed
+# Detect the OS we are running on, and adjust commands as needed
 ifeq ($(OS),Windows_NT)
   ifeq ($(shell uname -s),) # not in a bash-like shell
 	CLEANUP = del /F /Q
@@ -42,7 +42,6 @@ CFLAGS += -Wno-unknown-pragmas
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -Wundef
 CFLAGS += -Wold-style-definition
-#CFLAGS += -Wno-misleading-indentation
 
 C_DEFS += \
 -DGIT_BRANCH=\"$(BRANCH)\" \
@@ -57,12 +56,14 @@ SRC_FILES1=\
   Src/base64.c \
   Src/crc32.c \
   Src/json.c \
+  Src/queue.c \
   Src/software_info.c \
   Src/utils.c \
   Tests/test_main.c \
   Tests/test_base64.c \
   Tests/test_crc32.c \
   Tests/test_json.c \
+  Tests/test_queue.c \
   Tests/test_utils.c
 INC_DIRS=-IInc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS=-DUNITY_FIXTURE_NO_EXTRAS
@@ -87,7 +88,7 @@ format:
 .PHONY: cppcheck misra
 cppcheck:
 	$(call colorecho,'Checking code with cppcheck')
-	@cppcheck --error-exitcode=1 Bootloader
+	@cppcheck --error-exitcode=1 Src
 	
 misra:
 	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
