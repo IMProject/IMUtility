@@ -1,1 +1,1 @@
-IMUtility
+MISRA compatible utility code
