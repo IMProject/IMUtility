@@ -93,5 +93,5 @@ TEST(Queue, Queue_enqueue_dequeue_float) {
     TEST_ASSERT_TRUE(Queue_enqueue(&queue, &element));
     float test_element;
     TEST_ASSERT_TRUE(Queue_rear(&queue, &test_element));
-    TEST_ASSERT_EQUAL_UINT32(test_element, element);
+    TEST_ASSERT_EQUAL_FLOAT(test_element, element);
 }

@@ -56,6 +56,7 @@ SRC_FILES1=\
   Src/base64.c \
   Src/crc32.c \
   Src/json.c \
+  Src/priority_queue.c \
   Src/queue.c \
   Src/software_info.c \
   Src/utils.c \
@@ -63,6 +64,7 @@ SRC_FILES1=\
   Tests/test_base64.c \
   Tests/test_crc32.c \
   Tests/test_json.c \
+  Tests/test_priority_queue.c \
   Tests/test_queue.c \
   Tests/test_utils.c
 INC_DIRS=-IInc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
@@ -92,8 +94,7 @@ cppcheck:
 	
 misra:
 	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
-	@cppcheck cppcheck -IInc Src --force --addon=misra.py --inline-suppr --error-exitcode=1 \
-	-i Tests
+	@cppcheck cppcheck -IInc Src --force --addon=misra.py --inline-suppr --error-exitcode=1
 	
 #######################################
 # Unit test
