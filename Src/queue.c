@@ -44,7 +44,7 @@ Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int ele
     queue->size = 0U;
     queue->rear = capacity - 1;
     queue->element_size = element_size;
-    queue->buffer = &buffer;
+    queue->buffer = buffer;
 }
 
 bool
@@ -63,7 +63,8 @@ Queue_enqueue(Queue_t* const queue, const void* const element) {
     if (!Queue_isFull(queue)) {
         status = true;
         queue->rear = (queue->rear + 1) % (int)queue->capacity;
-        uint8_t* buffer = (uint8_t*)(&queue->buffer);
+        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
+        unsigned char* buffer = (unsigned char*)queue->buffer;
         (void*)memcpy(&buffer[queue->rear * (int)queue->element_size], element, queue->element_size);
         queue->size = queue->size + 1U;
     }
@@ -75,7 +76,8 @@ Queue_dequeue(Queue_t* const queue, void* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         status = true;
-        uint8_t* buffer = (uint8_t*)(&queue->buffer);
+        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
+        unsigned char* buffer = (unsigned char*)queue->buffer;
         (void*)memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
         queue->front = (queue->front + 1U) % queue->capacity;
         queue->size = queue->size - 1U;
@@ -88,7 +90,8 @@ Queue_front(Queue_t* const queue, void* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         status = true;
-        uint8_t* buffer = (uint8_t*)(&queue->buffer);
+        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
+        unsigned char* buffer = (unsigned char*)queue->buffer;
         (void*)memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
     }
     return status;
@@ -99,7 +102,8 @@ Queue_rear(Queue_t* const queue, void* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         status = true;
-        uint8_t* buffer = (uint8_t*)(&queue->buffer);
+        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
+        unsigned char* buffer = (unsigned char*)queue->buffer;
         (void*)memcpy(element, &buffer[queue->rear * (int)queue->element_size], queue->element_size);
     }
     return status;
