@@ -5,6 +5,7 @@ static void
 RunAllTests(void) {
     RUN_TEST_GROUP(Base64);
     RUN_TEST_GROUP(Crc32);
+    RUN_TEST_GROUP(HeapSort);
     RUN_TEST_GROUP(Json);
     RUN_TEST_GROUP(PriorityQueue);
     RUN_TEST_GROUP(Queue);
