@@ -13,6 +13,6 @@
 -eval_file=config.ecl
 
 -doc="Test suite should not be analyzed."
--frames+={hide,"main(^Tests/.*$)"}
+-file_tag+={external,"^Tests/.*$"}
 
 -reports={hide,all_exp_external}
