@@ -30,6 +30,8 @@ jobs:
         name: artifacts
         path: ECLAIR_out
     - name: Upload ECLAIR SARIF
-      run: ./ECLAIR/action_upload_sarif.sh ECLAIR_out/reports.sarif
+      uses: BUGSENG/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: ECLAIR_out/reports.sarif
     - name: Publish ECLAIR results
       run: ECLAIR/action_push.sh "${WTOKEN}" ECLAIR_out "${GITHUB_SHA}"
