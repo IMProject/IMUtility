@@ -7,7 +7,7 @@ if [ -n "${VARIANT+x}" ]; then
     variantHeadline=" [${VARIANT}]"
 fi
 
-case "$ci" in
+case "${ci}" in
 gitlab)
     gitlabApiUrl="${CI_SERVER_PROTOCOL}://${CI_SERVER_HOST}:${CI_SERVER_PORT}/api/v4"
     # To be customized
@@ -22,6 +22,7 @@ gitlab)
         event="pull_request"
         pullRequestId=${CI_MERGE_REQUEST_IID}
         pullRequestHeadRef=${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}
+        pullRequestHeadRepo=${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}
         pullRequestBaseRef=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
         pullRequestUser=${GITLAB_USER_LOGIN}
         ;;
@@ -41,17 +42,16 @@ github)
     repository=${GITHUB_REPOSITORY}
     jobId=${GITHUB_RUN_NUMBER}
 
-    case "${GITHUB_REF}" in
-    refs/pull/*/merge)
+    case "${GITHUB_EVENT_NAME}" in
+    pull_request*)
         event="pull_request"
-        # Extract PR number from "refs/pull/<prnum>/merge"
-        pullRequestId=${GITHUB_REF#refs/pull/}
-        pullRequestId=${pullRequestId%/merge}
+        pullRequestId=${GITHUB_EVENT_PULL_REQUEST_NUMBER}
+        pullRequestHeadRepo=${PR_HEAD_REPO}
         pullRequestHeadRef=${PR_HEAD_REF}
         pullRequestBaseRef=${PR_BASE_REF}
         pullRequestUser=${PR_USER}
         ;;
-    refs/heads/*)
+    push)
         event="push"
         # Extract the branch name from "refs/heads/<branch>"
         branch=${GITHUB_REF#refs/heads/}
@@ -69,8 +69,8 @@ esac
 
 case "${event}" in
 pull_request)
-    subDir="${pullRequestHeadRef}_${pullRequestBaseRef}"
-    jobHeadline="Repository ${repository}: ${pullRequestUser} wants to merge ${pullRequestHeadRef} into ${pullRequestBaseRef}"
+    subDir=${pullRequestHeadRepo////_}.ecdf/${pullRequestBaseRef}
+    jobHeadline="Repository ${repository}: ${pullRequestUser} wants to merge ${pullRequestHeadRepo}:${pullRequestHeadRef} into ${pullRequestBaseRef}"
     ;;
 push)
     subDir="${branch}"

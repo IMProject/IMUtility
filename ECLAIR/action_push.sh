@@ -1,21 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eu
 
 usage() {
-    echo "Usage: $0 WTOKEN ANALYSIS_OUTPUT_DIR COMMIT_ID" >&2
+    echo "Usage: $0 WTOKEN ANALYSIS_OUTPUT_DIR" >&2
     exit 2
 }
 
-[ $# -eq 3 ] || usage
+[ $# -eq 2 ] || usage
 
 wtoken=$1
 analysisOutputDir=$2
-commitId=$3
 
 # Load settings and helpers
 . "$(dirname "$0")/action.helpers"
 . "$(dirname "$0")/action.settings"
+
+commitId=$(git rev-parse HEAD)
 
 curl -sS "${eclairReportUrlPrefix}/ext/update_push" \
     -F "wtoken=${wtoken}" \

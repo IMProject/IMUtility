@@ -1,10 +1,10 @@
 name: "ECLAIR pull request"
 on:
-  pull_request:
+  pull_request_target:
     types: ['opened', 'synchronize']
 env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  WTOKEN: ${{ secrets.WTOKEN }}
+  GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{github.event.pull_request.number}}
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 jobs:
   Analyze:
     runs-on: eclairit
@@ -12,13 +12,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
+        ref: "refs/pull/${{github.event.pull_request.number}}/merge"
         submodules: 'true'
     - name: Build and analyze with ECLAIR
       run: |
         set -eu
-        ./prepare.sh
-        cd ECLAIR
-        ./analyze.sh
+        ./prepare.sh Debug
+        ECLAIR/analyze.sh
     - name: ECLAIR analysis log
       if: always()
       run: cat ECLAIR_out/ANALYSIS.log
@@ -34,11 +34,12 @@ jobs:
     - name: Upload ECLAIR SARIF
       uses: BUGSENG/codeql-action/upload-sarif@v2
       with:
-        sarif_file: ECLAIR_out/reports.sarif
+        sarif_file: reports.sarif
     - name: Publish ECLAIR results
       env:
-        PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
-        PR_BASE_COMMIT_ID: ${{ github.event.pull_request.base.sha }}
-        PR_USER: ${{ github.event.pull_request.user.login }}
-      run: ECLAIR/action_pull_request.sh "${WTOKEN}" ECLAIR_out "${GITHUB_SHA}" "${PR_BASE_COMMIT_ID}"
+        PR_HEAD_REF: ${{github.event.pull_request.head.ref}}
+        PR_HEAD_REPO: ${{github.event.pull_request.head.repo.name}}
+        PR_BASE_REF: ${{github.event.pull_request.base.ref}}
+        PR_USER: ${{github.event.pull_request.user.login}}
+        WTOKEN: ${{secrets.WTOKEN}}
+      run: ECLAIR/action_pull_request.sh "${WTOKEN}" ECLAIR_out

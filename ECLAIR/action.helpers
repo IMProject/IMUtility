@@ -32,14 +32,16 @@ summary() {
         eval "${var}=${val}"
     done <"${updateLog}"
 
+    if [ -z "${newReports}" ]; then
+        countsMsg="Unfixed reports: ${unfixedReports}"
+    else
+        countsMsg="Fixed reports: ${fixedReports}
+Unfixed reports: ${unfixedReports} [new: ${newReports}]"
+    fi
     cat <<EOF >"${summaryTxt}"
 # [![ECLAIR](${eclairReportUrlPrefix}/rsrc/eclair.png)](https://www.bugseng.com/eclair) Analysis summary
 ${jobHeadline}
-
-Fixed reports: ${fixedReports}
-
-Unfixed reports: ${unfixedReports} [new: ${newReports}]
-
+${countsMsg}
 [Browse analysis](${indexHtmlUrl})
 EOF
 
@@ -51,8 +53,8 @@ EOF
         open_section ECLAIR_summary "ECLAIR analysis summary" ""
         # Generate summary and print it (GitLab-specific)
         cat <<EOF
-Fixed reports: ${fixedReports}
-Unfixed reports: ${unfixedReports} [new: ${newReports}]
+${jobHeadline}
+${countsMsg}
 Browse analysys: ${esc}[33m${indexHtmlUrl}${esc}[m
 EOF
         close_section ECLAIR_summary
