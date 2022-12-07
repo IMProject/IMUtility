@@ -14,6 +14,7 @@ jobs:
       run: |
         set -eu
         ./prepare.sh Debug
+        cd ECLAIR
         ./analyze.sh
     - name: ECLAIR analysis log
       if: always()
