@@ -14,7 +14,7 @@ jobs:
       run: |
         set -eu
         ./prepare.sh Debug
-        ECLAIR/analyze.sh
+        ./analyze.sh
     - name: ECLAIR analysis log
       if: always()
       run: cat ECLAIR_out/ANALYSIS.log
@@ -30,7 +30,7 @@ jobs:
     - name: Upload ECLAIR SARIF
       uses: BUGSENG/codeql-action/upload-sarif@v2
       with:
-        sarif_file: reports.sarif
+        sarif_file: ECLAIR_out/reports.sarif
     - name: Publish ECLAIR results
       env:
         WTOKEN: ${{secrets.WTOKEN}}
