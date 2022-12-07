@@ -69,7 +69,7 @@ esac
 
 case "${event}" in
 pull_request)
-    subDir=${pullRequestHeadRepo////_}.ecdf/${pullRequestBaseRef}
+    subDir=${pullRequestHeadRepo}.ecdf/${pullRequestBaseRef}
     jobHeadline="Repository ${repository}: ${pullRequestUser} wants to merge ${pullRequestHeadRepo}:${pullRequestHeadRef} into ${pullRequestBaseRef}"
     ;;
 push)
