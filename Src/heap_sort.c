@@ -37,12 +37,12 @@
 static void
 SwapElements(void* first, void* second, const unsigned int size) {
     unsigned char temp;
-    // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
+    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
     unsigned char* first_element = (unsigned char*)first;
-    // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
+    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
     unsigned char* second_element = (unsigned char*)second;
     unsigned int index = size;
-    while ((index--) != 0) {
+    while ((index--) != 0U) {
         temp = first_element[index];
         first_element[index] = second_element[index];
         second_element[index] = temp;
@@ -53,7 +53,7 @@ static void
 Heapify(void* buffer, const int n, const int i, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
     bool continue_iterating = true;
     int index = i;
-    // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
+    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
     unsigned char* elements = (unsigned char*)buffer;
 
     while (continue_iterating) {
@@ -83,7 +83,7 @@ Heapify(void* buffer, const int n, const int i, const unsigned int element_size,
 void
 HeapSort_sort(void* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
     int i;
-    // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
+    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
     unsigned char* elements = (unsigned char*)buffer;
     for (i = (number_of_elements / 2) - 1; i >= 0; --i) {
         Heapify(elements, number_of_elements, i, element_size, compareFun);
