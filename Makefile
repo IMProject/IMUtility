@@ -59,7 +59,6 @@ SRC_FILES1=\
   Src/json.c \
   Src/priority_queue.c \
   Src/queue.c \
-  Src/software_info.c \
   Src/utils.c \
   Tests/test_main.c \
   Tests/test_base64.c \
