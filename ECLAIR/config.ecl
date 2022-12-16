@@ -1,21 +1,12 @@
--enable=MC3R1.D4.4
--enable=MC3.R1.1
--enable=MC3R1.R10.1
--enable=MC3R1.R10.4
+-enable=MC3R1
 
-#-eval_file=gcc-x86_64-7.5.0.ecl
+-doc="Sources in the test suite are not under MISRA compliance."
+-file_tag+={external,"^Tests/.*$"}
 
-#-config=MC3R1.D4.9,macros+={hide, ^REFLECT_DATA$}
-#-config=MC3R1.D4.9,macros+={hide, ^REFLECT_REMAINDER$}
+-comment_selector={cppcheck_suppress_comment, "^// cppcheck-suppress.*$"}
 
-#-file_tag+={api:public,"^src/crc\\.h$"}
-#-public_files+=api:public
-#-config=MC3R1.R8.7,+declarations={hide,"^reflect\\(.*$"}
+-doc="cppcheck deviation comments should not be considered."
+-config=MC3R1.D4.4,+ignored_comments="cppcheck_suppress_comment"
 
-#-config=MC3R1.R15.5,reports+={hide,"all_area(context(^main\\(.*$))"}
-
-#-config=MC3R1.R21.6,reports+={hide,"all_area(all_loc(^src/main\\.c$))"}
-
--default_call_properties+="pointee_read(1..=never)"
--default_call_properties+="pointee_write(1..=always)"
--default_call_properties+="taken()"
+-doc="For documentation reasons, URLs in comments are allowed to contain //."
+-config=MC3R1.R3.1,comments={url_in_comment,"!^.*(/\*|[^:]//).*$" }
