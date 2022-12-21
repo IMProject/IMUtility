@@ -4,7 +4,7 @@
 
 [Browse all ECLAIR analyses](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/)
 
-# MISRA compliant utility code
+# MISRA C 2012 compliant utility code
 
 ## Base64
 - Base64_encode
