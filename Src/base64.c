@@ -14,7 +14,7 @@
 // Source code from Jouni Malinen: https://web.mit.edu/freebsd/head/contrib/wpa/src/utils/base64.c
 
 
-// Encode/Decode functions are modified by Juraj Ciberlin (jciberlin1@gmail.com) to be MISRA compliant
+// Encode/Decode functions are modified by Juraj Ciberlin (jciberlin1@gmail.com) to be MISRA C 2012 compliant
 
 #include "base64.h"
 #include <stdbool.h>
@@ -40,19 +40,37 @@ static const unsigned int base64_index[256] = {
 int
 Base64_encode(const void* data, size_t data_length, char* result, size_t max_result_length) {
     int success = 0;
-    const unsigned char base64_table[65] =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    const unsigned char base64_table[65] = {
+        (unsigned char)'A', (unsigned char)'B', (unsigned char)'C', (unsigned char)'D',
+        (unsigned char)'E', (unsigned char)'F', (unsigned char)'G', (unsigned char)'H',
+        (unsigned char)'I', (unsigned char)'J', (unsigned char)'K', (unsigned char)'L',
+        (unsigned char)'M', (unsigned char)'N', (unsigned char)'O', (unsigned char)'P',
+        (unsigned char)'Q', (unsigned char)'R', (unsigned char)'S', (unsigned char)'T',
+        (unsigned char)'U', (unsigned char)'V', (unsigned char)'W', (unsigned char)'X',
+        (unsigned char)'Y', (unsigned char)'Z', (unsigned char)'a', (unsigned char)'b',
+        (unsigned char)'c', (unsigned char)'d', (unsigned char)'e', (unsigned char)'f',
+        (unsigned char)'g', (unsigned char)'h', (unsigned char)'i', (unsigned char)'j',
+        (unsigned char)'k', (unsigned char)'l', (unsigned char)'m', (unsigned char)'n',
+        (unsigned char)'o', (unsigned char)'p', (unsigned char)'q', (unsigned char)'r',
+        (unsigned char)'s', (unsigned char)'t', (unsigned char)'u', (unsigned char)'v',
+        (unsigned char)'w', (unsigned char)'x', (unsigned char)'y', (unsigned char)'z',
+        (unsigned char)'0', (unsigned char)'1', (unsigned char)'2', (unsigned char)'3',
+        (unsigned char)'4', (unsigned char)'5', (unsigned char)'6', (unsigned char)'7',
+        (unsigned char)'8', (unsigned char)'9', (unsigned char)'+', (unsigned char)'/',
+        (unsigned char)'\0'
+    };
     unsigned char* out;
     unsigned char* pos;
-    // cppcheck-suppress misra-c2012-11.5; conversion from void* to unsigned char* is needed here
+    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
     const unsigned char* in = (const unsigned char*)data;
 
-    size_t len = 4U * ((data_length + 2U) / 3U);;
+    size_t len = 4U * ((data_length + 2U) / 3U);
     size_t current_length = 0U;
     size_t in_position = 0U;
 
-    if (len < data_length)
-    { success = 1; }
+    if (len < data_length) {
+        success = 1;
+    }
 
     if (success == 0) {
         out = (unsigned char*)&result[0];
@@ -112,7 +130,7 @@ int
 Base64_decode(const char* in, size_t in_len, unsigned char* out, size_t max_out_len) {
     int success = 0;
     const unsigned char* in_data_uchar = (const unsigned char*)in;
-    bool pad_bool = (in_len > 0U) && ((in_len % 4U) || (in_data_uchar[in_len - 1U] == (unsigned char)'='));
+    bool pad_bool = (in_len > 0U) && (((in_len % 4U) != 0U) || (in_data_uchar[in_len - 1U] == (unsigned char)'='));
     unsigned int pad_uint = 0U;
     if (pad_bool) {
         pad_uint = 1U;
