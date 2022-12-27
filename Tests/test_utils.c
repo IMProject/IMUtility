@@ -19,6 +19,7 @@ TEST_TEAR_DOWN(Utils) {
 }
 
 TEST_GROUP_RUNNER(Utils) {
+    RUN_TEST_CASE(Utils, Utils_StringToUint32);
     RUN_TEST_CASE(Utils, Utils_SerializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_DeserializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_SerializeBlobLE);
@@ -27,78 +28,72 @@ TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_LittleEndianSerializeDeserialize);
 }
 
-TEST(Utils, Utils_SerializeBlobBE) {
-    {
-        const size_t size = 50;
-        uint8_t result_data[size];
-        Utils_SerializeBlobBE(result_data, test_data_1, size);
+TEST(Utils, Utils_StringToUint32) {
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"39", 2U), 39U);
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"0", 1U), 0U);
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"2165217", 7U), 2165217U);
+}
 
-        for (uint32_t i = 0; i < size; ++i) {
-            TEST_ASSERT_EQUAL_INT(result_data[i], test_data_1[i]);
-        }
+TEST(Utils, Utils_SerializeBlobBE) {
+    const size_t size = 50;
+    uint8_t result_data[size];
+    Utils_SerializeBlobBE(result_data, test_data_1, size);
+
+    for (uint32_t i = 0; i < size; ++i) {
+        TEST_ASSERT_EQUAL_INT(result_data[i], test_data_1[i]);
     }
 }
 
 TEST(Utils, Utils_DeserializeBlobBE) {
-    {
-        const size_t size = 50;
-        uint8_t result_data[size];
-        Utils_DeserializeBlobBE(test_data_1, result_data, size);
+    const size_t size = 50;
+    uint8_t result_data[size];
+    Utils_DeserializeBlobBE(test_data_1, result_data, size);
 
-        for (uint32_t i = 0; i < size; ++i) {
-            TEST_ASSERT_EQUAL_INT(result_data[i], test_data_1[i]);
-        }
+    for (uint32_t i = 0; i < size; ++i) {
+        TEST_ASSERT_EQUAL_INT(result_data[i], test_data_1[i]);
     }
 }
 
 TEST(Utils, Utils_SerializeBlobLE) {
-    {
-        const size_t size = 50;
-        uint8_t result_data[size];
-        Utils_SerializeBlobLE(result_data, test_data_1, size);
+    const size_t size = 50;
+    uint8_t result_data[size];
+    Utils_SerializeBlobLE(result_data, test_data_1, size);
 
-        for (uint32_t i = 0, j = (size - 1); i < size; ++i, --j) {
-            TEST_ASSERT_EQUAL_INT(result_data[i], test_data_1[j]);
-        }
+    for (uint32_t i = 0, j = (size - 1); i < size; ++i, --j) {
+        TEST_ASSERT_EQUAL_INT(result_data[i], test_data_1[j]);
     }
 }
 
 TEST(Utils, Utils_DeserializeBlobLE) {
-    {
-        const size_t size = 50;
-        uint8_t result_data[size];
-        Utils_DeserializeBlobLE(test_data_1, result_data, size);
+    const size_t size = 50;
+    uint8_t result_data[size];
+    Utils_DeserializeBlobLE(test_data_1, result_data, size);
 
-        for (uint32_t i = 0, j = (size - 1); i < size; ++i, --j) {
-            TEST_ASSERT_EQUAL_INT(result_data[i], test_data_1[j]);
-        }
+    for (uint32_t i = 0, j = (size - 1); i < size; ++i, --j) {
+        TEST_ASSERT_EQUAL_INT(result_data[i], test_data_1[j]);
     }
 }
 
 TEST(Utils, Utils_BigEndianSerializeDeserialize) {
-    {
-        const size_t size = 50;
-        uint8_t result_data_serialize[size];
-        uint8_t result_data_deserialize[size];
-        Utils_SerializeBlobBE(result_data_serialize, test_data_1, size);
-        Utils_DeserializeBlobBE(result_data_serialize, result_data_deserialize, size);
+    const size_t size = 50;
+    uint8_t result_data_serialize[size];
+    uint8_t result_data_deserialize[size];
+    Utils_SerializeBlobBE(result_data_serialize, test_data_1, size);
+    Utils_DeserializeBlobBE(result_data_serialize, result_data_deserialize, size);
 
-        for (uint32_t i = 0; i < size; ++i) {
-            TEST_ASSERT_EQUAL_INT(result_data_deserialize[i], test_data_1[i]);
-        }
+    for (uint32_t i = 0; i < size; ++i) {
+        TEST_ASSERT_EQUAL_INT(result_data_deserialize[i], test_data_1[i]);
     }
 }
 
 TEST(Utils, Utils_LittleEndianSerializeDeserialize) {
-    {
-        const size_t size = 50;
-        uint8_t result_data_serialize[size];
-        uint8_t result_data_deserialize[size];
-        Utils_SerializeBlobLE(result_data_serialize, test_data_1, size);
-        Utils_DeserializeBlobLE(result_data_serialize, result_data_deserialize, size);
+    const size_t size = 50;
+    uint8_t result_data_serialize[size];
+    uint8_t result_data_deserialize[size];
+    Utils_SerializeBlobLE(result_data_serialize, test_data_1, size);
+    Utils_DeserializeBlobLE(result_data_serialize, result_data_deserialize, size);
 
-        for (uint32_t i = 0; i < size; ++i) {
-            TEST_ASSERT_EQUAL_INT(result_data_deserialize[i], test_data_1[i]);
-        }
+    for (uint32_t i = 0; i < size; ++i) {
+        TEST_ASSERT_EQUAL_INT(result_data_deserialize[i], test_data_1[i]);
     }
 }
