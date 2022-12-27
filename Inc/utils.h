@@ -37,7 +37,7 @@
 
 #include <stdint.h>
 
-uint32_t Utils_StringToInt(uint8_t* buf, uint32_t lenght);
+uint32_t Utils_StringToUint32(const unsigned char* buf, const uint32_t lenght);
 
 // Big-endian
 void Utils_SerializeBlobBE(uint8_t* buf, const uint8_t* src, uint32_t size);

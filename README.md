@@ -38,7 +38,7 @@
 - Queue_rear
 
 ## Utils
-- Utils_StringToInt
+- Utils_StringToUint32
 
 - Utils_SerializeBlobBE
 - Utils_Serialize32BE

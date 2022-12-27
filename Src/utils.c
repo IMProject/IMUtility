@@ -36,12 +36,12 @@
 #include <math.h>
 
 uint32_t
-Utils_StringToInt(uint8_t* buf, uint32_t lenght) {
-    uint32_t integer = 0u;
-    uint32_t i = 0u;
+Utils_StringToUint32(const unsigned char* buf, const uint32_t lenght) {
+    uint32_t integer = 0U;
+    uint32_t i = 0U;
 
-    while ((buf[i] != (uint8_t)'\0') && (lenght > i)) {
-        integer += (uint32_t)(buf[i] - (uint8_t)'0') * pow(10, (lenght - (i + 1u)));
+    while ((buf[i] != (unsigned char)'\0') && (lenght > i)) {
+        integer += (uint32_t)(buf[i] - (unsigned char)'0') * (uint32_t)pow(10.0, (lenght - (i + 1U)));
         ++i;
     }
     return integer;
