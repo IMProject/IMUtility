@@ -6,6 +6,9 @@
 
 # MISRA C 2012 compliant utility code
 
+## Discord channel
+https://discord.gg/R6nZxZqDH3
+
 ## Base64
 - Base64_encode
 - Base64_decode
