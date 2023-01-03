@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2022 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
  *   Authors: Juraj Ciberlin <jciberlin1@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,52 +32,27 @@
  *
  ****************************************************************************/
 
-#include "heap_sort.h"
+#include "bubble_sort.h"
 
 #include "utils.h"
 
-static void
-Heapify(void* buffer, const int n, const int i, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
-    bool continue_iterating = true;
-    int index = i;
-    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-    unsigned char* elements = (unsigned char*)buffer;
-
-    while (continue_iterating) {
-        int largest = index;
-
-        int left = (2 * index) + 1;
-
-        int right = (2 * index) + 2;
-
-        if ((left < n) && (compareFun(&elements[left * (int)element_size], &elements[largest * (int)element_size]))) {
-            largest = left;
-        }
-
-        if ((right < n) && (compareFun(&elements[right * (int)element_size], &elements[largest * (int)element_size]))) {
-            largest = right;
-        }
-
-        if (largest != index) {
-            Utils_SwapElements(&elements[index * (int)element_size], &elements[largest * (int)element_size], element_size);
-            index = largest;
-        } else {
-            continue_iterating = false;
-        }
-    }
-}
-
 void
-HeapSort_sort(void* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
+BubbleSort_sort(void* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
     int i;
+    int j;
     // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
     unsigned char* elements = (unsigned char*)buffer;
-    for (i = (number_of_elements / 2) - 1; i >= 0; --i) {
-        Heapify(elements, number_of_elements, i, element_size, compareFun);
-    }
+    for (i = 0; i < (number_of_elements - 1); ++i) {
+        bool swapped = false;
+        for (j = 0; j < (number_of_elements - i - 1); ++j) {
+            if (compareFun(&elements[j * (int)element_size], &elements[(j + 1) * (int)element_size])) {
+                Utils_SwapElements(&elements[j * (int)element_size], &elements[(j + 1) * (int)element_size], element_size);
+                swapped = true;
+            }
+        }
 
-    for (i = number_of_elements - 1; i >= 0; --i) {
-        Utils_SwapElements(&elements[0], &elements[i * (int)element_size], element_size);
-        Heapify(elements, i, 0, element_size, compareFun);
+        if (!swapped) {
+            break;
+        }
     }
 }

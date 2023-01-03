@@ -20,6 +20,7 @@ TEST_TEAR_DOWN(Utils) {
 
 TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_StringToUint32);
+    RUN_TEST_CASE(Utils, Utils_SwapElements);
     RUN_TEST_CASE(Utils, Utils_SerializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_DeserializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_SerializeBlobLE);
@@ -32,6 +33,23 @@ TEST(Utils, Utils_StringToUint32) {
     TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"39", 2U), 39U);
     TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"0", 1U), 0U);
     TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"2165217", 7U), 2165217U);
+}
+
+TEST(Utils, Utils_SwapElements) {
+    {
+        int a = 3;
+        int b = 4;
+        Utils_SwapElements(&a, &b, sizeof(int));
+        TEST_ASSERT_EQUAL_INT(a, 4);
+        TEST_ASSERT_EQUAL_INT(b, 3);
+    }
+    {
+        double a = 3.1;
+        double b = 4.2;
+        Utils_SwapElements(&a, &b, sizeof(double));
+        TEST_ASSERT_EQUAL_DOUBLE(a, 4.2);
+        TEST_ASSERT_EQUAL_DOUBLE(b, 3.1);
+    }
 }
 
 TEST(Utils, Utils_SerializeBlobBE) {

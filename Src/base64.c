@@ -17,6 +17,7 @@
 // Encode/Decode functions are modified by Juraj Ciberlin (jciberlin1@gmail.com) to be MISRA C 2012 compliant
 
 #include "base64.h"
+
 #include <stdbool.h>
 
 // cppcheck-suppress misra-c2012-8.9; better readability

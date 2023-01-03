@@ -32,7 +32,8 @@
  *
  ****************************************************************************/
 
-#include <utils.h>
+#include "utils.h"
+
 #include <math.h>
 
 uint32_t
@@ -45,6 +46,21 @@ Utils_StringToUint32(const unsigned char* buf, const uint32_t lenght) {
         ++i;
     }
     return integer;
+}
+
+void
+Utils_SwapElements(void* first, void* second, const unsigned int size) {
+    unsigned char temp;
+    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
+    unsigned char* first_element = (unsigned char*)first;
+    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
+    unsigned char* second_element = (unsigned char*)second;
+    unsigned int index = size;
+    while ((index--) != 0U) {
+        temp = first_element[index];
+        first_element[index] = second_element[index];
+        second_element[index] = temp;
+    }
 }
 
 void
