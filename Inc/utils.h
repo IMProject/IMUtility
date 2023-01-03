@@ -32,8 +32,8 @@
  *
  ****************************************************************************/
 
-#ifndef INC_UTILS_H_
-#define INC_UTILS_H_
+#ifndef UTILITY_UTILS_H_
+#define UTILITY_UTILS_H_
 
 #include <stdint.h>
 
@@ -56,4 +56,4 @@ void Utils_SerializeBlobLE(uint8_t* buf, const uint8_t* src, uint32_t size);
 void Utils_DeserializeBlobLE(const uint8_t* buf, uint8_t* dst, uint32_t size);
 
 
-#endif /* INC_UTILS_H_ */
+#endif /* UTILITY_UTILS_H_ */

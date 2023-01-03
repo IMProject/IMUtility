@@ -60,6 +60,7 @@ SRC_FILES1=\
   Src/json.c \
   Src/priority_queue.c \
   Src/queue.c \
+  Src/scheduler.c \
   Src/utils.c \
   Tests/Helper/sort_functions.c \
   Tests/test_main.c \
@@ -70,6 +71,7 @@ SRC_FILES1=\
   Tests/test_json.c \
   Tests/test_priority_queue.c \
   Tests/test_queue.c \
+  Tests/test_scheduler.c \
   Tests/test_utils.c
 INC_DIRS=-IInc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS = -DUNITY_FIXTURE_NO_EXTRAS
