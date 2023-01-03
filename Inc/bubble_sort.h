@@ -1,7 +1,7 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 - 2022 IMProject Development Team. All rights reserved.
- *   Authors: Igor Misic <igy1000mb@gmail.com>
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
+ *   Authors: Juraj Ciberlin <jciberlin1@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,28 +32,11 @@
  *
  ****************************************************************************/
 
-#ifndef INC_UTILS_H_
-#define INC_UTILS_H_
+#ifndef UTILITY_BUBBLE_SORT_H_
+#define UTILITY_BUBBLE_SORT_H_
 
-#include <stdint.h>
+#include <stdbool.h>
 
-uint32_t Utils_StringToUint32(const unsigned char* buf, const uint32_t lenght);
-void Utils_SwapElements(void* first, void* second, const unsigned int size);
+void BubbleSort_sort(void* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void*, void*));
 
-// Big-endian
-void Utils_SerializeBlobBE(uint8_t* buf, const uint8_t* src, uint32_t size);
-void Utils_Serialize32BE(uint8_t* buf, uint32_t value);
-void Utils_Serialize24BE(uint8_t* buf, uint32_t value);
-void Utils_Serialize16BE(uint8_t* buf, uint16_t value);
-void Utils_Serialize8BE(uint8_t* buf, uint8_t value);
-void Utils_DeserializeBlobBE(const uint8_t* buf, uint8_t* dst, uint32_t size);
-void Utils_Deserialize32BE(uint8_t* buf, uint32_t* value);
-void Utils_Deserialize16BE(uint8_t* buf, uint16_t* value);
-void Utils_Deserialize8BE(uint8_t* buf, uint8_t* value);
-
-// Little-endian
-void Utils_SerializeBlobLE(uint8_t* buf, const uint8_t* src, uint32_t size);
-void Utils_DeserializeBlobLE(const uint8_t* buf, uint8_t* dst, uint32_t size);
-
-
-#endif /* INC_UTILS_H_ */
+#endif /* UTILITY_BUBBLE_SORT_H_ */
