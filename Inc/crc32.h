@@ -32,8 +32,8 @@
  *
  ****************************************************************************/
 
-#ifndef CRC32_H
-#define CRC32_H
+#ifndef UTILITY_CRC32_H_
+#define UTILITY_CRC32_H_
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -48,4 +48,4 @@ uint32_t CalculateCRC32(
     bool final_xor
 );
 
-#endif // CRC32_H
+#endif /* UTILITY_CRC32_H_ */

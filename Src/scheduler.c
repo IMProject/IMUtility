@@ -1,7 +1,7 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
- *   Authors: Igor Misic <igy1000mb@gmail.com>
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
+ *   Authors: Juraj Ciberlin <jciberlin1@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,17 +32,40 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_JSON_H_
-#define UTILITY_JSON_H_
+#include "scheduler.h"
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
+#define NULL_PTR ((void*)0)
 
-bool Json_startString(char* buffer, size_t buffer_size);
-bool Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value);
-bool Json_endString(char* buffer, size_t buffer_size);
-bool Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t max_value_size);
+void
+Scheduler_init(SchedulerTask_t* tasks, const unsigned int num_of_tasks) {
+    unsigned int i;
+    for (i = 0U; i < num_of_tasks; ++i) {
+        tasks[i].function = NULL_PTR;
+        tasks[i].active = false;
+    }
+}
 
+bool
+Scheduler_addTask(SchedulerTask_t* tasks, const unsigned int max_num_tasks, const SchedulerTask_t* const new_task) {
+    bool status = false;
+    unsigned int i;
+    for (i = 0U; i < max_num_tasks; ++i) {
+        if (tasks[i].function == NULL_PTR) {
+            tasks[i].function = new_task->function;
+            tasks[i].active = new_task->active;
+            status = true;
+            break;
+        }
+    }
+    return status;
+}
 
-#endif /* UTILITY_JSON_H_ */
+void
+Scheduler_run(SchedulerTask_t* task, const unsigned int num_of_tasks) {
+    unsigned int i;
+    for (i = 0U; i < num_of_tasks; ++i) {
+        if ((task[i].function != NULL_PTR) && (task[i].active)) {
+            task[i].function();
+        }
+    }
+}
