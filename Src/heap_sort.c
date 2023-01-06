@@ -37,7 +37,7 @@
 #include "utils.h"
 
 static void
-Heapify(void* buffer, const int n, const int i, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
+Heapify(void* buffer, const int n, const int i, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
     bool continue_iterating = true;
     int index = i;
     // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
@@ -68,7 +68,7 @@ Heapify(void* buffer, const int n, const int i, const unsigned int element_size,
 }
 
 void
-HeapSort_sort(void* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
+HeapSort_sort(void* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
     int i;
     // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
     unsigned char* elements = (unsigned char*)buffer;
