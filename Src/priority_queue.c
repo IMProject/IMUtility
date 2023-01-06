@@ -43,7 +43,7 @@ IsPriorityQueueFull(const PriorityQueue_t* const queue) {
 }
 
 static unsigned int
-FindHighestPriorityIndex(PriorityQueue_t* const queue) {
+FindHighestPriorityIndex(const PriorityQueue_t* const queue) {
     unsigned int highest_priority = queue->priority_array[0];
     unsigned int index = 0U;
     unsigned int i;
@@ -59,7 +59,7 @@ FindHighestPriorityIndex(PriorityQueue_t* const queue) {
 }
 
 static unsigned int
-FindLowestPriorityIndex(PriorityQueue_t* const queue) {
+FindLowestPriorityIndex(const PriorityQueue_t* const queue) {
     unsigned int lowest_priority = queue->priority_array[0];
     unsigned int index = 0U;
     unsigned int i;
@@ -75,7 +75,7 @@ FindLowestPriorityIndex(PriorityQueue_t* const queue) {
 }
 
 void
-PriorityQueue_initQueue(PriorityQueue_t* const queue, const int capacity, const unsigned int element_size, PriorityQueueItem_t* items) {
+PriorityQueue_initQueue(PriorityQueue_t* const queue, const int capacity, const unsigned int element_size, const PriorityQueueItem_t* items) {
     queue->capacity = capacity;
     queue->size = 0U;
     queue->element_size = element_size;

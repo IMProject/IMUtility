@@ -61,7 +61,7 @@ Scheduler_addTask(SchedulerTask_t* tasks, const unsigned int max_num_tasks, cons
 }
 
 void
-Scheduler_run(SchedulerTask_t* task, const unsigned int num_of_tasks) {
+Scheduler_run(const SchedulerTask_t* task, const unsigned int num_of_tasks) {
     unsigned int i;
     for (i = 0U; i < num_of_tasks; ++i) {
         if ((task[i].function != NULL_PTR) && (task[i].active)) {

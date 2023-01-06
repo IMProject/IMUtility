@@ -44,6 +44,6 @@ typedef struct SchedulerTask {
 
 void Scheduler_init(SchedulerTask_t* tasks, const unsigned int num_of_tasks);
 bool Scheduler_addTask(SchedulerTask_t* tasks, const unsigned int max_num_tasks, const SchedulerTask_t* const new_task);
-void Scheduler_run(SchedulerTask_t* task, const unsigned int num_of_tasks);
+void Scheduler_run(const SchedulerTask_t* task, const unsigned int num_of_tasks);
 
 #endif /* UTILITY_SCHEDULER_H_ */

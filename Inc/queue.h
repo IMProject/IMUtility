@@ -51,7 +51,7 @@ bool Queue_isFull(const Queue_t* const queue);
 bool Queue_isEmpty(const Queue_t* const queue);
 bool Queue_enqueue(Queue_t* const queue, const void* const element);
 bool Queue_dequeue(Queue_t* const queue, void* const element);
-bool Queue_front(Queue_t* const queue, void* const element);
-bool Queue_rear(Queue_t* const queue, void* const element);
+bool Queue_front(const Queue_t* const queue, void* const element);
+bool Queue_rear(const Queue_t* const queue, void* const element);
 
 #endif /* UTILITY_QUEUE_H_ */

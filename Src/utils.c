@@ -122,7 +122,7 @@ Utils_DeserializeBlobLE(const uint8_t* buf, uint8_t* dst, uint32_t size) {
 }
 
 void
-Utils_Deserialize32BE(uint8_t* buf, uint32_t* value) {
+Utils_Deserialize32BE(const uint8_t* buf, uint32_t* value) {
     *value = (uint32_t)(buf[0] << 24u);
     *value |= (uint32_t)(buf[1] << 16u);
     *value |= (uint32_t)(buf[2] << 8u);
@@ -130,12 +130,12 @@ Utils_Deserialize32BE(uint8_t* buf, uint32_t* value) {
 }
 
 void
-Utils_Deserialize16BE(uint8_t* buf, uint16_t* value) {
+Utils_Deserialize16BE(const uint8_t* buf, uint16_t* value) {
     *value = (uint32_t)(buf[0] << 8u);
     *value |= (uint32_t)(buf[1] << 0u);
 }
 
 void
-Utils_Deserialize8BE(uint8_t* buf, uint8_t* value) {
+Utils_Deserialize8BE(const uint8_t* buf, uint8_t* value) {
     *value = (uint32_t)(buf[0] << 0u);
 }
