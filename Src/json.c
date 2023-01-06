@@ -103,8 +103,7 @@ Json_endString(char* buffer, size_t buffer_size) {
 }
 
 bool
-Json_findByKey(char* buffer,  size_t buffer_size, char* key, char* value, size_t max_value_size) {
-
+Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* value, size_t max_value_size) {
     bool success = false;
 
     uint32_t max_search_size = buffer_size - strlen(key);
