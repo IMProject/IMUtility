@@ -37,7 +37,7 @@
 
 #include <stdbool.h>
 
-typedef struct Queue {
+typedef struct {
     unsigned int front;
     int rear;
     unsigned int size;
