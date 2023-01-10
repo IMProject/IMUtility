@@ -45,16 +45,18 @@ Heapify(void* buffer, const int n, const int i, const unsigned int element_size,
 
     while (continue_iterating) {
         int largest = index;
-
         int left = (2 * index) + 1;
-
         int right = (2 * index) + 2;
 
-        if ((left < n) && (compareFun(&elements[left * (int)element_size], &elements[largest * (int)element_size]))) {
+        bool compare_ret_value = compareFun(&elements[left * (int)element_size], &elements[largest * (int)element_size]);
+
+        if ((left < n) && (compare_ret_value)) {
             largest = left;
         }
 
-        if ((right < n) && (compareFun(&elements[right * (int)element_size], &elements[largest * (int)element_size]))) {
+        compare_ret_value = compareFun(&elements[right * (int)element_size], &elements[largest * (int)element_size]);
+
+        if ((right < n) && (compare_ret_value)) {
             largest = right;
         }
 
