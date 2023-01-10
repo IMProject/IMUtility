@@ -37,7 +37,7 @@
 
 #include <stdbool.h>
 
-typedef struct SchedulerTask {
+typedef struct {
     void (*function)(void);
     bool active;
 } SchedulerTask_t;

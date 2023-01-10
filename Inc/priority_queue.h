@@ -37,12 +37,12 @@
 
 #include <stdbool.h>
 
-typedef struct PriorityQueueItem {
+typedef struct {
     unsigned int* priority;
     void* element;
 } PriorityQueueItem_t;
 
-typedef struct PriorityQueue {
+typedef struct {
     unsigned int size;
     unsigned int capacity;
     unsigned int element_size;
