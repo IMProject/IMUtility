@@ -39,14 +39,14 @@ TEST(Utils, Utils_SwapElements) {
     {
         int a = 3;
         int b = 4;
-        Utils_SwapElements(&a, &b, sizeof(int));
+        Utils_SwapElements((uint8_t*)&a, (uint8_t*)&b, sizeof(int));
         TEST_ASSERT_EQUAL_INT(a, 4);
         TEST_ASSERT_EQUAL_INT(b, 3);
     }
     {
         double a = 3.1;
         double b = 4.2;
-        Utils_SwapElements(&a, &b, sizeof(double));
+        Utils_SwapElements((uint8_t*)&a, (uint8_t*)&b, sizeof(double));
         TEST_ASSERT_EQUAL_DOUBLE(a, 4.2);
         TEST_ASSERT_EQUAL_DOUBLE(b, 3.1);
     }

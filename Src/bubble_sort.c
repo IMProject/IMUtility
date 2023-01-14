@@ -37,11 +37,10 @@
 #include "utils.h"
 
 void
-BubbleSort_sort(void* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
+BubbleSort_sort(uint8_t* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
     int i;
     int j;
-    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-    unsigned char* elements = (unsigned char*)buffer;
+    uint8_t* elements = buffer;
     for (i = 0; i < (number_of_elements - 1); ++i) {
         bool swapped = false;
         for (j = 0; j < (number_of_elements - i - 1); ++j) {

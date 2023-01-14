@@ -35,10 +35,9 @@
 #include "queue.h"
 
 #include <string.h>
-#include <stdint.h>
 
 void
-Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int element_size, void* buffer) {
+Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int element_size, uint8_t* buffer) {
     queue->capacity = capacity;
     queue->front = 0U;
     queue->size = 0U;
@@ -63,8 +62,7 @@ Queue_enqueue(Queue_t* const queue, const void* const element) {
     if (!Queue_isFull(queue)) {
         status = true;
         queue->rear = (queue->rear + 1) % (int)queue->capacity;
-        // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-        unsigned char* buffer = (unsigned char*)queue->buffer;
+        uint8_t* buffer = queue->buffer;
         (void*)memcpy(&buffer[queue->rear * (int)queue->element_size], element, queue->element_size);
         queue->size = queue->size + 1U;
     }
@@ -76,8 +74,7 @@ Queue_dequeue(Queue_t* const queue, void* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         status = true;
-        // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-        const unsigned char* buffer = (const unsigned char*)queue->buffer;
+        const uint8_t* buffer = (const uint8_t*)queue->buffer;
         (void*)memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
         queue->front = (queue->front + 1U) % queue->capacity;
         queue->size = queue->size - 1U;
@@ -90,8 +87,7 @@ Queue_front(const Queue_t* const queue, void* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         status = true;
-        // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-        const unsigned char* buffer = (const unsigned char*)queue->buffer;
+        const uint8_t* buffer = (const uint8_t*)queue->buffer;
         (void*)memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
     }
     return status;
@@ -102,8 +98,7 @@ Queue_rear(const Queue_t* const queue, void* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         status = true;
-        // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-        const unsigned char* buffer = (const unsigned char*)queue->buffer;
+        const uint8_t* buffer = (const uint8_t*)queue->buffer;
         (void*)memcpy(element, &buffer[queue->rear * (int)queue->element_size], queue->element_size);
     }
     return status;

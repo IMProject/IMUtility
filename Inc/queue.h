@@ -36,6 +36,7 @@
 #define UTILITY_QUEUE_H_
 
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef struct {
     unsigned int front;
@@ -43,10 +44,10 @@ typedef struct {
     unsigned int size;
     unsigned int capacity;
     unsigned int element_size;
-    void* buffer;
+    uint8_t* buffer;
 } Queue_t;
 
-void Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int element_size, void* buffer);
+void Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int element_size, uint8_t* buffer);
 bool Queue_isFull(const Queue_t* const queue);
 bool Queue_isEmpty(const Queue_t* const queue);
 bool Queue_enqueue(Queue_t* const queue, const void* const element);

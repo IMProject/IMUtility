@@ -1,4 +1,5 @@
 #include "queue.h"
+
 #include "unity.h"
 #include "unity_fixture.h"
 
@@ -19,7 +20,7 @@ TEST(Queue, Queue_enqueue_dequeue_uint32) {
     uint32_t array[100];
     const unsigned int capacity = sizeof(array) / sizeof(array[0]);
     Queue_t queue;
-    Queue_initQueue(&queue, capacity, sizeof(array[0]), array);
+    Queue_initQueue(&queue, capacity, sizeof(array[0]), (uint8_t*)array);
 
     TEST_ASSERT_FALSE(Queue_isFull(&queue));
     TEST_ASSERT_TRUE(Queue_isEmpty(&queue));
@@ -58,7 +59,7 @@ TEST(Queue, Queue_enqueue_dequeue_float) {
     float array[100];
     const unsigned int capacity = sizeof(array) / sizeof(array[0]);
     Queue_t queue;
-    Queue_initQueue(&queue, capacity, sizeof(array[0]), array);
+    Queue_initQueue(&queue, capacity, sizeof(array[0]), (uint8_t*)array);
 
     TEST_ASSERT_FALSE(Queue_isFull(&queue));
     TEST_ASSERT_TRUE(Queue_isEmpty(&queue));
