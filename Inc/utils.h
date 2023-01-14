@@ -38,7 +38,7 @@
 #include <stdint.h>
 
 uint32_t Utils_StringToUint32(const unsigned char* buf, const uint32_t lenght);
-void Utils_SwapElements(void* first, void* second, const unsigned int size);
+void Utils_SwapElements(uint8_t* first, uint8_t* second, const uint32_t size);
 
 // Big-endian
 void Utils_SerializeBlobBE(uint8_t* buf, const uint8_t* src, uint32_t size);

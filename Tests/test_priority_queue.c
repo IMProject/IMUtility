@@ -1,4 +1,5 @@
 #include "priority_queue.h"
+
 #include "unity.h"
 #include "unity_fixture.h"
 
@@ -19,7 +20,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     uint32_t buffer[100];
     unsigned int priority_array[100];
     PriorityQueueItem_t items;
-    items.element = buffer;
+    items.element = (uint8_t*)buffer;
     items.priority = priority_array;
     const unsigned int capacity = sizeof(buffer) / sizeof(buffer[0]);
     PriorityQueue_t queue;
@@ -36,7 +37,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     item.priority = &priority;
     for (i = 0U; i < capacity; ++i) {
         priority = 1U;
-        item.element = &i;
+        item.element = (uint8_t*)&i;
         if (i == 50U) {
             priority = 2U;
         }
@@ -62,7 +63,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float) {
     float buffer[100];
     unsigned int priority_array[100];
     PriorityQueueItem_t items;
-    items.element = buffer;
+    items.element = (uint8_t*)buffer;
     items.priority = priority_array;
     const unsigned int capacity = sizeof(buffer) / sizeof(buffer[0]);
     PriorityQueue_t queue;
@@ -77,7 +78,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float) {
     uint32_t i;
     unsigned int priority;
     item.priority = &priority;
-    item.element = &element;
+    item.element = (uint8_t*)&element;
     element = 0.0F;
     for (i = 0U; i < capacity; ++i) {
         priority = 1U;

@@ -35,7 +35,6 @@
 #include "priority_queue.h"
 
 #include <string.h>
-#include <stdint.h>
 
 static bool
 IsPriorityQueueFull(const PriorityQueue_t* const queue) {
@@ -93,8 +92,7 @@ PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* c
     bool status = false;
     if (!IsPriorityQueueFull(queue)) {
         status = true;
-        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-        unsigned char* buffer = (unsigned char*)queue->buffer;
+        uint8_t* buffer = queue->buffer;
         (void*)memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
         queue->priority_array[queue->size] = *(item->priority);
         queue->size = queue->size + 1U;
@@ -102,8 +100,7 @@ PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* c
         unsigned int lowest_priority_index = FindLowestPriorityIndex(queue);
         if (queue->priority_array[lowest_priority_index] < (*(item->priority))) {
             status = true;
-            // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-            unsigned char* buffer = (unsigned char*)queue->buffer;
+            uint8_t* buffer = queue->buffer;
             unsigned int i;
             queue->size = queue->size - 1U;
             for (i = lowest_priority_index; i < queue->size; ++i) {
@@ -125,8 +122,7 @@ PriorityQueue_dequeue(PriorityQueue_t* const queue, void* const element) {
     if (!PriorityQueue_isEmpty(queue)) {
         status = true;
         unsigned int highest_priority_index = FindHighestPriorityIndex(queue);
-        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-        unsigned char* buffer = (unsigned char*)queue->buffer;
+        uint8_t* buffer = queue->buffer;
         (void*)memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size);
 
         queue->size = queue->size - 1U;

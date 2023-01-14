@@ -39,7 +39,7 @@ static const unsigned int base64_index[256] = {
 };
 
 int
-Base64_encode(const void* data, size_t data_length, char* result, size_t max_result_length) {
+Base64_encode(const char* data, size_t data_length, char* result, size_t max_result_length) {
     int success = 0;
     const unsigned char base64_table[65] = {
         (unsigned char)'A', (unsigned char)'B', (unsigned char)'C', (unsigned char)'D',
@@ -62,8 +62,7 @@ Base64_encode(const void* data, size_t data_length, char* result, size_t max_res
     };
     unsigned char* out;
     unsigned char* pos;
-    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-    const unsigned char* in = (const unsigned char*)data;
+    const uint8_t* in = (const uint8_t*) data;
 
     size_t len = 4U * ((data_length + 2U) / 3U);
     size_t current_length = 0U;

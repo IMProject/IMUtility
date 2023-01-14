@@ -36,10 +36,11 @@
 #define UTILITY_PRIORITY_QUEUE_H_
 
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef struct {
     unsigned int* priority;
-    void* element;
+    uint8_t* element;
 } PriorityQueueItem_t;
 
 typedef struct {
@@ -47,7 +48,7 @@ typedef struct {
     unsigned int capacity;
     unsigned int element_size;
     unsigned int* priority_array;
-    void* buffer;
+    uint8_t* buffer;
 } PriorityQueue_t;
 
 void PriorityQueue_initQueue(PriorityQueue_t* const queue, const int capacity, const unsigned int element_size, const PriorityQueueItem_t* items);
