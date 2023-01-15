@@ -44,13 +44,13 @@ typedef struct {
 
 typedef struct {
     unsigned int size;
-    unsigned int capacity;
+    uint32_t capacity;
     unsigned int element_size;
     unsigned int* priority_array;
     uint8_t* buffer;
 } PriorityQueue_t;
 
-void PriorityQueue_initQueue(PriorityQueue_t* const queue, const int capacity, const unsigned int element_size, const PriorityQueueItem_t* items);
+bool PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const unsigned int element_size, const PriorityQueueItem_t* items);
 bool PriorityQueue_isEmpty(const PriorityQueue_t* const queue);
 bool PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* const item);
 bool PriorityQueue_dequeue(PriorityQueue_t* const queue, void* const element);

@@ -36,14 +36,19 @@
 
 #include <string.h>
 
-void
-Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int element_size, uint8_t* buffer) {
-    queue->capacity = capacity;
-    queue->front = 0U;
-    queue->size = 0U;
-    queue->rear = capacity - 1;
-    queue->element_size = element_size;
-    queue->buffer = buffer;
+bool
+Queue_initQueue(Queue_t* const queue, const uint32_t capacity, const unsigned int element_size, uint8_t* buffer) {
+    bool status = false;
+    if (capacity != 0U) {
+        queue->capacity = capacity;
+        queue->front = 0U;
+        queue->size = 0U;
+        queue->rear = capacity - 1U;
+        queue->element_size = element_size;
+        queue->buffer = buffer;
+        status = true;
+    }
+    return status;
 }
 
 bool
@@ -60,9 +65,9 @@ bool
 Queue_enqueue(Queue_t* const queue, const void* const element) {
     bool status = false;
     if (!Queue_isFull(queue)) {
-        queue->rear = (queue->rear + 1) % (int)queue->capacity;
+        queue->rear = (queue->rear + 1U) % queue->capacity;
         uint8_t* buffer = queue->buffer;
-        if (memcpy(&buffer[queue->rear * (int)queue->element_size], element, queue->element_size) != NULL_PTR) {
+        if (memcpy(&buffer[queue->rear * queue->element_size], element, queue->element_size) != NULL_PTR) {
             queue->size = queue->size + 1U;
             status = true;
         }
@@ -101,7 +106,7 @@ Queue_rear(const Queue_t* const queue, void* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         const uint8_t* buffer = (const uint8_t*)queue->buffer;
-        if (memcpy(element, &buffer[queue->rear * (int)queue->element_size], queue->element_size) != NULL_PTR) {
+        if (memcpy(element, &buffer[queue->rear * queue->element_size], queue->element_size) != NULL_PTR) {
             status = true;
         }
     }
