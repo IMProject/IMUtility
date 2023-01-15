@@ -34,6 +34,9 @@
 
 #include "crc32.h"
 
+#define REFLECTED_INPUT_BITS_NUM    (8U)
+#define REFLECTED_OUTPUT_BITS_NUM   (32U)
+
 static uint32_t Reflect(uint32_t data, uint8_t n_bits);
 
 uint32_t
@@ -87,7 +90,7 @@ CalculateCRC32(
 
     for (counter = 0u; counter < crc_length; ++counter) {
         if (reflected_input) {
-            temp = Reflect(*temp_data_ptr, 8u);
+            temp = (uint8_t)Reflect(*temp_data_ptr, REFLECTED_INPUT_BITS_NUM);
         } else {
             temp = *temp_data_ptr;
         }
@@ -98,7 +101,7 @@ CalculateCRC32(
     }
 
     if (reflected_output) {
-        crc = Reflect(crc, sizeof(uint32_t) * 8u);
+        crc = Reflect(crc, REFLECTED_OUTPUT_BITS_NUM);
     }
 
     if (final_xor) {
@@ -127,6 +130,6 @@ Reflect(uint32_t data, uint8_t n_bits) {
         temp_data = (temp_data >> 1u);
     }
 
-    return (reflection);
+    return reflection;
 
 }   /* reflect() */
