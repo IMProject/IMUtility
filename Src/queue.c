@@ -36,8 +36,6 @@
 
 #include <string.h>
 
-#define NULL_PTR ((void*)0)
-
 void
 Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int element_size, uint8_t* buffer) {
     queue->capacity = capacity;

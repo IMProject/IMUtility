@@ -35,8 +35,7 @@
 #ifndef UTILITY_PRIORITY_QUEUE_H_
 #define UTILITY_PRIORITY_QUEUE_H_
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "typedefs.h"
 
 typedef struct {
     unsigned int* priority;

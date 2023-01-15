@@ -1,7 +1,8 @@
 #ifndef UTILITY_BASE64_H_
 #define UTILITY_BASE64_H_
 
-#include <stdint.h>
+#include "typedefs.h"
+
 #include <string.h>
 
 int Base64_encode(const char* data, size_t data_length, char* result, size_t max_result_length);

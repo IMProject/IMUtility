@@ -35,7 +35,7 @@
 #ifndef UTILITY_SCHEDULER_H_
 #define UTILITY_SCHEDULER_H_
 
-#include <stdbool.h>
+#include "typedefs.h"
 
 typedef struct {
     void (*function)(void);
