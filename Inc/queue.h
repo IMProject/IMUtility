@@ -39,14 +39,14 @@
 
 typedef struct {
     unsigned int front;
-    int rear;
+    uint32_t rear;
     unsigned int size;
-    unsigned int capacity;
+    uint32_t capacity;
     unsigned int element_size;
     uint8_t* buffer;
 } Queue_t;
 
-void Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int element_size, uint8_t* buffer);
+bool Queue_initQueue(Queue_t* const queue, const uint32_t capacity, const unsigned int element_size, uint8_t* buffer);
 bool Queue_isFull(const Queue_t* const queue);
 bool Queue_isEmpty(const Queue_t* const queue);
 bool Queue_enqueue(Queue_t* const queue, const void* const element);

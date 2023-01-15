@@ -13,7 +13,8 @@ TEST_TEAR_DOWN(PriorityQueue) {
 
 TEST_GROUP_RUNNER(PriorityQueue) {
     RUN_TEST_CASE(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32);
-    RUN_TEST_CASE(PriorityQueue, PriorityQueue_enqueue_dequeue_float);
+    RUN_TEST_CASE(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t);
+    RUN_TEST_CASE(PriorityQueue, PriorityQueue_no_capacity);
 }
 
 TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
@@ -22,9 +23,9 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     PriorityQueueItem_t items;
     items.element = (uint8_t*)buffer;
     items.priority = priority_array;
-    const unsigned int capacity = sizeof(buffer) / sizeof(buffer[0]);
+    const uint32_t capacity = sizeof(buffer) / sizeof(buffer[0]);
     PriorityQueue_t queue;
-    PriorityQueue_initQueue(&queue, capacity, sizeof(buffer[0]), &items);
+    TEST_ASSERT_TRUE(PriorityQueue_initQueue(&queue, capacity, sizeof(buffer[0]), &items));
 
     TEST_ASSERT_TRUE(PriorityQueue_isEmpty(&queue));
     uint32_t element;
@@ -59,18 +60,18 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     TEST_ASSERT_EQUAL_UINT32(50U, element);
 }
 
-TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float) {
-    float buffer[100];
+TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
+    float32_t buffer[100];
     unsigned int priority_array[100];
     PriorityQueueItem_t items;
     items.element = (uint8_t*)buffer;
     items.priority = priority_array;
-    const unsigned int capacity = sizeof(buffer) / sizeof(buffer[0]);
+    const uint32_t capacity = sizeof(buffer) / sizeof(buffer[0]);
     PriorityQueue_t queue;
-    PriorityQueue_initQueue(&queue, capacity, sizeof(buffer[0]), &items);
+    TEST_ASSERT_TRUE(PriorityQueue_initQueue(&queue, capacity, sizeof(buffer[0]), &items));
 
     TEST_ASSERT_TRUE(PriorityQueue_isEmpty(&queue));
-    float element;
+    float32_t element;
     TEST_ASSERT_FALSE(PriorityQueue_dequeue(&queue, &element));
 
     // fill the queue
@@ -102,4 +103,11 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float) {
     TEST_ASSERT_EQUAL_FLOAT(100.0F, element);
     TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, &element));
     TEST_ASSERT_EQUAL_FLOAT(50.0F, element);
+}
+
+TEST(PriorityQueue, PriorityQueue_no_capacity) {
+    float64_t buffer[100];
+    PriorityQueueItem_t items;
+    PriorityQueue_t queue;
+    TEST_ASSERT_FALSE(PriorityQueue_initQueue(&queue, 0U, sizeof(buffer[0]), &items));
 }

@@ -73,13 +73,18 @@ FindLowestPriorityIndex(const PriorityQueue_t* const queue) {
     return index;
 }
 
-void
-PriorityQueue_initQueue(PriorityQueue_t* const queue, const int capacity, const unsigned int element_size, const PriorityQueueItem_t* items) {
-    queue->capacity = capacity;
-    queue->size = 0U;
-    queue->element_size = element_size;
-    queue->priority_array = items->priority;
-    queue->buffer = items->element;
+bool
+PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const unsigned int element_size, const PriorityQueueItem_t* items) {
+    bool status = false;
+    if (capacity != 0U) {
+        queue->capacity = capacity;
+        queue->size = 0U;
+        queue->element_size = element_size;
+        queue->priority_array = items->priority;
+        queue->buffer = items->element;
+        status = true;
+    }
+    return status;
 }
 
 bool
