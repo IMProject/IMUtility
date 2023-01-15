@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,19 +32,16 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_CRC32_H_
-#define UTILITY_CRC32_H_
+#ifndef UTILITY_TYPEDEFS_H_
+#define UTILITY_TYPEDEFS_H_
 
-#include "typedefs.h"
+#include <stdbool.h>
+#include <stdint.h>
 
-uint32_t CalculateCRC32(
-    const uint8_t* crc_data_ptr,
-    uint32_t crc_length,
-    uint32_t crc_initial_value,
-    uint32_t xor_value,
-    bool reflected_output,
-    bool reflected_input,
-    bool final_xor
-);
+#define NULL_PTR ((void*)0)
 
-#endif /* UTILITY_CRC32_H_ */
+typedef float float32_t;
+typedef double float64_t;
+typedef long double float128_t;
+
+#endif /* UTILITY_TYPEDEFS_H_ */

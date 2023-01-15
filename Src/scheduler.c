@@ -34,8 +34,6 @@
 
 #include "scheduler.h"
 
-#define NULL_PTR ((void*)0)
-
 void
 Scheduler_init(SchedulerTask_t* tasks, const unsigned int num_of_tasks) {
     unsigned int i;

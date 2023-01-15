@@ -35,7 +35,7 @@
 #ifndef UTILITY_UTILS_H_
 #define UTILITY_UTILS_H_
 
-#include <stdint.h>
+#include "typedefs.h"
 
 uint32_t Utils_StringToUint32(const unsigned char* buf, const uint32_t lenght);
 void Utils_SwapElements(uint8_t* first, uint8_t* second, const uint32_t size);

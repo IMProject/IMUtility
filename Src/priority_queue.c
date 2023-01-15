@@ -36,8 +36,6 @@
 
 #include <string.h>
 
-#define NULL_PTR ((void*)0)
-
 static bool
 IsPriorityQueueFull(const PriorityQueue_t* const queue) {
     return (queue->size == queue->capacity);

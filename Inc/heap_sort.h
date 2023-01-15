@@ -35,8 +35,7 @@
 #ifndef UTILITY_HEAP_SORT_H_
 #define UTILITY_HEAP_SORT_H_
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "typedefs.h"
 
 void HeapSort_sort(uint8_t* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second));
 
