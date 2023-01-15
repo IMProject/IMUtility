@@ -106,7 +106,7 @@ bool
 Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* value, size_t max_value_size) {
     bool success = false;
 
-    uint32_t max_search_size = buffer_size - strlen(key);
+    uint32_t max_search_size = (uint32_t)(buffer_size - strlen(key));
 
     uint32_t index;
     size_t key_size = strlen(key);
@@ -126,7 +126,7 @@ Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* va
     if (success) {
 
         success = false;
-        for (index = index + key_size + 1u; index < buffer_size; ++index) {
+        for (index += (uint32_t)(key_size + 1U); index < buffer_size; ++index) {
 
             if (buffer[index] == '"') {
                 break;

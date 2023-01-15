@@ -41,7 +41,7 @@ Base64_encode(const char* data, size_t data_length, char* result, size_t max_res
         (unsigned char)'\0'
     };
     unsigned char* out;
-    unsigned char* pos;
+    uint8_t* pos;
     const uint8_t* in = (const uint8_t*) data;
 
     size_t len = 4U * ((data_length + 2U) / 3U);
@@ -87,7 +87,7 @@ Base64_encode(const char* data, size_t data_length, char* result, size_t max_res
                 if ((data_length - in_position) == 1U) {
                     *pos = base64_table[(in[0] & 0x03U) << 4];
                     ++pos;
-                    *pos = '=';
+                    *pos = (uint8_t)'=';
                     ++pos;
                 } else {
                     *pos = base64_table[((in[0] & 0x03U) << 4) | (in[1] >> 4)];
@@ -95,19 +95,19 @@ Base64_encode(const char* data, size_t data_length, char* result, size_t max_res
                     *pos = base64_table[(in[1] & 0x0FU) << 2];
                     ++pos;
                 }
-                *pos = '=';
+                *pos = (uint8_t)'=';
                 ++pos;
             }
         }
 
-        *pos = '\0';
+        *pos = (uint8_t)'\0';
     }
 
     return success;
 }
 
 int
-Base64_decode(const char* in, size_t in_len, unsigned char* out, size_t max_out_len) {
+Base64_decode(const char* in, size_t in_len, uint8_t* out, size_t max_out_len) {
     int success = 0;
     const uint32_t base64_index[256] = {
         0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
@@ -141,25 +141,25 @@ Base64_decode(const char* in, size_t in_len, unsigned char* out, size_t max_out_
     if (success == 0) {
         size_t j = 0U;
         for (size_t i = 0U; i < len; i += 4U) {
-            unsigned int n = (base64_index[in_data_uchar[i]] << 18U) | (base64_index[in_data_uchar[i + 1U]] << 12U) |
-                             (base64_index[in_data_uchar[i + 2U]] << 6U) | (base64_index[in_data_uchar[i + 3U]]);
-            out[j] = n >> 16U;
+            uint32_t n = (base64_index[in_data_uchar[i]] << 18U) | (base64_index[in_data_uchar[i + 1U]] << 12U) |
+                         (base64_index[in_data_uchar[i + 2U]] << 6U) | (base64_index[in_data_uchar[i + 3U]]);
+            out[j] = (uint8_t)(n >> 16U);
             ++j;
-            out[j] = (n >> 8U) & 0xFFU;
+            out[j] = (uint8_t)((n >> 8U) & 0xFFU);
             ++j;
-            out[j] = n & 0xFFU;
+            out[j] = (uint8_t)(n & 0xFFU);
             ++j;
         }
         if (pad_bool) {
-            unsigned int n = (base64_index[in_data_uchar[len]] << 18U) | (base64_index[in_data_uchar[len + 1U]] << 12U);
-            out[out_len - 1U] = n >> 16U;
+            uint32_t n = (base64_index[in_data_uchar[len]] << 18U) | (base64_index[in_data_uchar[len + 1U]] << 12U);
+            out[out_len - 1U] = (uint8_t)(n >> 16U);
 
             if ((in_len > (len + 2U)) && (in_data_uchar[len + 2U] != (unsigned char)'=')) {
                 if ((out_len + 1U) > max_out_len) {
                     success = 1;
                 } else {
                     n |= base64_index[in_data_uchar[len + 2U]] << 6U;
-                    out[out_len] = (n >> 8U) & 0xFFU;
+                    out[out_len] = (uint8_t)((n >> 8U) & 0xFFU);
                 }
             }
         }

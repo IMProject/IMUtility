@@ -1,10 +1,11 @@
 #include "utils.h"
+
 #include "unity.h"
 #include "unity_fixture.h"
 
 TEST_GROUP(Utils);
 
-uint8_t test_data_1[] = {
+static const uint8_t test_data_1[] = {
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
     0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19,
     0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29,
@@ -30,9 +31,9 @@ TEST_GROUP_RUNNER(Utils) {
 }
 
 TEST(Utils, Utils_StringToUint32) {
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"39", 2U), 39U);
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"0", 1U), 0U);
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"2165217", 7U), 2165217U);
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("39", 2U), 39U);
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("0", 1U), 0U);
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("2165217", 7U), 2165217U);
 }
 
 TEST(Utils, Utils_SwapElements) {
