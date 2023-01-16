@@ -43,7 +43,7 @@ typedef struct {
 } PriorityQueueItem_t;
 
 typedef struct {
-    unsigned int size;
+    uint32_t size;
     uint32_t capacity;
     unsigned int element_size;
     unsigned int* priority_array;

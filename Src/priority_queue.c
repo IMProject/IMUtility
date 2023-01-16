@@ -107,9 +107,9 @@ PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* c
         if (queue->priority_array[lowest_priority_index] < (*(item->priority))) {
             status = true;
             uint8_t* buffer = queue->buffer;
-            unsigned int i;
             queue->size = queue->size - 1U;
-            for (i = lowest_priority_index; i < queue->size; ++i) {
+            const uint32_t current_size = queue->size;
+            for (uint32_t i = lowest_priority_index; i < current_size; ++i) {
                 if (memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size], queue->element_size) != NULL_PTR) {
                     queue->priority_array[i] = queue->priority_array[i + 1U];
                 } else {
@@ -140,8 +140,8 @@ PriorityQueue_dequeue(PriorityQueue_t* const queue, void* const element) {
         if (memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size) != NULL_PTR) {
             status = true;
             queue->size = queue->size - 1U;
-            unsigned int i;
-            for (i = highest_priority_index; i < queue->size; ++i) {
+            const uint32_t current_size = queue->size;
+            for (uint32_t i = highest_priority_index; i < current_size; ++i) {
                 if (memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size], queue->element_size) != NULL_PTR) {
                     queue->priority_array[i] = queue->priority_array[i + 1U];
                 } else {
