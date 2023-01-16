@@ -136,8 +136,7 @@ Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* va
         size_t value_size = 0;
         ++index;
 
-        for ( ; (index < buffer_size) && (value_size < max_value_size); ++index) {
-
+        while ((index < buffer_size) && (value_size < max_value_size)) {
             value[value_size] = buffer[index];
 
             if (buffer[index] == '"') {
@@ -147,6 +146,7 @@ Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* va
             }
 
             ++value_size;
+            ++index;
         }
     }
 
