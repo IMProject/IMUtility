@@ -26,33 +26,33 @@ TEST(Queue, Queue_enqueue_dequeue_uint32) {
     TEST_ASSERT_FALSE(Queue_isFull(&queue));
     TEST_ASSERT_TRUE(Queue_isEmpty(&queue));
     uint32_t element;
-    TEST_ASSERT_FALSE(Queue_dequeue(&queue, &element));
+    TEST_ASSERT_FALSE(Queue_dequeue(&queue, (uint8_t*)&element));
 
     // fill the queue
     uint32_t i;
     for (i = 0U; i < capacity; ++i) {
-        TEST_ASSERT_TRUE(Queue_enqueue(&queue, &i));
+        TEST_ASSERT_TRUE(Queue_enqueue(&queue, (uint8_t*)&i));
     }
 
     // queue is full
     TEST_ASSERT_TRUE(Queue_isFull(&queue));
-    TEST_ASSERT_FALSE(Queue_enqueue(&queue, &i));
+    TEST_ASSERT_FALSE(Queue_enqueue(&queue, (uint8_t*)&i));
 
     // check front element
-    TEST_ASSERT_TRUE(Queue_front(&queue, &element));
+    TEST_ASSERT_TRUE(Queue_front(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_UINT32(0U, element);
 
     // check rear element
-    TEST_ASSERT_TRUE(Queue_rear(&queue, &element));
+    TEST_ASSERT_TRUE(Queue_rear(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_UINT32(i - 1U, element);
 
     // dequeue
-    TEST_ASSERT_TRUE(Queue_dequeue(&queue, &element));
+    TEST_ASSERT_TRUE(Queue_dequeue(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_UINT32(0U, element);
 
     // enqueue
-    TEST_ASSERT_TRUE(Queue_enqueue(&queue, &i));
-    TEST_ASSERT_TRUE(Queue_rear(&queue, &element));
+    TEST_ASSERT_TRUE(Queue_enqueue(&queue, (uint8_t*)&i));
+    TEST_ASSERT_TRUE(Queue_rear(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_UINT32(i, element);
 }
 
@@ -65,36 +65,36 @@ TEST(Queue, Queue_enqueue_dequeue_float32_t) {
     TEST_ASSERT_FALSE(Queue_isFull(&queue));
     TEST_ASSERT_TRUE(Queue_isEmpty(&queue));
     float32_t element = 1.0F;
-    TEST_ASSERT_FALSE(Queue_dequeue(&queue, &element));
+    TEST_ASSERT_FALSE(Queue_dequeue(&queue, (uint8_t*)&element));
 
     // fill the queue
     uint32_t i;
     for (i = 0U; i < capacity; ++i) {
         float32_t element_temp = (float32_t)i + 1.1F;
-        TEST_ASSERT_TRUE(Queue_enqueue(&queue, &element_temp));
+        TEST_ASSERT_TRUE(Queue_enqueue(&queue, (uint8_t*)&element_temp));
     }
 
     // queue is full
     TEST_ASSERT_TRUE(Queue_isFull(&queue));
-    TEST_ASSERT_FALSE(Queue_enqueue(&queue, &element));
+    TEST_ASSERT_FALSE(Queue_enqueue(&queue, (uint8_t*)&element));
 
     // check front element
-    TEST_ASSERT_TRUE(Queue_front(&queue, &element));
+    TEST_ASSERT_TRUE(Queue_front(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_FLOAT(1.1F, element);
 
     // check rear element
-    TEST_ASSERT_TRUE(Queue_rear(&queue, &element));
+    TEST_ASSERT_TRUE(Queue_rear(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_FLOAT((float32_t)capacity - 1.0F + 1.1F, element);
 
     // dequeue
-    TEST_ASSERT_TRUE(Queue_dequeue(&queue, &element));
+    TEST_ASSERT_TRUE(Queue_dequeue(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_FLOAT(1.1F, element);
 
     // enqueue
     element = 5.1F;
-    TEST_ASSERT_TRUE(Queue_enqueue(&queue, &element));
+    TEST_ASSERT_TRUE(Queue_enqueue(&queue, (uint8_t*)&element));
     float32_t test_element;
-    TEST_ASSERT_TRUE(Queue_rear(&queue, &test_element));
+    TEST_ASSERT_TRUE(Queue_rear(&queue, (uint8_t*)&test_element));
     TEST_ASSERT_EQUAL_FLOAT(test_element, element);
 }
 

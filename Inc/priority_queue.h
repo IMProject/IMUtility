@@ -53,6 +53,6 @@ typedef struct {
 bool PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const unsigned int element_size, const PriorityQueueItem_t* items);
 bool PriorityQueue_isEmpty(const PriorityQueue_t* const queue);
 bool PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* const item);
-bool PriorityQueue_dequeue(PriorityQueue_t* const queue, void* const element);
+bool PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element);
 
 #endif /* UTILITY_PRIORITY_QUEUE_H_ */

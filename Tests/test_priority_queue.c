@@ -29,7 +29,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
 
     TEST_ASSERT_TRUE(PriorityQueue_isEmpty(&queue));
     uint32_t element;
-    TEST_ASSERT_FALSE(PriorityQueue_dequeue(&queue, &element));
+    TEST_ASSERT_FALSE(PriorityQueue_dequeue(&queue, (uint8_t*)&element));
 
     // fill the queue
     PriorityQueueItem_t item;
@@ -54,9 +54,9 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     TEST_ASSERT_TRUE(PriorityQueue_enqueue(&queue, &item));
 
     // dequeue
-    TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, &element));
+    TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_UINT32(100U, element);
-    TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, &element));
+    TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_UINT32(50U, element);
 }
 
@@ -72,7 +72,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
 
     TEST_ASSERT_TRUE(PriorityQueue_isEmpty(&queue));
     float32_t element;
-    TEST_ASSERT_FALSE(PriorityQueue_dequeue(&queue, &element));
+    TEST_ASSERT_FALSE(PriorityQueue_dequeue(&queue, (uint8_t*)&element));
 
     // fill the queue
     PriorityQueueItem_t item;
@@ -99,9 +99,9 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
     TEST_ASSERT_TRUE(PriorityQueue_enqueue(&queue, &item));
 
     // dequeue
-    TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, &element));
+    TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_FLOAT(100.0F, element);
-    TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, &element));
+    TEST_ASSERT_TRUE(PriorityQueue_dequeue(&queue, (uint8_t*)&element));
     TEST_ASSERT_EQUAL_FLOAT(50.0F, element);
 }
 
