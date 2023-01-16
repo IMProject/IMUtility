@@ -62,7 +62,7 @@ Queue_isEmpty(const Queue_t* const queue) {
 }
 
 bool
-Queue_enqueue(Queue_t* const queue, const void* const element) {
+Queue_enqueue(Queue_t* const queue, const uint8_t* const element) {
     bool status = false;
     if (!Queue_isFull(queue)) {
         queue->rear = (queue->rear + 1U) % queue->capacity;
@@ -76,7 +76,7 @@ Queue_enqueue(Queue_t* const queue, const void* const element) {
 }
 
 bool
-Queue_dequeue(Queue_t* const queue, void* const element) {
+Queue_dequeue(Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         const uint8_t* buffer = (const uint8_t*)queue->buffer;
@@ -90,7 +90,7 @@ Queue_dequeue(Queue_t* const queue, void* const element) {
 }
 
 bool
-Queue_front(const Queue_t* const queue, void* const element) {
+Queue_front(const Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         const uint8_t* buffer = (const uint8_t*)queue->buffer;
@@ -102,7 +102,7 @@ Queue_front(const Queue_t* const queue, void* const element) {
 }
 
 bool
-Queue_rear(const Queue_t* const queue, void* const element) {
+Queue_rear(const Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         const uint8_t* buffer = (const uint8_t*)queue->buffer;

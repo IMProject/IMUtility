@@ -132,7 +132,7 @@ PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* c
 }
 
 bool
-PriorityQueue_dequeue(PriorityQueue_t* const queue, void* const element) {
+PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!PriorityQueue_isEmpty(queue)) {
         unsigned int highest_priority_index = FindHighestPriorityIndex(queue);
