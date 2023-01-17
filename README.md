@@ -13,6 +13,9 @@ https://discord.gg/R6nZxZqDH3
 - Base64_encode
 - Base64_decode
 
+## Bubble sort
+- BubbleSort_sort
+
 ## CRC32
 - CalculateCRC32
 
@@ -40,8 +43,14 @@ https://discord.gg/R6nZxZqDH3
 - Queue_front
 - Queue_rear
 
+## Scheduler
+- Scheduler_init
+- Scheduler_addTask
+- Scheduler_run
+
 ## Utils
 - Utils_StringToUint32
+- Utils_SwapElements
 
 - Utils_SerializeBlobBE
 - Utils_Serialize32BE

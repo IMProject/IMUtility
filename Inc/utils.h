@@ -32,12 +32,13 @@
  *
  ****************************************************************************/
 
-#ifndef INC_UTILS_H_
-#define INC_UTILS_H_
+#ifndef UTILITY_UTILS_H_
+#define UTILITY_UTILS_H_
 
-#include <stdint.h>
+#include "typedefs.h"
 
-uint32_t Utils_StringToUint32(const unsigned char* buf, const uint32_t lenght);
+uint32_t Utils_StringToUint32(const char* buf, const uint32_t lenght);
+void Utils_SwapElements(uint8_t* first, uint8_t* second, const uint32_t size);
 
 // Big-endian
 void Utils_SerializeBlobBE(uint8_t* buf, const uint8_t* src, uint32_t size);
@@ -46,13 +47,13 @@ void Utils_Serialize24BE(uint8_t* buf, uint32_t value);
 void Utils_Serialize16BE(uint8_t* buf, uint16_t value);
 void Utils_Serialize8BE(uint8_t* buf, uint8_t value);
 void Utils_DeserializeBlobBE(const uint8_t* buf, uint8_t* dst, uint32_t size);
-void Utils_Deserialize32BE(uint8_t* buf, uint32_t* value);
-void Utils_Deserialize16BE(uint8_t* buf, uint16_t* value);
-void Utils_Deserialize8BE(uint8_t* buf, uint8_t* value);
+void Utils_Deserialize32BE(const uint8_t* buf, uint32_t* value);
+void Utils_Deserialize16BE(const uint8_t* buf, uint16_t* value);
+void Utils_Deserialize8BE(const uint8_t* buf, uint8_t* value);
 
 // Little-endian
 void Utils_SerializeBlobLE(uint8_t* buf, const uint8_t* src, uint32_t size);
 void Utils_DeserializeBlobLE(const uint8_t* buf, uint8_t* dst, uint32_t size);
 
 
-#endif /* INC_UTILS_H_ */
+#endif /* UTILITY_UTILS_H_ */

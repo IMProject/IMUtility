@@ -32,19 +32,35 @@
  *
  ****************************************************************************/
 
-#include <utils.h>
+#include "utils.h"
+
 #include <math.h>
 
 uint32_t
-Utils_StringToUint32(const unsigned char* buf, const uint32_t lenght) {
+Utils_StringToUint32(const char* buf, const uint32_t lenght) {
     uint32_t integer = 0U;
     uint32_t i = 0U;
 
-    while ((buf[i] != (unsigned char)'\0') && (lenght > i)) {
-        integer += (uint32_t)(buf[i] - (unsigned char)'0') * (uint32_t)pow(10.0, (lenght - (i + 1U)));
+    while ((buf[i] != '\0') && (lenght > i)) {
+        const uint32_t unsigned_power = lenght - (i + 1U);
+        const int32_t number = buf[i] - '0';
+        integer += (uint32_t)(number) * (uint32_t)pow(10.0, (float32_t)(unsigned_power));
         ++i;
     }
     return integer;
+}
+
+void
+Utils_SwapElements(uint8_t* first, uint8_t* second, const uint32_t size) {
+    uint8_t temp;
+    uint8_t* first_element = first;
+    uint8_t* second_element = second;
+    uint32_t index = size;
+    while ((index--) != 0U) {
+        temp = first_element[index];
+        first_element[index] = second_element[index];
+        second_element[index] = temp;
+    }
 }
 
 void
@@ -59,25 +75,25 @@ Utils_Serialize32BE(uint8_t* buf, uint32_t value) {
     buf[0] = (uint8_t)(value >> 24u) & 0xFFu;
     buf[1] = (uint8_t)(value >> 16u) & 0xFFu;
     buf[2] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[3] = (uint8_t)(value >> 0u) & 0xFFu;
+    buf[3] = (uint8_t)(value) & 0xFFu;
 }
 
 void
 Utils_Serialize24BE(uint8_t* buf, uint32_t value) {
     buf[0] = (uint8_t)(value >> 16u) & 0xFFu;
     buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[2] = (uint8_t)(value >> 0u) & 0xFFu;
+    buf[2] = (uint8_t)(value) & 0xFFu;
 }
 
 void
 Utils_Serialize16BE(uint8_t* buf, uint16_t value) {
     buf[0] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[1] = (uint8_t)(value >> 0u) & 0xFFu;
+    buf[1] = (uint8_t)(value) & 0xFFu;
 }
 
 void
 Utils_Serialize8BE(uint8_t* buf, uint8_t value) {
-    buf[0] = (uint8_t)(value >> 0u) & 0xFFu;
+    buf[0] = (uint8_t)(value) & 0xFFu;
 }
 
 void
@@ -106,20 +122,20 @@ Utils_DeserializeBlobLE(const uint8_t* buf, uint8_t* dst, uint32_t size) {
 }
 
 void
-Utils_Deserialize32BE(uint8_t* buf, uint32_t* value) {
-    *value = (uint32_t)(buf[0] << 24u);
-    *value |= (uint32_t)(buf[1] << 16u);
-    *value |= (uint32_t)(buf[2] << 8u);
-    *value |= (uint32_t)(buf[3] << 0u);
+Utils_Deserialize32BE(const uint8_t* buf, uint32_t* value) {
+    *value = (uint32_t)buf[0] << 24u;
+    *value |= (uint32_t)buf[1] << 16u;
+    *value |= (uint32_t)buf[2] << 8u;
+    *value |= (uint32_t)buf[3];
 }
 
 void
-Utils_Deserialize16BE(uint8_t* buf, uint16_t* value) {
-    *value = (uint32_t)(buf[0] << 8u);
-    *value |= (uint32_t)(buf[1] << 0u);
+Utils_Deserialize16BE(const uint8_t* buf, uint16_t* value) {
+    *value = (uint16_t)buf[0] << 8U;
+    *value |= (uint16_t)buf[1];
 }
 
 void
-Utils_Deserialize8BE(uint8_t* buf, uint8_t* value) {
-    *value = (uint32_t)(buf[0] << 0u);
+Utils_Deserialize8BE(const uint8_t* buf, uint8_t* value) {
+    *value = buf[0];
 }

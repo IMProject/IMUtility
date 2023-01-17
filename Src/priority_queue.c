@@ -35,7 +35,6 @@
 #include "priority_queue.h"
 
 #include <string.h>
-#include <stdint.h>
 
 static bool
 IsPriorityQueueFull(const PriorityQueue_t* const queue) {
@@ -43,7 +42,7 @@ IsPriorityQueueFull(const PriorityQueue_t* const queue) {
 }
 
 static unsigned int
-FindHighestPriorityIndex(PriorityQueue_t* const queue) {
+FindHighestPriorityIndex(const PriorityQueue_t* const queue) {
     unsigned int highest_priority = queue->priority_array[0];
     unsigned int index = 0U;
     unsigned int i;
@@ -59,7 +58,7 @@ FindHighestPriorityIndex(PriorityQueue_t* const queue) {
 }
 
 static unsigned int
-FindLowestPriorityIndex(PriorityQueue_t* const queue) {
+FindLowestPriorityIndex(const PriorityQueue_t* const queue) {
     unsigned int lowest_priority = queue->priority_array[0];
     unsigned int index = 0U;
     unsigned int i;
@@ -74,13 +73,18 @@ FindLowestPriorityIndex(PriorityQueue_t* const queue) {
     return index;
 }
 
-void
-PriorityQueue_initQueue(PriorityQueue_t* const queue, const int capacity, const unsigned int element_size, PriorityQueueItem_t* items) {
-    queue->capacity = capacity;
-    queue->size = 0U;
-    queue->element_size = element_size;
-    queue->priority_array = items->priority;
-    queue->buffer = items->element;
+bool
+PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const unsigned int element_size, const PriorityQueueItem_t* items) {
+    bool status = false;
+    if (capacity != 0U) {
+        queue->capacity = capacity;
+        queue->size = 0U;
+        queue->element_size = element_size;
+        queue->priority_array = items->priority;
+        queue->buffer = items->element;
+        status = true;
+    }
+    return status;
 }
 
 bool
@@ -92,48 +96,59 @@ bool
 PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* const item) {
     bool status = false;
     if (!IsPriorityQueueFull(queue)) {
-        status = true;
-        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-        unsigned char* buffer = (unsigned char*)queue->buffer;
-        (void*)memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
-        queue->priority_array[queue->size] = *(item->priority);
-        queue->size = queue->size + 1U;
+        uint8_t* buffer = queue->buffer;
+        if (memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size) != NULL_PTR) {
+            queue->priority_array[queue->size] = *(item->priority);
+            queue->size = queue->size + 1U;
+            status = true;
+        }
     } else {
         unsigned int lowest_priority_index = FindLowestPriorityIndex(queue);
         if (queue->priority_array[lowest_priority_index] < (*(item->priority))) {
             status = true;
-            // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-            unsigned char* buffer = (unsigned char*)queue->buffer;
-            unsigned int i;
+            uint8_t* buffer = queue->buffer;
             queue->size = queue->size - 1U;
-            for (i = lowest_priority_index; i < queue->size; ++i) {
-                (void*)memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size], queue->element_size);
-                queue->priority_array[i] = queue->priority_array[i + 1U];
+            const uint32_t current_size = queue->size;
+            for (uint32_t i = lowest_priority_index; i < current_size; ++i) {
+                if (memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size], queue->element_size) != NULL_PTR) {
+                    queue->priority_array[i] = queue->priority_array[i + 1U];
+                } else {
+                    status = false;
+                    break;
+                }
             }
 
-            (void*)memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
-            queue->priority_array[queue->size] = *(item->priority);
-            queue->size = queue->size + 1U;
+            if (status == true) {
+                if (memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size) != NULL_PTR) {
+                    queue->priority_array[queue->size] = *(item->priority);
+                    queue->size = queue->size + 1U;
+                } else {
+                    status = false;
+                }
+            }
         }
     }
     return status;
 }
 
 bool
-PriorityQueue_dequeue(PriorityQueue_t* const queue, void* const element) {
+PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!PriorityQueue_isEmpty(queue)) {
-        status = true;
         unsigned int highest_priority_index = FindHighestPriorityIndex(queue);
-        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-        unsigned char* buffer = (unsigned char*)queue->buffer;
-        (void*)memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size);
-
-        queue->size = queue->size - 1U;
-        unsigned int i;
-        for (i = highest_priority_index; i < queue->size; ++i) {
-            (void*)memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size], queue->element_size);
-            queue->priority_array[i] = queue->priority_array[i + 1U];
+        uint8_t* buffer = queue->buffer;
+        if (memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size) != NULL_PTR) {
+            status = true;
+            queue->size = queue->size - 1U;
+            const uint32_t current_size = queue->size;
+            for (uint32_t i = highest_priority_index; i < current_size; ++i) {
+                if (memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size], queue->element_size) != NULL_PTR) {
+                    queue->priority_array[i] = queue->priority_array[i + 1U];
+                } else {
+                    status = false;
+                    break;
+                }
+            }
         }
     }
     return status;

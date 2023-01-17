@@ -35,16 +35,20 @@
 #include "queue.h"
 
 #include <string.h>
-#include <stdint.h>
 
-void
-Queue_initQueue(Queue_t* const queue, const int capacity, const unsigned int element_size, void* buffer) {
-    queue->capacity = capacity;
-    queue->front = 0U;
-    queue->size = 0U;
-    queue->rear = capacity - 1;
-    queue->element_size = element_size;
-    queue->buffer = buffer;
+bool
+Queue_initQueue(Queue_t* const queue, const uint32_t capacity, const unsigned int element_size, uint8_t* buffer) {
+    bool status = false;
+    if (capacity != 0U) {
+        queue->capacity = capacity;
+        queue->front = 0U;
+        queue->size = 0U;
+        queue->rear = capacity - 1U;
+        queue->element_size = element_size;
+        queue->buffer = buffer;
+        status = true;
+    }
+    return status;
 }
 
 bool
@@ -58,53 +62,53 @@ Queue_isEmpty(const Queue_t* const queue) {
 }
 
 bool
-Queue_enqueue(Queue_t* const queue, const void* const element) {
+Queue_enqueue(Queue_t* const queue, const uint8_t* const element) {
     bool status = false;
     if (!Queue_isFull(queue)) {
-        status = true;
-        queue->rear = (queue->rear + 1) % (int)queue->capacity;
-        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-        unsigned char* buffer = (unsigned char*)queue->buffer;
-        (void*)memcpy(&buffer[queue->rear * (int)queue->element_size], element, queue->element_size);
-        queue->size = queue->size + 1U;
+        queue->rear = (queue->rear + 1U) % queue->capacity;
+        uint8_t* buffer = queue->buffer;
+        if (memcpy(&buffer[queue->rear * queue->element_size], element, queue->element_size) != NULL_PTR) {
+            queue->size = queue->size + 1U;
+            status = true;
+        }
     }
     return status;
 }
 
 bool
-Queue_dequeue(Queue_t* const queue, void* const element) {
+Queue_dequeue(Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
-        status = true;
-        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-        unsigned char* buffer = (unsigned char*)queue->buffer;
-        (void*)memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
-        queue->front = (queue->front + 1U) % queue->capacity;
-        queue->size = queue->size - 1U;
+        const uint8_t* buffer = (const uint8_t*)queue->buffer;
+        if (memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size) != NULL_PTR) {
+            queue->front = (queue->front + 1U) % queue->capacity;
+            queue->size = queue->size - 1U;
+            status = true;
+        }
     }
     return status;
 }
 
 bool
-Queue_front(Queue_t* const queue, void* const element) {
+Queue_front(const Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
-        status = true;
-        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-        unsigned char* buffer = (unsigned char*)queue->buffer;
-        (void*)memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
+        const uint8_t* buffer = (const uint8_t*)queue->buffer;
+        if (memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size) != NULL_PTR) {
+            status = true;
+        }
     }
     return status;
 }
 
 bool
-Queue_rear(Queue_t* const queue, void* const element) {
+Queue_rear(const Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
-        status = true;
-        // cppcheck-suppress misra-c2012-11.5; conversion from void* is needed here to have generic buffer
-        unsigned char* buffer = (unsigned char*)queue->buffer;
-        (void*)memcpy(element, &buffer[queue->rear * (int)queue->element_size], queue->element_size);
+        const uint8_t* buffer = (const uint8_t*)queue->buffer;
+        if (memcpy(element, &buffer[queue->rear * queue->element_size], queue->element_size) != NULL_PTR) {
+            status = true;
+        }
     }
     return status;
 }

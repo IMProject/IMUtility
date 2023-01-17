@@ -34,45 +34,33 @@
 
 #include "heap_sort.h"
 
-static void
-SwapElements(void* first, void* second, const unsigned int size) {
-    unsigned char temp;
-    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-    unsigned char* first_element = (unsigned char*)first;
-    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-    unsigned char* second_element = (unsigned char*)second;
-    unsigned int index = size;
-    while ((index--) != 0U) {
-        temp = first_element[index];
-        first_element[index] = second_element[index];
-        second_element[index] = temp;
-    }
-}
+#include "utils.h"
 
 static void
-Heapify(void* buffer, const int n, const int i, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
+Heapify(uint8_t* buffer, const int n, const int i, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
     bool continue_iterating = true;
     int index = i;
-    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-    unsigned char* elements = (unsigned char*)buffer;
+    uint8_t* elements = buffer;
 
     while (continue_iterating) {
         int largest = index;
-
         int left = (2 * index) + 1;
-
         int right = (2 * index) + 2;
 
-        if ((left < n) && (compareFun(&elements[left * (int)element_size], &elements[largest * (int)element_size]))) {
+        bool compare_ret_value = compareFun(&elements[left * (int)element_size], &elements[largest * (int)element_size]);
+
+        if ((left < n) && (compare_ret_value)) {
             largest = left;
         }
 
-        if ((right < n) && (compareFun(&elements[right * (int)element_size], &elements[largest * (int)element_size]))) {
+        compare_ret_value = compareFun(&elements[right * (int)element_size], &elements[largest * (int)element_size]);
+
+        if ((right < n) && (compare_ret_value)) {
             largest = right;
         }
 
         if (largest != index) {
-            SwapElements(&elements[index * (int)element_size], &elements[largest * (int)element_size], element_size);
+            Utils_SwapElements(&elements[index * (int)element_size], &elements[largest * (int)element_size], element_size);
             index = largest;
         } else {
             continue_iterating = false;
@@ -81,16 +69,15 @@ Heapify(void* buffer, const int n, const int i, const unsigned int element_size,
 }
 
 void
-HeapSort_sort(void* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void*, void*)) {
+HeapSort_sort(uint8_t* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
     int i;
-    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-    unsigned char* elements = (unsigned char*)buffer;
+    uint8_t* elements = buffer;
     for (i = (number_of_elements / 2) - 1; i >= 0; --i) {
         Heapify(elements, number_of_elements, i, element_size, compareFun);
     }
 
     for (i = number_of_elements - 1; i >= 0; --i) {
-        SwapElements(&elements[0], &elements[i * (int)element_size], element_size);
+        Utils_SwapElements(&elements[0], &elements[i * (int)element_size], element_size);
         Heapify(elements, i, 0, element_size, compareFun);
     }
 }

@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,17 +32,16 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_JSON_H_
-#define UTILITY_JSON_H_
+#ifndef UTILITY_TYPEDEFS_H_
+#define UTILITY_TYPEDEFS_H_
 
-#include <stdint.h>
 #include <stdbool.h>
-#include <string.h>
+#include <stdint.h>
 
-bool Json_startString(char* buffer, size_t buffer_size);
-bool Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value);
-bool Json_endString(char* buffer, size_t buffer_size);
-bool Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* value, size_t max_value_size);
+#define NULL_PTR ((void*)0)
 
+typedef float float32_t;
+typedef double float64_t;
+typedef long double float128_t;
 
-#endif /* UTILITY_JSON_H_ */
+#endif /* UTILITY_TYPEDEFS_H_ */

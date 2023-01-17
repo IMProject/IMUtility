@@ -54,19 +54,24 @@ SRC_FILES1=\
   $(UNITY_ROOT)/src/unity.c \
   $(UNITY_ROOT)/extras/fixture/src/unity_fixture.c \
   Src/base64.c \
+  Src/bubble_sort.c \
   Src/crc32.c \
   Src/heap_sort.c \
   Src/json.c \
   Src/priority_queue.c \
   Src/queue.c \
+  Src/scheduler.c \
   Src/utils.c \
+  Tests/Helper/sort_functions.c \
   Tests/test_main.c \
   Tests/test_base64.c \
+  Tests/test_bubble_sort.c \
   Tests/test_crc32.c \
   Tests/test_heap_sort.c \
   Tests/test_json.c \
   Tests/test_priority_queue.c \
   Tests/test_queue.c \
+  Tests/test_scheduler.c \
   Tests/test_utils.c
 INC_DIRS=-IInc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS = -DUNITY_FIXTURE_NO_EXTRAS

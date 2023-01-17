@@ -1,10 +1,11 @@
 #include "utils.h"
+
 #include "unity.h"
 #include "unity_fixture.h"
 
 TEST_GROUP(Utils);
 
-uint8_t test_data_1[] = {
+static const uint8_t test_data_1[] = {
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
     0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19,
     0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29,
@@ -20,6 +21,7 @@ TEST_TEAR_DOWN(Utils) {
 
 TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_StringToUint32);
+    RUN_TEST_CASE(Utils, Utils_SwapElements);
     RUN_TEST_CASE(Utils, Utils_SerializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_DeserializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_SerializeBlobLE);
@@ -29,9 +31,26 @@ TEST_GROUP_RUNNER(Utils) {
 }
 
 TEST(Utils, Utils_StringToUint32) {
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"39", 2U), 39U);
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"0", 1U), 0U);
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32((unsigned char*)"2165217", 7U), 2165217U);
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("39", 2U), 39U);
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("0", 1U), 0U);
+    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("2165217", 7U), 2165217U);
+}
+
+TEST(Utils, Utils_SwapElements) {
+    {
+        int a = 3;
+        int b = 4;
+        Utils_SwapElements((uint8_t*)&a, (uint8_t*)&b, sizeof(int));
+        TEST_ASSERT_EQUAL_INT(a, 4);
+        TEST_ASSERT_EQUAL_INT(b, 3);
+    }
+    {
+        double a = 3.1;
+        double b = 4.2;
+        Utils_SwapElements((uint8_t*)&a, (uint8_t*)&b, sizeof(double));
+        TEST_ASSERT_EQUAL_DOUBLE(a, 4.2);
+        TEST_ASSERT_EQUAL_DOUBLE(b, 3.1);
+    }
 }
 
 TEST(Utils, Utils_SerializeBlobBE) {

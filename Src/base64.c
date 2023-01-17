@@ -17,28 +17,9 @@
 // Encode/Decode functions are modified by Juraj Ciberlin (jciberlin1@gmail.com) to be MISRA C 2012 compliant
 
 #include "base64.h"
-#include <stdbool.h>
-
-// cppcheck-suppress misra-c2012-8.9; better readability
-static const unsigned int base64_index[256] = {
-    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U, 0U, 0U, 62U, 63U, 62U, 62U, 63U, 52U, 53U, 54U, 55U, 56U, 57U, 58U, 59U, 60U,
-    61U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U,
-    12U, 13U, 14U, 15U, 16U, 17U, 18U, 19U, 20U, 21U, 22U, 23U, 24U, 25U, 0U, 0U, 0U,
-    0U, 63U, 0U, 26U, 27U, 28U, 29U, 30U, 31U, 32U, 33U, 34U, 35U, 36U, 37U, 38U, 39U,
-    40U, 41U, 42U, 43U, 44U, 45U, 46U, 47U, 48U, 49U, 50U, 51U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
-    0U
-};
 
 int
-Base64_encode(const void* data, size_t data_length, char* result, size_t max_result_length) {
+Base64_encode(const char* data, size_t data_length, char* result, size_t max_result_length) {
     int success = 0;
     const unsigned char base64_table[65] = {
         (unsigned char)'A', (unsigned char)'B', (unsigned char)'C', (unsigned char)'D',
@@ -60,9 +41,8 @@ Base64_encode(const void* data, size_t data_length, char* result, size_t max_res
         (unsigned char)'\0'
     };
     unsigned char* out;
-    unsigned char* pos;
-    // cppcheck-suppress misra-c2012-11.5; cast to unsigned char* will not break strict aliasing rule
-    const unsigned char* in = (const unsigned char*)data;
+    uint8_t* pos;
+    const uint8_t* in = (const uint8_t*) data;
 
     size_t len = 4U * ((data_length + 2U) / 3U);
     size_t current_length = 0U;
@@ -107,7 +87,7 @@ Base64_encode(const void* data, size_t data_length, char* result, size_t max_res
                 if ((data_length - in_position) == 1U) {
                     *pos = base64_table[(in[0] & 0x03U) << 4];
                     ++pos;
-                    *pos = '=';
+                    *pos = (uint8_t)'=';
                     ++pos;
                 } else {
                     *pos = base64_table[((in[0] & 0x03U) << 4) | (in[1] >> 4)];
@@ -115,20 +95,36 @@ Base64_encode(const void* data, size_t data_length, char* result, size_t max_res
                     *pos = base64_table[(in[1] & 0x0FU) << 2];
                     ++pos;
                 }
-                *pos = '=';
+                *pos = (uint8_t)'=';
                 ++pos;
             }
         }
 
-        *pos = '\0';
+        *pos = (uint8_t)'\0';
     }
 
     return success;
 }
 
 int
-Base64_decode(const char* in, size_t in_len, unsigned char* out, size_t max_out_len) {
+Base64_decode(const char* in, size_t in_len, uint8_t* out, size_t max_out_len) {
     int success = 0;
+    const uint32_t base64_index[256] = {
+        0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U, 0U, 0U, 62U, 63U, 62U, 62U, 63U, 52U, 53U, 54U, 55U, 56U, 57U, 58U, 59U, 60U,
+        61U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U,
+        12U, 13U, 14U, 15U, 16U, 17U, 18U, 19U, 20U, 21U, 22U, 23U, 24U, 25U, 0U, 0U, 0U,
+        0U, 63U, 0U, 26U, 27U, 28U, 29U, 30U, 31U, 32U, 33U, 34U, 35U, 36U, 37U, 38U, 39U,
+        40U, 41U, 42U, 43U, 44U, 45U, 46U, 47U, 48U, 49U, 50U, 51U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+        0U
+    };
     const unsigned char* in_data_uchar = (const unsigned char*)in;
     bool pad_bool = (in_len > 0U) && (((in_len % 4U) != 0U) || (in_data_uchar[in_len - 1U] == (unsigned char)'='));
     unsigned int pad_uint = 0U;
@@ -145,25 +141,25 @@ Base64_decode(const char* in, size_t in_len, unsigned char* out, size_t max_out_
     if (success == 0) {
         size_t j = 0U;
         for (size_t i = 0U; i < len; i += 4U) {
-            unsigned int n = (base64_index[in_data_uchar[i]] << 18U) | (base64_index[in_data_uchar[i + 1U]] << 12U) |
-                             (base64_index[in_data_uchar[i + 2U]] << 6U) | (base64_index[in_data_uchar[i + 3U]]);
-            out[j] = n >> 16U;
+            uint32_t n = (base64_index[in_data_uchar[i]] << 18U) | (base64_index[in_data_uchar[i + 1U]] << 12U) |
+                         (base64_index[in_data_uchar[i + 2U]] << 6U) | (base64_index[in_data_uchar[i + 3U]]);
+            out[j] = (uint8_t)(n >> 16U);
             ++j;
-            out[j] = (n >> 8U) & 0xFFU;
+            out[j] = (uint8_t)((n >> 8U) & 0xFFU);
             ++j;
-            out[j] = n & 0xFFU;
+            out[j] = (uint8_t)(n & 0xFFU);
             ++j;
         }
         if (pad_bool) {
-            unsigned int n = (base64_index[in_data_uchar[len]] << 18U) | (base64_index[in_data_uchar[len + 1U]] << 12U);
-            out[out_len - 1U] = n >> 16U;
+            uint32_t n = (base64_index[in_data_uchar[len]] << 18U) | (base64_index[in_data_uchar[len + 1U]] << 12U);
+            out[out_len - 1U] = (uint8_t)(n >> 16U);
 
             if ((in_len > (len + 2U)) && (in_data_uchar[len + 2U] != (unsigned char)'=')) {
                 if ((out_len + 1U) > max_out_len) {
                     success = 1;
                 } else {
                     n |= base64_index[in_data_uchar[len + 2U]] << 6U;
-                    out[out_len] = (n >> 8U) & 0xFFU;
+                    out[out_len] = (uint8_t)((n >> 8U) & 0xFFU);
                 }
             }
         }

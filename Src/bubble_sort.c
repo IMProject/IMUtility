@@ -1,7 +1,7 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
- *   Authors: Igor Misic <igy1000mb@gmail.com>
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
+ *   Authors: Juraj Ciberlin <jciberlin1@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,17 +32,26 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_JSON_H_
-#define UTILITY_JSON_H_
+#include "bubble_sort.h"
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
+#include "utils.h"
 
-bool Json_startString(char* buffer, size_t buffer_size);
-bool Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value);
-bool Json_endString(char* buffer, size_t buffer_size);
-bool Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* value, size_t max_value_size);
+void
+BubbleSort_sort(uint8_t* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
+    int i;
+    int j;
+    uint8_t* elements = buffer;
+    for (i = 0; i < (number_of_elements - 1); ++i) {
+        bool swapped = false;
+        for (j = 0; j < (number_of_elements - i - 1); ++j) {
+            if (compareFun(&elements[j * (int)element_size], &elements[(j + 1) * (int)element_size])) {
+                Utils_SwapElements(&elements[j * (int)element_size], &elements[(j + 1) * (int)element_size], element_size);
+                swapped = true;
+            }
+        }
 
-
-#endif /* UTILITY_JSON_H_ */
+        if (!swapped) {
+            break;
+        }
+    }
+}
