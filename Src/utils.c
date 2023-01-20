@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 - 2022 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2021 - 2023 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,20 +34,75 @@
 
 #include "utils.h"
 
-#include <math.h>
+#define MAX_UINT32_POW_10_EXPONENT 10U
 
-uint32_t
-Utils_StringToUint32(const char* buf, const uint32_t lenght) {
-    uint32_t integer = 0U;
-    uint32_t i = 0U;
+bool
+Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result) {
+    bool success = false;
 
-    while ((buf[i] != '\0') && (lenght > i)) {
-        const uint32_t unsigned_power = lenght - (i + 1U);
-        const int32_t number = buf[i] - '0';
-        integer += (uint32_t)(number) * (uint32_t)pow(10.0, (float32_t)(unsigned_power));
-        ++i;
+    const uint32_t pow10[MAX_UINT32_POW_10_EXPONENT] = {
+        1U, 10U, 100U, 1000U, 10000U,
+        100000U, 1000000U, 10000000U, 100000000U, 1000000000U
+    };
+
+    if (exponent < MAX_UINT32_POW_10_EXPONENT) {
+        *result = pow10[exponent];
+        success = true;
     }
-    return integer;
+
+    return success;
+}
+
+bool
+Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer) {
+    bool success = true;
+    bool check_overflow = false;
+    uint8_t i = 0U;
+    *integer = 0U;
+    uint8_t length = str_length;
+
+    if (str_length == MAX_UINT32_POW_10_EXPONENT) {
+        check_overflow = true;
+        length = str_length - 1U;
+    }
+
+    while ((str[i] != '\0') && (length > i) && success) {
+
+        if ((str[i] >= '0') && (str[i] <= '9')) {
+
+            const int8_t digit = (int8_t)(str[i] - '0');
+            const uint8_t unsigned_power = length - (i + 1U);
+            uint32_t result = 0U;
+            success = Utils_QuickUint32Pow10(unsigned_power, &result);
+            *integer += (uint32_t)digit * result;
+            ++i;
+
+        } else {
+            success = false;
+        }
+    }
+
+    if (check_overflow && success) {
+
+        const uint8_t last_digit_index = MAX_UINT32_POW_10_EXPONENT - 1U;
+
+        if ((str[last_digit_index] >= '0') && (str[last_digit_index] <= '9')) {
+
+            const int8_t digit = (int8_t)(str[last_digit_index] - '0');
+
+            if ((*integer > (UINT32_MAX / 10U)) || ((*integer == (UINT32_MAX / 10U)) && ((uint32_t)digit > (UINT32_MAX % 10U)))) {
+                //Overflow detected
+                success = false;
+            } else {
+                *integer *= 10U;
+                *integer += (uint32_t)digit;
+            }
+        } else {
+            success = false;
+        }
+    }
+
+    return success;
 }
 
 void
