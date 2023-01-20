@@ -119,12 +119,13 @@ Reflect(uint32_t data, uint8_t n_bits) {
     /*
     * Reflect the data about the center bit.
     */
-    for (uint32_t bit = 0u; bit < n_bits; ++bit) {
+    for (uint8_t bit = 0u; bit < n_bits; ++bit) {
         /*
         * If the LSB bit is set, set the reflection of it.
         */
         if (1u == (temp_data & 1u) ) {
-            reflection |= (1u << (((uint32_t)n_bits - 1u) - bit));
+            /* -E> compliant MC3R1.R12.2 1 The shift count is granted to be between 0 and 31 due to bit masking. */
+            reflection |= (uint32_t)((uint32_t)1U << (0x1FU & ((n_bits - 1U) - bit)));
         }
 
         temp_data = (temp_data >> 1u);
