@@ -16,14 +16,6 @@ analysisOutputDir=$2
 . "$(dirname "$0")/action.helpers"
 . "$(dirname "$0")/action.settings"
 
-while :
-do
-    git fetch -q --deepen=10
-    if baseCommitId=$(git merge-base --fork-point "origin/${pullRequestHeadRef}") ; then
-       break
-    fi
-done
-
 curl -sS "${eclairReportUrlPrefix}/ext/update_pull_request" \
     -F "wtoken=${wtoken}" \
     -F "artifactsDir=${artifactsDir}" \

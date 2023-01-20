@@ -1,9 +1,6 @@
-name: "ECLAIR pull request"
-on:
-  pull_request_target:
-    types: ['opened', 'synchronize']
+name: "ECLAIR normal"
+on: [push]
 env:
-  GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{github.event.pull_request.number}}
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   ANALYSIS_KIND: normal
 jobs:
@@ -13,7 +10,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: "refs/pull/${{github.event.pull_request.number}}/merge"
           submodules: 'true'
       - name: Build and analyze with ECLAIR
         run: |
@@ -39,9 +35,5 @@ jobs:
           sarif_file: ECLAIR_out/reports.sarif
       - name: Publish ECLAIR results
         env:
-          PR_HEAD_REF: ${{github.event.pull_request.head.ref}}
-          PR_HEAD_REPO: ${{github.event.pull_request.head.repo.full_name}}
-          PR_BASE_REF: ${{github.event.pull_request.base.ref}}
-          PR_USER: ${{github.event.pull_request.user.login}}
           WTOKEN: ${{secrets.WTOKEN}}
-        run: ECLAIR/action_pull_request.sh "${WTOKEN}" ECLAIR_out
+        run: ECLAIR/action_push.sh "${WTOKEN}" ECLAIR_out
