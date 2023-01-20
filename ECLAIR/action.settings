@@ -25,10 +25,13 @@ gitlab)
         pullRequestHeadRepo=${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}
         pullRequestBaseRef=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
         pullRequestUser=${GITLAB_USER_LOGIN}
+        headCommitId=${CI_COMMIT_SHA}
+        baseCommitId=${CI_MERGE_REQUEST_DIFF_BASE_SHA}
         ;;
-    push | pipeline)
+    push | pipeline | web)
         event="push"
         branch=${CI_COMMIT_BRANCH}
+        headCommitId=${CI_COMMIT_SHA}
         ;;
     *)
         echo "Unexpected event ${CI_PIPELINE_SOURCE}" >&2
@@ -50,11 +53,16 @@ github)
         pullRequestHeadRef=${PR_HEAD_REF}
         pullRequestBaseRef=${PR_BASE_REF}
         pullRequestUser=${PR_USER}
+        # baseCommitId and headCommitId are the most recent merge points without conflicts
+        git fetch -q --deepen=2
+        baseCommitId=$(git show -s --pretty=%H HEAD^1)
+        headCommitId=$(git show -s --pretty=%H HEAD^2)
         ;;
-    push)
+    push | workflow_dispatch)
         event="push"
         # Extract the branch name from "refs/heads/<branch>"
         branch=${GITHUB_REF#refs/heads/}
+        headCommitId=${GITHUB_SHA}
         ;;
     *)
         echo "Unexpected GITHUB_REF ${GITHUB_REF}" >&2
@@ -70,12 +78,12 @@ esac
 case "${event}" in
 pull_request)
     subDir=${pullRequestHeadRepo}.ecdf/${pullRequestBaseRef}
-    jobHeadline="Repository ${repository}: ${pullRequestUser} wants to merge ${pullRequestHeadRepo}:${pullRequestHeadRef} into ${pullRequestBaseRef}"
+    jobHeadline="ECLAIR ${ANALYSIS_KIND} on repository ${repository}: ${pullRequestUser} wants to merge ${pullRequestHeadRepo}:${pullRequestHeadRef} (${headCommitId}) into ${pullRequestBaseRef} (${baseCommitId})"
     ;;
 push)
     subDir="${branch}"
-    jobHeadline="Repository ${repository}: branch ${branch}"
-    badgeLabel="ECLAIR ${branch}${variantHeadline} #${jobId}"
+    jobHeadline="ECLAIR ${ANALYSIS_KIND} on repository ${repository}: branch ${branch} (${headCommitId})"
+    badgeLabel="ECLAIR ${ANALYSIS_KIND} ${branch}${variantHeadline} #${jobId}"
     ;;
 *)
     echo "Unexpected event ${event}" >&2
@@ -83,13 +91,13 @@ push)
     ;;
 esac
 
+artifactsDir=${artifactsRoot}/${repository}.ecdf/ECLAIR_${ANALYSIS_KIND}
 subDir="${subDir}${variantSubDir}"
 jobHeadline="${jobHeadline}${variantHeadline}"
 
 # To be customized
 eclairReportUrlPrefix=https://eclairit.com:3787
 
-artifactsDir=${artifactsRoot}/${repository}.ecdf
 jobDir=${artifactsDir}/${subDir}/${jobId}
 updateLog=${analysisOutputDir}/update.log
 commentLog=${analysisOutputDir}/comment.json

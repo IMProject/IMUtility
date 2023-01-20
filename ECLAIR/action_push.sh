@@ -16,15 +16,13 @@ analysisOutputDir=$2
 . "$(dirname "$0")/action.helpers"
 . "$(dirname "$0")/action.settings"
 
-commitId=$(git rev-parse HEAD)
-
 curl -sS "${eclairReportUrlPrefix}/ext/update_push" \
     -F "wtoken=${wtoken}" \
     -F "artifactsDir=${artifactsDir}" \
     -F "subDir=${subDir}" \
     -F "jobId=${jobId}" \
     -F "jobHeadline=${jobHeadline}" \
-    -F "commitId=${commitId}" \
+    -F "commitId=${headCommitId}" \
     -F "badgeLabel=${badgeLabel}" \
     -F "db=@${analysisOutputDir}/PROJECT.ecd" \
     >"${updateLog}"
@@ -39,7 +37,7 @@ github)
     ex=0
     gh api \
         --method POST \
-        "/repos/${repository}/commits/${commitId}/comments" \
+        "/repos/${repository}/commits/${headCommitId}/comments" \
         -F "body=@${summaryTxt}" \
         --silent >"${commentLog}" 2>&1 || ex=$?
     maybe_log_file_exit ADD_COMMENT "Adding comment" "${commentLog}" "${ex}"
