@@ -17,11 +17,13 @@ TEST_GROUP_RUNNER(Scheduler) {
     RUN_TEST_CASE(Scheduler, Scheduler_run);
 }
 
-void Function1(void) {
+void
+Function1(void) {
     printf("\nFunction1 called");
 }
 
-void Function2(void) {
+void
+Function2(void) {
     printf("\nFunction2 called");
 }
 
