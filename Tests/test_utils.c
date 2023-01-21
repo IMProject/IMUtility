@@ -75,7 +75,6 @@ TEST(Utils, Utils_StringToUint32) {
     char not_a_number_string[] = "A";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_string, strlen(not_a_number_string), &ui32_number));
 
-
     char not_a_number_2_string[] = "1A1";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_2_string, strlen(not_a_number_2_string), &ui32_number));
 
