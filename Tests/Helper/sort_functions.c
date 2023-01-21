@@ -1,12 +1,10 @@
 #include "sort_functions.h"
 
-#include <stdint.h>
-
 bool
-CompareInt(void* first, void* second) {
+CompareInt32(void* first, void* second) {
     bool ret_val = false;
-    int* first_element = first;
-    int* second_element = second;
+    int32_t* first_element = first;
+    int32_t* second_element = second;
     if (*first_element > *second_element) {
         ret_val = true;
     }
@@ -14,10 +12,10 @@ CompareInt(void* first, void* second) {
 }
 
 bool
-CompareDouble(void* first, void* second) {
+CompareFloat64(void* first, void* second) {
     bool ret_val = false;
-    double* first_element = first;
-    double* second_element = second;
+    float64_t* first_element = first;
+    float64_t* second_element = second;
     if (*first_element > *second_element) {
         ret_val = true;
     }

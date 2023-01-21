@@ -38,19 +38,19 @@
 #include "typedefs.h"
 
 typedef struct {
-    unsigned int* priority;
+    uint32_t* priority;
     uint8_t* element;
 } PriorityQueueItem_t;
 
 typedef struct {
     uint32_t size;
     uint32_t capacity;
-    unsigned int element_size;
-    unsigned int* priority_array;
+    uint32_t element_size;
+    uint32_t* priority_array;
     uint8_t* buffer;
 } PriorityQueue_t;
 
-bool PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const unsigned int element_size, const PriorityQueueItem_t* items);
+bool PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const uint32_t element_size, const PriorityQueueItem_t* items);
 bool PriorityQueue_isEmpty(const PriorityQueue_t* const queue);
 bool PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* const item);
 bool PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element);
