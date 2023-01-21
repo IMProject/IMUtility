@@ -19,7 +19,7 @@ TEST_GROUP_RUNNER(PriorityQueue) {
 
 TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     uint32_t buffer[100];
-    unsigned int priority_array[100];
+    uint32_t priority_array[100];
     PriorityQueueItem_t items;
     items.element = (uint8_t*)buffer;
     items.priority = priority_array;
@@ -34,7 +34,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     // fill the queue
     PriorityQueueItem_t item;
     uint32_t i;
-    unsigned int priority;
+    uint32_t priority;
     item.priority = &priority;
     for (i = 0U; i < capacity; ++i) {
         priority = 1U;
@@ -62,7 +62,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
 
 TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
     float32_t buffer[100];
-    unsigned int priority_array[100];
+    uint32_t priority_array[100];
     PriorityQueueItem_t items;
     items.element = (uint8_t*)buffer;
     items.priority = priority_array;
@@ -77,7 +77,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
     // fill the queue
     PriorityQueueItem_t item;
     uint32_t i;
-    unsigned int priority;
+    uint32_t priority;
     item.priority = &priority;
     item.element = (uint8_t*)&element;
     element = 0.0F;

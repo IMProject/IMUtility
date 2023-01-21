@@ -37,7 +37,7 @@
 #include <string.h>
 
 bool
-Queue_initQueue(Queue_t* const queue, const uint32_t capacity, const unsigned int element_size, uint8_t* buffer) {
+Queue_initQueue(Queue_t* const queue, const uint32_t capacity, const uint32_t element_size, uint8_t* buffer) {
     bool status = false;
     if (capacity != 0U) {
         queue->capacity = capacity;

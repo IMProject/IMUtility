@@ -41,13 +41,12 @@ IsPriorityQueueFull(const PriorityQueue_t* const queue) {
     return (queue->size == queue->capacity);
 }
 
-static unsigned int
+static uint32_t
 FindHighestPriorityIndex(const PriorityQueue_t* const queue) {
-    unsigned int highest_priority = queue->priority_array[0];
-    unsigned int index = 0U;
-    unsigned int i;
+    uint32_t highest_priority = queue->priority_array[0];
+    uint32_t index = 0U;
 
-    for (i = 0U; i < queue->size; ++i) {
+    for (uint32_t i = 0U; i < queue->size; ++i) {
         if (highest_priority < queue->priority_array[i]) {
             highest_priority = queue->priority_array[i];
             index = i;
@@ -57,13 +56,12 @@ FindHighestPriorityIndex(const PriorityQueue_t* const queue) {
     return index;
 }
 
-static unsigned int
+static uint32_t
 FindLowestPriorityIndex(const PriorityQueue_t* const queue) {
-    unsigned int lowest_priority = queue->priority_array[0];
-    unsigned int index = 0U;
-    unsigned int i;
+    uint32_t lowest_priority = queue->priority_array[0];
+    uint32_t index = 0U;
 
-    for (i = 0U; i < queue->size; ++i) {
+    for (uint32_t i = 0U; i < queue->size; ++i) {
         if (lowest_priority > queue->priority_array[i]) {
             lowest_priority = queue->priority_array[i];
             index = i;
@@ -74,7 +72,7 @@ FindLowestPriorityIndex(const PriorityQueue_t* const queue) {
 }
 
 bool
-PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const unsigned int element_size, const PriorityQueueItem_t* items) {
+PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const uint32_t element_size, const PriorityQueueItem_t* items) {
     bool status = false;
     if (capacity != 0U) {
         queue->capacity = capacity;
@@ -103,7 +101,7 @@ PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* c
             status = true;
         }
     } else {
-        unsigned int lowest_priority_index = FindLowestPriorityIndex(queue);
+        uint32_t lowest_priority_index = FindLowestPriorityIndex(queue);
         if (queue->priority_array[lowest_priority_index] < (*(item->priority))) {
             status = true;
             uint8_t* buffer = queue->buffer;
@@ -135,7 +133,7 @@ bool
 PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!PriorityQueue_isEmpty(queue)) {
-        unsigned int highest_priority_index = FindHighestPriorityIndex(queue);
+        uint32_t highest_priority_index = FindHighestPriorityIndex(queue);
         uint8_t* buffer = queue->buffer;
         if (memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size) != NULL_PTR) {
             status = true;
