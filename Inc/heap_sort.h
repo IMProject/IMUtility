@@ -37,6 +37,6 @@
 
 #include "typedefs.h"
 
-void HeapSort_sort(uint8_t* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second));
+void HeapSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size, bool (*compareFun)(void* first, void* second));
 
 #endif /* UTILITY_HEAP_SORT_H_ */

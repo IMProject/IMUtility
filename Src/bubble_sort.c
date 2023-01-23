@@ -37,15 +37,13 @@
 #include "utils.h"
 
 void
-BubbleSort_sort(uint8_t* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
-    int i;
-    int j;
+BubbleSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size, bool (*compareFun)(void* first, void* second)) {
     uint8_t* elements = buffer;
-    for (i = 0; i < (number_of_elements - 1); ++i) {
+    for (int32_t i = 0; i < (number_of_elements - 1); ++i) {
         bool swapped = false;
-        for (j = 0; j < (number_of_elements - i - 1); ++j) {
-            if (compareFun(&elements[j * (int)element_size], &elements[(j + 1) * (int)element_size])) {
-                Utils_SwapElements(&elements[j * (int)element_size], &elements[(j + 1) * (int)element_size], element_size);
+        for (int32_t j = 0; j < (number_of_elements - i - 1); ++j) {
+            if (compareFun(&elements[j * (int32_t)element_size], &elements[(j + 1) * (int32_t)element_size])) {
+                Utils_SwapElements(&elements[j * (int32_t)element_size], &elements[(j + 1) * (int32_t)element_size], element_size);
                 swapped = true;
             }
         }

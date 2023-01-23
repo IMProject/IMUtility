@@ -18,29 +18,29 @@
 
 #include "base64.h"
 
-int
+int32_t
 Base64_encode(const char* data, size_t data_length, char* result, size_t max_result_length) {
-    int success = 0;
-    const unsigned char base64_table[65] = {
-        (unsigned char)'A', (unsigned char)'B', (unsigned char)'C', (unsigned char)'D',
-        (unsigned char)'E', (unsigned char)'F', (unsigned char)'G', (unsigned char)'H',
-        (unsigned char)'I', (unsigned char)'J', (unsigned char)'K', (unsigned char)'L',
-        (unsigned char)'M', (unsigned char)'N', (unsigned char)'O', (unsigned char)'P',
-        (unsigned char)'Q', (unsigned char)'R', (unsigned char)'S', (unsigned char)'T',
-        (unsigned char)'U', (unsigned char)'V', (unsigned char)'W', (unsigned char)'X',
-        (unsigned char)'Y', (unsigned char)'Z', (unsigned char)'a', (unsigned char)'b',
-        (unsigned char)'c', (unsigned char)'d', (unsigned char)'e', (unsigned char)'f',
-        (unsigned char)'g', (unsigned char)'h', (unsigned char)'i', (unsigned char)'j',
-        (unsigned char)'k', (unsigned char)'l', (unsigned char)'m', (unsigned char)'n',
-        (unsigned char)'o', (unsigned char)'p', (unsigned char)'q', (unsigned char)'r',
-        (unsigned char)'s', (unsigned char)'t', (unsigned char)'u', (unsigned char)'v',
-        (unsigned char)'w', (unsigned char)'x', (unsigned char)'y', (unsigned char)'z',
-        (unsigned char)'0', (unsigned char)'1', (unsigned char)'2', (unsigned char)'3',
-        (unsigned char)'4', (unsigned char)'5', (unsigned char)'6', (unsigned char)'7',
-        (unsigned char)'8', (unsigned char)'9', (unsigned char)'+', (unsigned char)'/',
-        (unsigned char)'\0'
+    int32_t success = 0;
+    const uint8_t base64_table[65] = {
+        (uint8_t)'A', (uint8_t)'B', (uint8_t)'C', (uint8_t)'D',
+        (uint8_t)'E', (uint8_t)'F', (uint8_t)'G', (uint8_t)'H',
+        (uint8_t)'I', (uint8_t)'J', (uint8_t)'K', (uint8_t)'L',
+        (uint8_t)'M', (uint8_t)'N', (uint8_t)'O', (uint8_t)'P',
+        (uint8_t)'Q', (uint8_t)'R', (uint8_t)'S', (uint8_t)'T',
+        (uint8_t)'U', (uint8_t)'V', (uint8_t)'W', (uint8_t)'X',
+        (uint8_t)'Y', (uint8_t)'Z', (uint8_t)'a', (uint8_t)'b',
+        (uint8_t)'c', (uint8_t)'d', (uint8_t)'e', (uint8_t)'f',
+        (uint8_t)'g', (uint8_t)'h', (uint8_t)'i', (uint8_t)'j',
+        (uint8_t)'k', (uint8_t)'l', (uint8_t)'m', (uint8_t)'n',
+        (uint8_t)'o', (uint8_t)'p', (uint8_t)'q', (uint8_t)'r',
+        (uint8_t)'s', (uint8_t)'t', (uint8_t)'u', (uint8_t)'v',
+        (uint8_t)'w', (uint8_t)'x', (uint8_t)'y', (uint8_t)'z',
+        (uint8_t)'0', (uint8_t)'1', (uint8_t)'2', (uint8_t)'3',
+        (uint8_t)'4', (uint8_t)'5', (uint8_t)'6', (uint8_t)'7',
+        (uint8_t)'8', (uint8_t)'9', (uint8_t)'+', (uint8_t)'/',
+        (uint8_t)'\0'
     };
-    unsigned char* out;
+    uint8_t* out;
     uint8_t* pos;
     const uint8_t* in = (const uint8_t*) data;
 
@@ -53,7 +53,7 @@ Base64_encode(const char* data, size_t data_length, char* result, size_t max_res
     }
 
     if (success == 0) {
-        out = (unsigned char*)&result[0];
+        out = (uint8_t*)&result[0];
         pos = out;
         while ((data_length - in_position) >= 3U) {
             current_length += 4U;
@@ -106,9 +106,9 @@ Base64_encode(const char* data, size_t data_length, char* result, size_t max_res
     return success;
 }
 
-int
+int32_t
 Base64_decode(const char* in, size_t in_len, uint8_t* out, size_t max_out_len) {
-    int success = 0;
+    int32_t success = 0;
     const uint32_t base64_index[256] = {
         0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
         0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
@@ -125,9 +125,9 @@ Base64_decode(const char* in, size_t in_len, uint8_t* out, size_t max_out_len) {
         0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
         0U
     };
-    const unsigned char* in_data_uchar = (const unsigned char*)in;
-    bool pad_bool = (in_len > 0U) && (((in_len % 4U) != 0U) || (in_data_uchar[in_len - 1U] == (unsigned char)'='));
-    unsigned int pad_uint = 0U;
+    const uint8_t* in_data_uchar = (const uint8_t*)in;
+    bool pad_bool = (in_len > 0U) && (((in_len % 4U) != 0U) || (in_data_uchar[in_len - 1U] == (uint8_t)'='));
+    uint32_t pad_uint = 0U;
     if (pad_bool) {
         pad_uint = 1U;
     }
@@ -154,7 +154,7 @@ Base64_decode(const char* in, size_t in_len, uint8_t* out, size_t max_out_len) {
             uint32_t n = (base64_index[in_data_uchar[len]] << 18U) | (base64_index[in_data_uchar[len + 1U]] << 12U);
             out[out_len - 1U] = (uint8_t)(n >> 16U);
 
-            if ((in_len > (len + 2U)) && (in_data_uchar[len + 2U] != (unsigned char)'=')) {
+            if ((in_len > (len + 2U)) && (in_data_uchar[len + 2U] != (uint8_t)'=')) {
                 if ((out_len + 1U) > max_out_len) {
                     success = 1;
                 } else {

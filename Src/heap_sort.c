@@ -37,30 +37,30 @@
 #include "utils.h"
 
 static void
-Heapify(uint8_t* buffer, const int n, const int i, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
+Heapify(uint8_t* buffer, const int32_t n, const int32_t i, const uint32_t element_size, bool (*compareFun)(void* first, void* second)) {
     bool continue_iterating = true;
-    int index = i;
+    int32_t index = i;
     uint8_t* elements = buffer;
 
     while (continue_iterating) {
-        int largest = index;
-        int left = (2 * index) + 1;
-        int right = (2 * index) + 2;
+        int32_t largest = index;
+        int32_t left = (2 * index) + 1;
+        int32_t right = (2 * index) + 2;
 
-        bool compare_ret_value = compareFun(&elements[left * (int)element_size], &elements[largest * (int)element_size]);
+        bool compare_ret_value = compareFun(&elements[left * (int32_t)element_size], &elements[largest * (int32_t)element_size]);
 
         if ((left < n) && (compare_ret_value)) {
             largest = left;
         }
 
-        compare_ret_value = compareFun(&elements[right * (int)element_size], &elements[largest * (int)element_size]);
+        compare_ret_value = compareFun(&elements[right * (int32_t)element_size], &elements[largest * (int32_t)element_size]);
 
         if ((right < n) && (compare_ret_value)) {
             largest = right;
         }
 
         if (largest != index) {
-            Utils_SwapElements(&elements[index * (int)element_size], &elements[largest * (int)element_size], element_size);
+            Utils_SwapElements(&elements[index * (int32_t)element_size], &elements[largest * (int32_t)element_size], element_size);
             index = largest;
         } else {
             continue_iterating = false;
@@ -69,15 +69,15 @@ Heapify(uint8_t* buffer, const int n, const int i, const unsigned int element_si
 }
 
 void
-HeapSort_sort(uint8_t* buffer, const int number_of_elements, const unsigned int element_size, bool (*compareFun)(void* first, void* second)) {
-    int i;
+HeapSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size, bool (*compareFun)(void* first, void* second)) {
+    int32_t i;
     uint8_t* elements = buffer;
     for (i = (number_of_elements / 2) - 1; i >= 0; --i) {
         Heapify(elements, number_of_elements, i, element_size, compareFun);
     }
 
     for (i = number_of_elements - 1; i >= 0; --i) {
-        Utils_SwapElements(&elements[0], &elements[i * (int)element_size], element_size);
+        Utils_SwapElements(&elements[0], &elements[i * (int32_t)element_size], element_size);
         Heapify(elements, i, 0, element_size, compareFun);
     }
 }

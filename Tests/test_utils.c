@@ -3,6 +3,8 @@
 #include "unity.h"
 #include "unity_fixture.h"
 
+#include <string.h>
+
 TEST_GROUP(Utils);
 
 static const uint8_t test_data_1[] = {
@@ -20,6 +22,7 @@ TEST_TEAR_DOWN(Utils) {
 }
 
 TEST_GROUP_RUNNER(Utils) {
+    RUN_TEST_CASE(Utils, Utils_QuickUint32Pow10);
     RUN_TEST_CASE(Utils, Utils_StringToUint32);
     RUN_TEST_CASE(Utils, Utils_SwapElements);
     RUN_TEST_CASE(Utils, Utils_SerializeBlobBE);
@@ -30,10 +33,56 @@ TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_LittleEndianSerializeDeserialize);
 }
 
+TEST(Utils, Utils_QuickUint32Pow10) {
+    uint32_t result = 0U;
+    uint32_t expected = 1U;
+
+    for (uint8_t i = 0U; i < 10U; ++i) {
+        TEST_ASSERT_TRUE(Utils_QuickUint32Pow10(i, &result));
+        TEST_ASSERT_EQUAL_UINT32(result, expected);
+        expected *= 10U;
+    }
+
+    TEST_ASSERT_FALSE(Utils_QuickUint32Pow10(10U, &result));
+}
+
 TEST(Utils, Utils_StringToUint32) {
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("39", 2U), 39U);
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("0", 1U), 0U);
-    TEST_ASSERT_EQUAL_UINT32(Utils_StringToUint32("2165217", 7U), 2165217U);
+    uint32_t ui32_number = 0U;
+
+    TEST_ASSERT_TRUE(Utils_StringToUint32("39", 2U, &ui32_number));
+    TEST_ASSERT_EQUAL_UINT32(ui32_number, 39U);
+
+    TEST_ASSERT_TRUE(Utils_StringToUint32("0", 1U, &ui32_number));
+    TEST_ASSERT_EQUAL_UINT32(ui32_number, 0U);
+
+    TEST_ASSERT_TRUE(Utils_StringToUint32("2165217", 7U, &ui32_number));
+    TEST_ASSERT_EQUAL_UINT32(ui32_number, 2165217U);
+
+    char number_string[] = "1234567890";
+    TEST_ASSERT_TRUE(Utils_StringToUint32(number_string, strlen(number_string), &ui32_number));
+    TEST_ASSERT_EQUAL_UINT32(ui32_number, 1234567890U);
+
+    char max_uint32_number_string[] = "4294967295";
+    TEST_ASSERT_TRUE(Utils_StringToUint32(max_uint32_number_string, strlen(max_uint32_number_string), &ui32_number));
+    TEST_ASSERT_EQUAL_UINT32(ui32_number, 4294967295U);
+
+    char overflow_1_uint32_number_string[] = "4294967296";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(overflow_1_uint32_number_string, strlen(overflow_1_uint32_number_string), &ui32_number));
+
+    char overflow_2_uint32_number_string[] = "5294967295";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(overflow_2_uint32_number_string, strlen(overflow_2_uint32_number_string), &ui32_number));
+
+    char not_a_number_string[] = "A";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_string, strlen(not_a_number_string), &ui32_number));
+
+    char not_a_number_2_string[] = "1A1";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_2_string, strlen(not_a_number_2_string), &ui32_number));
+
+    char not_a_number_3_string[] = "123456789A";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_3_string, strlen(not_a_number_3_string), &ui32_number));
+
+    char not_a_number_4_string[] = "429496729A";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_4_string, strlen(not_a_number_4_string), &ui32_number));
 }
 
 TEST(Utils, Utils_SwapElements) {

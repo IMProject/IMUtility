@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 - 2022 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2021 - 2023 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,8 @@
 
 #include "typedefs.h"
 
-uint32_t Utils_StringToUint32(const char* buf, const uint32_t lenght);
+bool Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result);
+bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer);
 void Utils_SwapElements(uint8_t* first, uint8_t* second, const uint32_t size);
 
 // Big-endian
