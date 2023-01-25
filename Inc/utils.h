@@ -39,6 +39,7 @@
 
 bool Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result);
 bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer);
+int32_t Utils_Strncmp(const char* str1, const char* str2, const uint32_t num);
 void Utils_SwapElements(uint8_t* first, uint8_t* second, const uint32_t size);
 
 // Big-endian

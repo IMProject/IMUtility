@@ -34,6 +34,8 @@
 
 #include "json.h"
 
+#include "utils.h"
+
 #define MINIMAL_SIZE 2U // size of '{' or '}' + '\0'
 
 bool
@@ -109,11 +111,11 @@ Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* va
     uint32_t max_search_size = (uint32_t)(buffer_size - strlen(key));
 
     uint32_t index;
-    size_t key_size = strlen(key);
+    uint32_t key_size = (uint32_t)strlen(key);
 
     for (index = 0; index < max_search_size; ++index) {
 
-        if (0 == strncmp(&buffer[index], key, key_size)) {
+        if (0 == Utils_Strncmp(&buffer[index], key, key_size)) {
 
             if (buffer[index + key_size] == '"') {
                 success = true;
