@@ -105,6 +105,22 @@ Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* intege
     return success;
 }
 
+int32_t
+Utils_Strncmp(const char* str1, const char* str2, const uint32_t num) {
+
+    int32_t ret_val = 0;
+
+    for (uint32_t i = 0U; (i < num) && (str1[i] != '\0') && (str2[i] != '\0'); ++i) {
+
+        if (str1[i] != str2[i]) {
+            ret_val = str1[i] - str2[i];
+            break;
+        }
+    }
+
+    return ret_val;
+}
+
 void
 Utils_SwapElements(uint8_t* first, uint8_t* second, const uint32_t size) {
     uint8_t temp;
