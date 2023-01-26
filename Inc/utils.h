@@ -37,6 +37,7 @@
 
 #include "typedefs.h"
 
+void Utils_Memcpy(uint8_t* to, const uint8_t* from, const uint32_t size);
 bool Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result);
 bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer);
 int32_t Utils_Strncmp(const char* str1, const char* str2, const uint32_t num);
@@ -56,6 +57,5 @@ void Utils_Deserialize8BE(const uint8_t* buf, uint8_t* value);
 // Little-endian
 void Utils_SerializeBlobLE(uint8_t* buf, const uint8_t* src, uint32_t size);
 void Utils_DeserializeBlobLE(const uint8_t* buf, uint8_t* dst, uint32_t size);
-
 
 #endif /* UTILITY_UTILS_H_ */

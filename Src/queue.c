@@ -34,7 +34,7 @@
 
 #include "queue.h"
 
-#include <string.h>
+#include "utils.h"
 
 bool
 Queue_initQueue(Queue_t* const queue, const uint32_t capacity, const uint32_t element_size, uint8_t* buffer) {
@@ -67,10 +67,9 @@ Queue_enqueue(Queue_t* const queue, const uint8_t* const element) {
     if (!Queue_isFull(queue)) {
         queue->rear = (queue->rear + 1U) % queue->capacity;
         uint8_t* buffer = queue->buffer;
-        if (memcpy(&buffer[queue->rear * queue->element_size], element, queue->element_size) != NULL_PTR) {
-            queue->size = queue->size + 1U;
-            status = true;
-        }
+        Utils_Memcpy(&buffer[queue->rear * queue->element_size], element, queue->element_size);
+        queue->size = queue->size + 1U;
+        status = true;
     }
     return status;
 }
@@ -80,11 +79,10 @@ Queue_dequeue(Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         const uint8_t* buffer = (const uint8_t*)queue->buffer;
-        if (memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size) != NULL_PTR) {
-            queue->front = (queue->front + 1U) % queue->capacity;
-            queue->size = queue->size - 1U;
-            status = true;
-        }
+        Utils_Memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
+        queue->front = (queue->front + 1U) % queue->capacity;
+        queue->size = queue->size - 1U;
+        status = true;
     }
     return status;
 }
@@ -94,9 +92,8 @@ Queue_front(const Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         const uint8_t* buffer = (const uint8_t*)queue->buffer;
-        if (memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size) != NULL_PTR) {
-            status = true;
-        }
+        Utils_Memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
+        status = true;
     }
     return status;
 }
@@ -106,9 +103,8 @@ Queue_rear(const Queue_t* const queue, uint8_t* const element) {
     bool status = false;
     if (!Queue_isEmpty(queue)) {
         const uint8_t* buffer = (const uint8_t*)queue->buffer;
-        if (memcpy(element, &buffer[queue->rear * queue->element_size], queue->element_size) != NULL_PTR) {
-            status = true;
-        }
+        Utils_Memcpy(element, &buffer[queue->rear * queue->element_size], queue->element_size);
+        status = true;
     }
     return status;
 }
