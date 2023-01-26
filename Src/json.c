@@ -43,7 +43,7 @@ Json_startString(char* buffer, size_t buffer_size) {
 
     bool success = false;
 
-    if (buffer_size >  MINIMAL_SIZE) {
+    if (buffer_size >= MINIMAL_SIZE) {
         // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[0], "{");
         success = true;
@@ -67,7 +67,7 @@ Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* val
         ++index;
     }
 
-    if (total_size <= (buffer_size - index)) {
+    if ((int32_t)total_size <= ((int32_t)buffer_size - (int32_t)index)) {
 
         // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
         strcpy(&buffer[index], "\"");
