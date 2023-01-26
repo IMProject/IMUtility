@@ -36,6 +36,13 @@
 
 #define MAX_UINT32_POW_10_EXPONENT 10U
 
+void
+Utils_Memcpy(uint8_t* to, const uint8_t* from, const uint32_t size) {
+    for (uint32_t i = 0U; i < size; ++i) {
+        to[i] = from[i];
+    }
+}
+
 bool
 Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result) {
     bool success = false;
