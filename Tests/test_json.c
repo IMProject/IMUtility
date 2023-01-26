@@ -11,7 +11,39 @@ TEST_TEAR_DOWN(Json) {
 }
 
 TEST_GROUP_RUNNER(Json) {
+    RUN_TEST_CASE(Json, Json_startString);
+    RUN_TEST_CASE(Json, Json_addData);
+    RUN_TEST_CASE(Json, Json_endString);
     RUN_TEST_CASE(Json, Json_findByKey);
+}
+
+TEST(Json, Json_startString) {
+    char buffer[10] = {0U};
+    TEST_ASSERT_TRUE(Json_startString(buffer, 2U));
+    TEST_ASSERT_EQUAL_UINT8(buffer[0], '{');
+    TEST_ASSERT_EQUAL_UINT8(buffer[1], '\0');
+    TEST_ASSERT_FALSE(Json_startString(buffer, 1U));
+}
+
+TEST(Json, Json_addData) {
+    char buffer[100] = {0U};
+    const char key[] = "public_key";
+    const char value[] = "u1zeY+TBbtYlDIzZsLH16RJ9aIBmxTINpLXSkTpaikQ=";
+    TEST_ASSERT_TRUE(Json_addData(buffer, sizeof(buffer), key, value));
+    TEST_ASSERT_EQUAL_STRING(buffer, "\"public_key\":\"u1zeY+TBbtYlDIzZsLH16RJ9aIBmxTINpLXSkTpaikQ=\"");
+
+    //Buffer size not big enough
+    TEST_ASSERT_FALSE(Json_addData(buffer, 10U, key, value));
+}
+
+TEST(Json, Json_endString) {
+    char buffer_1[10] = "{ABCD";
+    TEST_ASSERT_TRUE(Json_endString(buffer_1, sizeof(buffer_1)));
+    TEST_ASSERT_EQUAL_UINT8(buffer_1[5], '}');
+    TEST_ASSERT_EQUAL_UINT8(buffer_1[6], '\0');
+
+    char buffer_2[10] = "{ABCD";
+    TEST_ASSERT_FALSE(Json_endString(buffer_2, 6U)); // Not enough space for '\0'
 }
 
 TEST(Json, Json_findByKey) {
