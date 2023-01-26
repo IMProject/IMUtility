@@ -208,6 +208,13 @@ Utils_Deserialize32BE(const uint8_t* buf, uint32_t* value) {
 }
 
 void
+Utils_Deserialize24BE(const uint8_t* buf, uint32_t* value) {
+    *value = (uint32_t)buf[0] << 16u;
+    *value |= (uint32_t)buf[1] << 8u;
+    *value |= (uint32_t)buf[2];
+}
+
+void
 Utils_Deserialize16BE(const uint8_t* buf, uint16_t* value) {
     *value = (uint16_t)buf[0] << 8U;
     *value |= (uint16_t)buf[1];

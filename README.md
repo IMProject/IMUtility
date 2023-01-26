@@ -64,6 +64,7 @@ https://discord.gg/R6nZxZqDH3
 - Utils_Serialize8BE
 - Utils_DeserializeBlobBE
 - Utils_Deserialize32BE
+- Utils_Deserialize24BE
 - Utils_Deserialize16BE
 - Utils_Deserialize8BE
 
