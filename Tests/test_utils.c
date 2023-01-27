@@ -98,10 +98,12 @@ TEST(Utils, Utils_StringToUint32) {
     TEST_ASSERT_EQUAL_UINT32(ui32_number, 4294967295U);
 
     char overflow_1_uint32_number_string[] = "4294967296";
-    TEST_ASSERT_FALSE(Utils_StringToUint32(overflow_1_uint32_number_string, strlen(overflow_1_uint32_number_string), &ui32_number));
+    TEST_ASSERT_FALSE(Utils_StringToUint32(overflow_1_uint32_number_string, strlen(overflow_1_uint32_number_string),
+                                           &ui32_number));
 
     char overflow_2_uint32_number_string[] = "5294967295";
-    TEST_ASSERT_FALSE(Utils_StringToUint32(overflow_2_uint32_number_string, strlen(overflow_2_uint32_number_string), &ui32_number));
+    TEST_ASSERT_FALSE(Utils_StringToUint32(overflow_2_uint32_number_string, strlen(overflow_2_uint32_number_string),
+                                           &ui32_number));
 
     char not_a_number_string[] = "A";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_string, strlen(not_a_number_string), &ui32_number));

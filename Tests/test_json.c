@@ -60,7 +60,8 @@ TEST(Json, Json_findByKey) {
 
         char key_2[] = "public_key_signature";
         success = Json_findByKey(json_string, strlen(json_string), key_2, value, size);
-        TEST_ASSERT_EQUAL_STRING("sQjximnEuRAsf+mAuTURcXASUS5vkl5xU0SNvvAcX+Mfc7es+xXw/Lgo0bfMNY+ShKe5VjbIg3DaSxJvLbhX+w==", value);
+        TEST_ASSERT_EQUAL_STRING("sQjximnEuRAsf+mAuTURcXASUS5vkl5xU0SNvvAcX+Mfc7es+xXw/Lgo0bfMNY+ShKe5VjbIg3DaSxJvLbhX+w==",
+                                 value);
         TEST_ASSERT_EQUAL_INT(true, success);
 
 

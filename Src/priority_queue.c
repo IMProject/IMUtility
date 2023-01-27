@@ -72,7 +72,8 @@ FindLowestPriorityIndex(const PriorityQueue_t* const queue) {
 }
 
 bool
-PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const uint32_t element_size, const PriorityQueueItem_t* items) {
+PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const uint32_t element_size,
+                        const PriorityQueueItem_t* items) {
     bool status = false;
     if (capacity != 0U) {
         queue->capacity = capacity;
@@ -106,7 +107,8 @@ PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* c
             queue->size = queue->size - 1U;
             const uint32_t current_size = queue->size;
             for (uint32_t i = lowest_priority_index; i < current_size; ++i) {
-                Utils_Memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size], queue->element_size);
+                Utils_Memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
+                             queue->element_size);
                 queue->priority_array[i] = queue->priority_array[i + 1U];
             }
 
@@ -129,7 +131,8 @@ PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element) {
         queue->size = queue->size - 1U;
         const uint32_t current_size = queue->size;
         for (uint32_t i = highest_priority_index; i < current_size; ++i) {
-            Utils_Memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size], queue->element_size);
+            Utils_Memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
+                         queue->element_size);
             queue->priority_array[i] = queue->priority_array[i + 1U];
         }
         status = true;
