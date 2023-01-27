@@ -35,9 +35,9 @@
 #ifndef UTILITY_JSON_H_
 #define UTILITY_JSON_H_
 
-#include <stdint.h>
-#include <stdbool.h>
 #include <string.h>
+
+#include "typedefs.h"
 
 bool Json_startString(char* buffer, size_t buffer_size);
 bool Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value);

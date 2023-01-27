@@ -24,6 +24,7 @@ TEST_TEAR_DOWN(Utils) {
 TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_Memcpy);
     RUN_TEST_CASE(Utils, Utils_QuickUint32Pow10);
+    RUN_TEST_CASE(Utils, Utils_Strcpy);
     RUN_TEST_CASE(Utils, Utils_StringToUint32);
     RUN_TEST_CASE(Utils, Utils_Strncmp);
     RUN_TEST_CASE(Utils, Utils_SwapElements);
@@ -65,6 +66,15 @@ TEST(Utils, Utils_QuickUint32Pow10) {
     }
 
     TEST_ASSERT_FALSE(Utils_QuickUint32Pow10(10U, &result));
+}
+
+TEST(Utils, Utils_Strcpy) {
+    const char from[5] = "hehe";
+    char to[5];
+
+    Utils_Strcpy(to, from);
+
+    TEST_ASSERT_EQUAL_STRING(to, from);
 }
 
 TEST(Utils, Utils_StringToUint32) {

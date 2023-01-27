@@ -40,12 +40,10 @@
 
 bool
 Json_startString(char* buffer, size_t buffer_size) {
-
     bool success = false;
 
     if (buffer_size >= MINIMAL_SIZE) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
-        strcpy(&buffer[0], "{");
+        Utils_Strcpy(&buffer[0], "{");
         success = true;
     }
 
@@ -54,7 +52,6 @@ Json_startString(char* buffer, size_t buffer_size) {
 
 bool
 Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value) {
-
     bool success = false;
 
     size_t index = strlen(buffer);
@@ -62,27 +59,20 @@ Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* val
     total_size += strlen("\"\":\"\"") + strlen(key) + strlen(value) + 1U;
 
     if (0 == strcmp(&buffer[index - 1U], "\"")) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
-        strcpy(&buffer[index], ",");
+        Utils_Strcpy(&buffer[index], ",");
         ++index;
     }
 
     if ((int32_t)total_size <= ((int32_t)buffer_size - (int32_t)index)) {
-
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
-        strcpy(&buffer[index], "\"");
+        Utils_Strcpy(&buffer[index], "\"");
         index += strlen("\"");
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
-        strcpy(&buffer[index], key);
+        Utils_Strcpy(&buffer[index], key);
         index += strlen(key);
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
-        strcpy(&buffer[index], "\":\"");
+        Utils_Strcpy(&buffer[index], "\":\"");
         index += strlen("\":\"");
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
-        strcpy(&buffer[index], value);
+        Utils_Strcpy(&buffer[index], value);
         index += strlen(value);
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
-        strcpy(&buffer[index], "\"");
+        Utils_Strcpy(&buffer[index], "\"");
 
         success = true;
     }
@@ -91,13 +81,11 @@ Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* val
 }
 bool
 Json_endString(char* buffer, size_t buffer_size) {
-
     bool success = false;
 
     size_t index = strlen(buffer);
     if (buffer_size >= (MINIMAL_SIZE + index)) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
-        strcpy(&buffer[index], "}");
+        Utils_Strcpy(&buffer[index], "}");
         success = true;
     }
 
