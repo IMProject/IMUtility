@@ -37,7 +37,7 @@ CI="${CI:-false}"
 DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
 if [[ "$@" == "--fix" ]]; then
-    export PX4_ASTYLE_FIX=1
+    export ASTYLE_FIX=1
 fi
 
 

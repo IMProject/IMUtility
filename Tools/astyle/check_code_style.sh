@@ -13,7 +13,7 @@ if [ -f "$FILE" ]; then
 		rm -f $FILE.pretty
 		echo
 
-		if [[ $PX4_ASTYLE_FIX -eq 1 ]]; then
+		if [[ $ASTYLE_FIX -eq 1 ]]; then
 			${DIR}/fix_code_style.sh $FILE
 		else
 			# Make sure this file is not staged for comitting
