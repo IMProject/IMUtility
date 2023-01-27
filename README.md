@@ -53,6 +53,7 @@ https://discord.gg/R6nZxZqDH3
 ## Utils
 - Utils_Memcpy
 - Utils_QuickUint32Pow10
+- Utils_Strcpy
 - Utils_StringToUint32
 - Utils_Strncmp
 - Utils_SwapElements
