@@ -37,6 +37,7 @@
 
 #include "typedefs.h"
 
-void BubbleSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size, bool (*compareFun)(void* first, void* second));
+void BubbleSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size,
+                     bool (*compareFun)(void* first, void* second));
 
 #endif /* UTILITY_BUBBLE_SORT_H_ */

@@ -37,7 +37,8 @@
 #include "utils.h"
 
 static void
-Heapify(uint8_t* buffer, const int32_t n, const int32_t i, const uint32_t element_size, bool (*compareFun)(void* first, void* second)) {
+Heapify(uint8_t* buffer, const int32_t n, const int32_t i, const uint32_t element_size, bool (*compareFun)(void* first,
+        void* second)) {
     bool continue_iterating = true;
     int32_t index = i;
     uint8_t* elements = buffer;
@@ -47,7 +48,8 @@ Heapify(uint8_t* buffer, const int32_t n, const int32_t i, const uint32_t elemen
         int32_t left = (2 * index) + 1;
         int32_t right = (2 * index) + 2;
 
-        bool compare_ret_value = compareFun(&elements[left * (int32_t)element_size], &elements[largest * (int32_t)element_size]);
+        bool compare_ret_value = compareFun(&elements[left * (int32_t)element_size],
+                                            &elements[largest * (int32_t)element_size]);
 
         if ((left < n) && (compare_ret_value)) {
             largest = left;
@@ -69,7 +71,8 @@ Heapify(uint8_t* buffer, const int32_t n, const int32_t i, const uint32_t elemen
 }
 
 void
-HeapSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size, bool (*compareFun)(void* first, void* second)) {
+HeapSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size,
+              bool (*compareFun)(void* first, void* second)) {
     int32_t i;
     uint8_t* elements = buffer;
     for (i = (number_of_elements / 2) - 1; i >= 0; --i) {
