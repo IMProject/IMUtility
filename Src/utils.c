@@ -88,7 +88,7 @@ Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* intege
 
         if ((str[i] >= '0') && (str[i] <= '9')) {
 
-            const int8_t digit = (int8_t)(str[i] - '0');
+            const int8_t digit = (int8_t)((int8_t)str[i] - (int8_t)'0');
             const uint8_t unsigned_power = length - (i + 1U);
             uint32_t result = 0U;
             success = Utils_QuickUint32Pow10(unsigned_power, &result);
@@ -106,7 +106,7 @@ Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* intege
 
         if ((str[last_digit_index] >= '0') && (str[last_digit_index] <= '9')) {
 
-            const int8_t digit = (int8_t)(str[last_digit_index] - '0');
+            const int8_t digit = (int8_t)((int8_t)str[last_digit_index] - (int8_t)'0');
 
             if ((*integer > (UINT32_MAX / 10U)) || ((*integer == (UINT32_MAX / 10U)) && ((uint32_t)digit > (UINT32_MAX % 10U)))) {
                 //Overflow detected
