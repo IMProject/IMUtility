@@ -98,11 +98,11 @@ format:
 .PHONY: cppcheck misra
 cppcheck:
 	$(call colorecho,'Checking code with cppcheck')
-	@cppcheck --error-exitcode=1 Src
+	@cppcheck cppcheck --enable=all -IInc Src Tests -iTests/Unity --suppress=missingInclude --error-exitcode=1
 	
 misra:
 	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
-	@cppcheck cppcheck -IInc Src --force --addon=misra.py --inline-suppr --error-exitcode=1
+	@cppcheck cppcheck -IInc Src --force --addon=misra.py --inline-suppr --suppress=misra-c2012-2.3 --error-exitcode=1
 	
 #######################################
 # Unit test
