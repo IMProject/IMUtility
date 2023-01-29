@@ -84,7 +84,7 @@ Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* intege
         length = str_length - 1U;
     }
 
-    while ((str[i] != '\0') && (length > i) && success) {
+    while ((length > i) && (str[i] != '\0') && success) {
 
         if ((str[i] >= '0') && (str[i] <= '9')) {
 
@@ -141,12 +141,11 @@ Utils_Strncmp(const char* str1, const char* str2, const uint32_t num) {
 
 void
 Utils_SwapElements(uint8_t* first, uint8_t* second, const uint32_t size) {
-    uint8_t temp;
     uint8_t* first_element = first;
     uint8_t* second_element = second;
     uint32_t index = size;
     while ((index--) != 0U) {
-        temp = first_element[index];
+        uint8_t temp = first_element[index];
         first_element[index] = second_element[index];
         second_element[index] = temp;
     }
