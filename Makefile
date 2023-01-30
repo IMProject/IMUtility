@@ -103,7 +103,7 @@ cppcheck:
 misra:
 	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
 	@cppcheck cppcheck -IInc Src --force --addon=misra.py --inline-suppr --suppress=misra-c2012-2.3 \
-	 --suppress=misra-c2012-8.4 --suppress=misra-c2012-8.7 --error-exitcode=1
+	 --suppress=misra-c2012-8.7 --error-exitcode=1
 	
 #######################################
 # Unit test
