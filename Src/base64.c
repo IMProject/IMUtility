@@ -41,20 +41,19 @@ Base64_encode(const char* data, size_t data_length, char* result, size_t max_res
         (uint8_t)'\0'
     };
     uint8_t* out;
-    uint8_t* pos;
     const uint8_t* in = (const uint8_t*) data;
 
     size_t len = 4U * ((data_length + 2U) / 3U);
-    size_t current_length = 0U;
-    size_t in_position = 0U;
 
     if (len < data_length) {
         success = 1;
     }
 
     if (success == 0) {
+        size_t current_length = 0U;
+        size_t in_position = 0U;
         out = (uint8_t*)&result[0];
-        pos = out;
+        uint8_t* pos = out;
         while ((data_length - in_position) >= 3U) {
             current_length += 4U;
             if (current_length > max_result_length) {
