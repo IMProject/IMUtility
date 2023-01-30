@@ -37,10 +37,10 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     uint32_t priority;
     item.priority = &priority;
     for (i = 0U; i < capacity; ++i) {
-        priority = 1U;
+        *(item.priority) = 1U;
         item.element = (uint8_t*)&i;
         if (i == 50U) {
-            priority = 2U;
+            *(item.priority) = 2U;
         }
         TEST_ASSERT_TRUE(PriorityQueue_enqueue(&queue, &item));
     }
@@ -50,7 +50,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     TEST_ASSERT_FALSE(PriorityQueue_enqueue(&queue, &item));
 
     // add element with higher priority than the current lowest priority
-    priority = 9U;
+    *(item.priority) = 9U;
     TEST_ASSERT_TRUE(PriorityQueue_enqueue(&queue, &item));
 
     // dequeue
@@ -82,9 +82,9 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
     item.element = (uint8_t*)&element;
     element = 0.0F;
     for (i = 0U; i < capacity; ++i) {
-        priority = 1U;
+        *(item.priority) = 1U;
         if (i == 50U) {
-            priority = 2U;
+            *(item.priority) = 2U;
         }
         TEST_ASSERT_TRUE(PriorityQueue_enqueue(&queue, &item));
         element += 1.0F;
@@ -95,7 +95,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
     TEST_ASSERT_FALSE(PriorityQueue_enqueue(&queue, &item));
 
     // add element with higher priority than the current lowest priority
-    priority = 9U;
+    *(item.priority) = 9U;
     TEST_ASSERT_TRUE(PriorityQueue_enqueue(&queue, &item));
 
     // dequeue
