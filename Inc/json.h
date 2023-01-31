@@ -40,7 +40,7 @@
 #include "typedefs.h"
 
 bool Json_startString(char* buffer, size_t buffer_size);
-bool Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value);
+bool Json_addData(char* buffer, size_t buffer_size, const char* key, const char* value);
 bool Json_endString(char* buffer, size_t buffer_size);
 bool Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* value, size_t max_value_size);
 

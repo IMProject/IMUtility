@@ -60,17 +60,6 @@ Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result) {
     return success;
 }
 
-void
-Utils_Strcpy(char* to, const char* from) {
-    uint32_t i = 0U;
-    while (from[i] != '\0') {
-        to[i] = from[i];
-        ++i;
-    }
-
-    to[i] = '\0';
-}
-
 bool
 Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer) {
     bool success = true;

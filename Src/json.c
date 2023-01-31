@@ -43,7 +43,8 @@ Json_startString(char* buffer, size_t buffer_size) {
     bool success = false;
 
     if (buffer_size >= MINIMAL_SIZE) {
-        Utils_Strcpy(&buffer[0], "{");
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        strcpy(&buffer[0], "{");
         success = true;
     }
 
@@ -51,41 +52,50 @@ Json_startString(char* buffer, size_t buffer_size) {
 }
 
 bool
-Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value) {
+Json_addData(char* buffer, size_t buffer_size, const char* key, const char* value) {
     bool success = false;
 
     size_t index = strlen(buffer);
-    size_t total_size = 0U;
-    total_size += strlen("\"\":\"\"") + strlen(key) + strlen(value) + 1U;
+    size_t total_size = strlen("\"\":\"\"") + strlen(key) + strlen(value) + 1U;
 
     if (0 == strcmp(&buffer[index - 1U], "\"")) {
-        Utils_Strcpy(&buffer[index], ",");
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        strcpy(&buffer[index], ",");
         ++index;
     }
 
-    if ((int32_t)total_size <= ((int32_t)buffer_size - (int32_t)index)) {
-        Utils_Strcpy(&buffer[index], "\"");
+    if ((total_size + index) <= buffer_size) {
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        strcpy(&buffer[index], "\"");
         index += strlen("\"");
-        Utils_Strcpy(&buffer[index], key);
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        /* -E> compliant MC3R1.R19.1 1 Overlap will not happen because of the check in if statement. */
+        strcpy(&buffer[index], key);
         index += strlen(key);
-        Utils_Strcpy(&buffer[index], "\":\"");
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        strcpy(&buffer[index], "\":\"");
         index += strlen("\":\"");
-        Utils_Strcpy(&buffer[index], value);
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        /* -E> compliant MC3R1.R19.1 1 Overlap will not happen because of the check in if statement. */
+        strcpy(&buffer[index], value);
         index += strlen(value);
-        Utils_Strcpy(&buffer[index], "\"");
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        strcpy(&buffer[index], "\"");
 
         success = true;
     }
 
     return success;
 }
+
 bool
 Json_endString(char* buffer, size_t buffer_size) {
     bool success = false;
 
     size_t index = strlen(buffer);
     if (buffer_size >= (MINIMAL_SIZE + index)) {
-        Utils_Strcpy(&buffer[index], "}");
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        strcpy(&buffer[index], "}");
         success = true;
     }
 
