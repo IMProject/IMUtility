@@ -25,7 +25,6 @@ TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_Memcpy);
     RUN_TEST_CASE(Utils, Utils_QuickUint32Pow10);
     RUN_TEST_CASE(Utils, Utils_StringToUint32);
-    RUN_TEST_CASE(Utils, Utils_Strncmp);
     RUN_TEST_CASE(Utils, Utils_SwapElements);
     RUN_TEST_CASE(Utils, Utils_SerializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_Serialize32BE);
@@ -106,24 +105,6 @@ TEST(Utils, Utils_StringToUint32) {
 
     char not_a_number_4_string[] = "429496729A";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_4_string, strlen(not_a_number_4_string), &ui32_number));
-}
-
-TEST(Utils, Utils_Strncmp) {
-    char str_base[] = "BSdasdasd!eienfef";
-    char str_equal[] = "BSdasdasd!eienfef";
-    TEST_ASSERT_EQUAL_INT32(Utils_Strncmp(str_base, str_equal, strlen(str_base)), 0);
-
-    char str_first_char_diff1[] = "ASdasdasd!eienfef";
-    TEST_ASSERT_EQUAL_INT32(Utils_Strncmp(str_base, str_first_char_diff1, strlen(str_base)), 1);
-
-    char str_first_char_diff2[] = "CSdasdasd!eienfef";
-    TEST_ASSERT_EQUAL_INT32(Utils_Strncmp(str_base, str_first_char_diff2, strlen(str_base)), -1);
-
-    char str_shorter_than_base[] = "BSda";
-    TEST_ASSERT_EQUAL_INT32(Utils_Strncmp(str_base, str_shorter_than_base, strlen(str_base)), 0);
-
-    char str_longer_than_base[] = "BSdasdasd!eienfefAA";
-    TEST_ASSERT_EQUAL_INT32(Utils_Strncmp(str_base, str_longer_than_base, strlen(str_base)), 0);
 }
 
 TEST(Utils, Utils_SwapElements) {

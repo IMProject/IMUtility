@@ -106,14 +106,19 @@ bool
 Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* value, size_t max_value_size) {
     bool success = false;
 
-    uint32_t max_search_size = (uint32_t)(buffer_size - strlen(key));
-
+    size_t key_size = strlen(key);
+    uint32_t max_search_size = 0U;
     uint32_t index;
-    uint32_t key_size = (uint32_t)strlen(key);
 
-    for (index = 0; index < max_search_size; ++index) {
+    if (buffer_size > key_size) {
+        max_search_size = (uint32_t)(buffer_size - key_size);
+    }
 
-        if (0 == Utils_Strncmp(&buffer[index], key, key_size)) {
+    for (index = 0U; index < max_search_size; ++index) {
+
+        /* -E> compliant MC3R1.R21.18 2 strncmp is guarded in for loop condition to not go out of buffer boundaries
+        by calculating max_search_size from buffer size and key size */
+        if (0 == strncmp(&buffer[index], key, key_size)) {
 
             if (buffer[index + key_size] == '"') {
                 success = true;
