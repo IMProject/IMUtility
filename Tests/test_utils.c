@@ -7,7 +7,7 @@
 
 TEST_GROUP(Utils);
 
-static const uint8_t test_data_1[] = {
+static const byte_t test_data_1[] = {
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
     0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19,
     0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29,
@@ -99,14 +99,14 @@ TEST(Utils, Utils_SwapElements) {
     {
         int a = 3;
         int b = 4;
-        Utils_SwapElements((uint8_t*)&a, (uint8_t*)&b, sizeof(int));
+        Utils_SwapElements((byte_t*)&a, (byte_t*)&b, sizeof(int));
         TEST_ASSERT_EQUAL_INT(a, 4);
         TEST_ASSERT_EQUAL_INT(b, 3);
     }
     {
         double a = 3.1;
         double b = 4.2;
-        Utils_SwapElements((uint8_t*)&a, (uint8_t*)&b, sizeof(double));
+        Utils_SwapElements((byte_t*)&a, (byte_t*)&b, sizeof(double));
         TEST_ASSERT_EQUAL_DOUBLE(a, 4.2);
         TEST_ASSERT_EQUAL_DOUBLE(b, 3.1);
     }
@@ -114,7 +114,7 @@ TEST(Utils, Utils_SwapElements) {
 
 TEST(Utils, Utils_SerializeBlobBE) {
     const size_t size = 50;
-    uint8_t result_data[size];
+    byte_t result_data[size];
     Utils_SerializeBlobBE(result_data, test_data_1, size);
 
     for (uint32_t i = 0; i < size; ++i) {
@@ -123,7 +123,7 @@ TEST(Utils, Utils_SerializeBlobBE) {
 }
 
 TEST(Utils, Utils_Serialize32BE) {
-    uint8_t buffer[10];
+    byte_t buffer[10];
     uint32_t value1 = 0x11223344U;
     uint32_t value2 = 0x55667788U;
     Utils_Serialize32BE(&buffer[0], value1);
@@ -140,7 +140,7 @@ TEST(Utils, Utils_Serialize32BE) {
 }
 
 TEST(Utils, Utils_Serialize24BE) {
-    uint8_t buffer[10];
+    byte_t buffer[10];
     uint32_t value1 = (0x00FFFFFFU & 0x112233U);
     uint32_t value2 = (0x00FFFFFFU & 0x445566U);
     Utils_Serialize24BE(&buffer[0], value1);
@@ -155,7 +155,7 @@ TEST(Utils, Utils_Serialize24BE) {
 }
 
 TEST(Utils, Utils_Serialize16BE) {
-    uint8_t buffer[10];
+    byte_t buffer[10];
     uint16_t value1 = 0x1122U;
     uint16_t value2 = 0x3344U;
     Utils_Serialize16BE(&buffer[0], value1);
@@ -168,7 +168,7 @@ TEST(Utils, Utils_Serialize16BE) {
 }
 
 TEST(Utils, Utils_Serialize8BE) {
-    uint8_t buffer[10];
+    byte_t buffer[10];
     uint8_t value1 = 0x11U;
     uint8_t value2 = 0x22U;
     uint8_t value3 = 0x33U;
@@ -186,7 +186,7 @@ TEST(Utils, Utils_Serialize8BE) {
 
 TEST(Utils, Utils_DeserializeBlobBE) {
     const size_t size = 50;
-    uint8_t result_data[size];
+    byte_t result_data[size];
     Utils_DeserializeBlobBE(test_data_1, result_data, size);
 
     for (uint32_t i = 0; i < size; ++i) {
@@ -242,7 +242,7 @@ TEST(Utils, Utils_Deserialize8BE) {
 
 TEST(Utils, Utils_SerializeBlobLE) {
     const size_t size = 50;
-    uint8_t result_data[size];
+    byte_t result_data[size];
     Utils_SerializeBlobLE(result_data, test_data_1, size);
 
     for (uint32_t i = 0, j = (size - 1); i < size; ++i, --j) {
@@ -252,7 +252,7 @@ TEST(Utils, Utils_SerializeBlobLE) {
 
 TEST(Utils, Utils_DeserializeBlobLE) {
     const size_t size = 50;
-    uint8_t result_data[size];
+    byte_t result_data[size];
     Utils_DeserializeBlobLE(test_data_1, result_data, size);
 
     for (uint32_t i = 0, j = (size - 1); i < size; ++i, --j) {
@@ -262,8 +262,8 @@ TEST(Utils, Utils_DeserializeBlobLE) {
 
 TEST(Utils, Utils_BigEndianSerializeDeserialize) {
     const size_t size = 50;
-    uint8_t result_data_serialize[size];
-    uint8_t result_data_deserialize[size];
+    byte_t result_data_serialize[size];
+    byte_t result_data_deserialize[size];
     Utils_SerializeBlobBE(result_data_serialize, test_data_1, size);
     Utils_DeserializeBlobBE(result_data_serialize, result_data_deserialize, size);
 
@@ -274,8 +274,8 @@ TEST(Utils, Utils_BigEndianSerializeDeserialize) {
 
 TEST(Utils, Utils_LittleEndianSerializeDeserialize) {
     const size_t size = 50;
-    uint8_t result_data_serialize[size];
-    uint8_t result_data_deserialize[size];
+    byte_t result_data_serialize[size];
+    byte_t result_data_deserialize[size];
     Utils_SerializeBlobLE(result_data_serialize, test_data_1, size);
     Utils_DeserializeBlobLE(result_data_serialize, result_data_deserialize, size);
 
