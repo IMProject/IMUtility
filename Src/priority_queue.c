@@ -34,7 +34,7 @@
 
 #include "priority_queue.h"
 
-#include "utils.h"
+#include <string.h>
 
 static bool
 IsPriorityQueueFull(const PriorityQueue_t* const queue) {
@@ -96,26 +96,43 @@ PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* c
     bool status = false;
     if (!IsPriorityQueueFull(queue)) {
         uint8_t* buffer = queue->buffer;
-        Utils_Memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
-        queue->priority_array[queue->size] = *(item->priority);
-        queue->size = queue->size + 1U;
-        status = true;
+        /* -E> compliant MC3R1.R21.18 2 Buffer overflow will not happen, there is a guard that checks that priority
+         * queue is not full. */
+        if (memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size) != NULL_PTR) {
+            queue->priority_array[queue->size] = *(item->priority);
+            queue->size = queue->size + 1U;
+            status = true;
+        }
     } else {
         uint32_t lowest_priority_index = FindLowestPriorityIndex(queue);
         if (queue->priority_array[lowest_priority_index] < (*(item->priority))) {
+            status = true;
             uint8_t* buffer = queue->buffer;
             queue->size = queue->size - 1U;
             const uint32_t current_size = queue->size;
             for (uint32_t i = lowest_priority_index; i < current_size; ++i) {
-                Utils_Memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
-                             queue->element_size);
+                /* -E> compliant MC3R1.R19.1 3 Overlap will not happen because iteration will be performed until current
+                 * queue size is reached which is previous size - 1. Therefore, last valid element that will be used in
+                 * memcpy function is placed in current size + 1. */
+                if (memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
+                           queue->element_size) == NULL_PTR) {
+                    status = false;
+                    break;
+                }
                 queue->priority_array[i] = queue->priority_array[i + 1U];
             }
 
-            Utils_Memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
-            queue->priority_array[queue->size] = *(item->priority);
-            queue->size = queue->size + 1U;
-            status = true;
+            if (status) {
+                /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, there will be one more place in buffer to
+                 * insert a new element because of removing element with the lowest priority (performed in the above code,
+                 * in the same function). */
+                if (memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size) != NULL_PTR) {
+                    queue->priority_array[queue->size] = *(item->priority);
+                    queue->size = queue->size + 1U;
+                } else {
+                    status = false;
+                }
+            }
         }
     }
     return status;
@@ -127,15 +144,24 @@ PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element) {
     if (!PriorityQueue_isEmpty(queue)) {
         uint32_t highest_priority_index = FindHighestPriorityIndex(queue);
         uint8_t* buffer = queue->buffer;
-        Utils_Memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size);
-        queue->size = queue->size - 1U;
-        const uint32_t current_size = queue->size;
-        for (uint32_t i = highest_priority_index; i < current_size; ++i) {
-            Utils_Memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
-                         queue->element_size);
-            queue->priority_array[i] = queue->priority_array[i + 1U];
+        /* -E> compliant MC3R1.R21.18 2 Buffer overflow will not happen, element has same size as one element
+         * in buffer, and their size is stored in element_size member. */
+        if (memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size) != NULL_PTR) {
+            queue->size = queue->size - 1U;
+            const uint32_t current_size = queue->size;
+            status = true;
+            for (uint32_t i = highest_priority_index; i < current_size; ++i) {
+                /* -E> compliant MC3R1.R19.1 3 Overlap will not happen because iteration will be performed until current
+                 * queue size is reached which is previous size - 1. Therefore, last valid element that will be used in
+                 * memcpy function is placed in current size + 1. */
+                if (memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
+                           queue->element_size) == NULL_PTR) {
+                    status = false;
+                    break;
+                }
+                queue->priority_array[i] = queue->priority_array[i + 1U];
+            }
         }
-        status = true;
     }
     return status;
 }
