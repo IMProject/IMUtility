@@ -44,4 +44,8 @@ typedef float float32_t;
 typedef double float64_t;
 typedef long double float128_t;
 
+/* -E> compliant MC3R1.D4.6 2 Type byte_t shall be used everywhere where a pointer to bytes is needed to follow Strict Aliasing Rule */
+// More on the topic can be found here: https://gist.github.com/jibsen/da6be27cde4d526ee564
+typedef unsigned char byte_t;
+
 #endif /* UTILITY_TYPEDEFS_H_ */
