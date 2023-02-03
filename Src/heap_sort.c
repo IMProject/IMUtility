@@ -37,11 +37,11 @@
 #include "utils.h"
 
 static void
-Heapify(uint8_t* buffer, const int32_t n, const int32_t i, const uint32_t element_size, bool (*compareFun)(void* first,
-        void* second)) {
+Heapify(byte_t* buffer, const int32_t n, const int32_t i, const uint32_t element_size,
+        bool (*compareFun)(void* first, void* second)) {
     bool continue_iterating = true;
     int32_t index = i;
-    uint8_t* elements = buffer;
+    byte_t* elements = buffer;
 
     while (continue_iterating) {
         int32_t largest = index;
@@ -71,10 +71,10 @@ Heapify(uint8_t* buffer, const int32_t n, const int32_t i, const uint32_t elemen
 }
 
 void
-HeapSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size,
+HeapSort_sort(byte_t* buffer, const int32_t number_of_elements, const uint32_t element_size,
               bool (*compareFun)(void* first, void* second)) {
     int32_t i;
-    uint8_t* elements = buffer;
+    byte_t* elements = buffer;
     for (i = (number_of_elements / 2) - 1; i >= 0; --i) {
         Heapify(elements, number_of_elements, i, element_size, compareFun);
     }
