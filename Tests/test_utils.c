@@ -22,7 +22,6 @@ TEST_TEAR_DOWN(Utils) {
 }
 
 TEST_GROUP_RUNNER(Utils) {
-    RUN_TEST_CASE(Utils, Utils_Memcpy);
     RUN_TEST_CASE(Utils, Utils_QuickUint32Pow10);
     RUN_TEST_CASE(Utils, Utils_StringToUint32);
     RUN_TEST_CASE(Utils, Utils_SwapElements);
@@ -40,17 +39,6 @@ TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_DeserializeBlobLE);
     RUN_TEST_CASE(Utils, Utils_BigEndianSerializeDeserialize);
     RUN_TEST_CASE(Utils, Utils_LittleEndianSerializeDeserialize);
-}
-
-TEST(Utils, Utils_Memcpy) {
-    uint32_t result[5];
-    uint32_t expected[5] = {1U, 2U, 3U, 4U, 5U};
-
-    Utils_Memcpy((uint8_t*)&result, (uint8_t*)&expected, sizeof(expected));
-
-    for (uint8_t i = 0U; i < (sizeof(expected) / sizeof(expected[0])); ++i) {
-        TEST_ASSERT_EQUAL_UINT32(result[i], expected[i]);
-    }
 }
 
 TEST(Utils, Utils_QuickUint32Pow10) {
