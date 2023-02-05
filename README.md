@@ -11,32 +11,71 @@
 ## Discord channel
 https://discord.gg/R6nZxZqDH3
 
-## Base64
+## About
+
+The origin of this code was a sub-repository of [IMBootloader](https://github.com/IMProject/IMBootloader) project.
+Since we couldn't find any similar utility open-source project in C that aims to be safety-critical we decide to create our own and make it public. \
+We have set up a foundation for almost everything that is needed for code to be qualified as safety-critical.
+
+What we currently have:
+- unit tests with [Unity](https://github.com/ThrowTheSwitch/Unity) framework
+- code style that is formatted with Astyle
+- cppcheck with all checks enabled
+- MISRA C 2012 checks with cppcheck
+- MISRA C 2012 checks with [ECLAIR](https://www.bugseng.com/eclair) sponsored by Buggseng
+
+What we are missing:
+- we still need to add code coverage check for unit tests (code needs to be 100% covered if possible)
+
+## ECLAIR
+<b>ECLAIR 3.12.0</b> is certified for use in safety-critical development in compliance with:
+
+    ISO 26262 up to ASIL D
+    IEC 61508 up to SIL 4
+    EN 50128 up to SIL 4
+    IEC 62304 up to Class C
+    ISO 25119 up to SRL 3
+
+More info at its official web page [https://www.bugseng.com/eclair](https://www.bugseng.com/eclair).
+
+## For contributors
+We are happy to see contributions. You can add utility code that you see is missing, improve existing one, or open issue tickets. 
+Before you open PR:
+- write unit tests for your code
+- run `make format`
+- run `make cppcheck`
+- run `make misra`
+
+After PR is open ECLAIR will check your code and Bot will report any MISRA violation existing in the code. 
+After you fix all violations we will review your code, and after that code can be merged into the main branch. 
+
+## List of modules
+### Base64
 - Base64_encode
 - Base64_decode
 
-## Bubble sort
+### Bubble sort
 - BubbleSort_sort
 
-## CRC32
+### CRC32
 - CalculateCRC32
 
-## Heap sort
+### Heap sort
 - HeapSort_sort
 
-## JSON
+### JSON
 - Json_startString
 - Json_addData
 - Json_endString
 - Json_findByKey
 
-## Priority queue
+### Priority queue
 - PriorityQueue_initQueue
 - PriorityQueue_isEmpty
 - PriorityQueue_enqueue
 - PriorityQueue_dequeue
 
-## Queue
+### Queue
 - Queue_initQueue
 - Queue_isFull
 - Queue_isEmpty
@@ -45,12 +84,12 @@ https://discord.gg/R6nZxZqDH3
 - Queue_front
 - Queue_rear
 
-## Scheduler
+### Scheduler
 - Scheduler_init
 - Scheduler_addTask
 - Scheduler_run
 
-## Utils
+### Utils
 - Utils_QuickUint32Pow10
 - Utils_StringToUint32
 - Utils_SwapElements
