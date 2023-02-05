@@ -35,6 +35,7 @@
 #ifndef UTILITY_UTILS_H_
 #define UTILITY_UTILS_H_
 
+#include "misra_c_2012_doc.h"
 #include "typedefs.h"
 
 /**
