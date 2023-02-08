@@ -6,15 +6,15 @@
 
 [Browse all ECLAIR analyses](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/)
 
-# MISRA C 2012 compliant utility code
+# Incorporated MISRA C 2012 Utility code
 
 ## Discord channel
 https://discord.gg/R6nZxZqDH3
 
 ## About
 
-The origin of this code was a sub-repository of [IMBootloader](https://github.com/IMProject/IMBootloader) project.
-Since we couldn't find any similar utility open-source project in C that aims to be safety-critical we decide to create our own and make it public. \
+The origin of <b>I</b>ncorporated <b>M</b>ISRA <b>U</b>tility code (short <b>IMU</b>tility) start back as a sub-repository of [IMBootloader](https://github.com/IMProject/IMBootloader) project.
+Since we couldn't find any similar safety-critical utility open-source project in C, we decide to create our own and make it public. \
 We have set up a foundation for almost everything that is needed for code to be qualified as safety-critical.
 
 What we currently have:
