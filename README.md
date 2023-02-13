@@ -6,10 +6,12 @@
 
 [Browse all ECLAIR analyses](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/)
 
-# Incorporated MISRA C 2012 Utility code
 
-## Discord channel
-https://discord.gg/R6nZxZqDH3
+[![Discord Shield](https://discordapp.com/api/guilds/1059535033347604560/widget.png?style=shield)](https://discord.gg/R6nZxZqDH3)
+[![Build](https://github.com/IMProject/IMUtility/actions/workflows/compile.yml/badge.svg)](https://github.com/IMProject/IMUtility/actions/workflows/compile.yml?query=branch%3Amain) [![Build](https://github.com/IMProject/IMUtility/actions/workflows/checks.yml/badge.svg)](https://github.com/IMProject/IMUtility/actions/workflows/checks.yml?query=branch%3Amain)
+
+
+# Incorporated MISRA C 2012 Utility code
 
 ## About
 
@@ -47,7 +49,10 @@ Before you open PR:
 - run `make misra`
 
 After PR is open ECLAIR will check your code and Bot will report any MISRA violation existing in the code. 
-After you fix all violations we will review your code, and after that code can be merged into the main branch. 
+After you fix all violations we will review your code, and after that code can be merged into the main branch.
+
+#### Discord
+Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 
 ## List of modules
 ### Base64
