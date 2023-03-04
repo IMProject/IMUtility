@@ -1,5 +1,7 @@
 -enable=MC3R1
 
+-eval_file=gcc-x86_64-9.5.0.ecl
+
 -doc="Sources in the test suite are not under MISRA compliance."
 -file_tag+={external,"^Tests/.*$"}
 
