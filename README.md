@@ -11,7 +11,7 @@
 [![Build](https://github.com/IMProject/IMUtility/actions/workflows/compile.yml/badge.svg)](https://github.com/IMProject/IMUtility/actions/workflows/compile.yml?query=branch%3Amain) [![Build](https://github.com/IMProject/IMUtility/actions/workflows/checks.yml/badge.svg)](https://github.com/IMProject/IMUtility/actions/workflows/checks.yml?query=branch%3Amain)
 
 
-# Incorporated MISRA C 2012 Utility code
+# IMUtility: A Safety-Critical Utility Code for C
 
 ## About
 
