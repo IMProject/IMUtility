@@ -107,7 +107,7 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
 
 TEST(PriorityQueue, PriorityQueue_no_capacity) {
     float64_t buffer[100];
-    PriorityQueueItem_t items;
+    PriorityQueueItem_t items = {};
     PriorityQueue_t queue;
     TEST_ASSERT_FALSE(PriorityQueue_initQueue(&queue, 0U, sizeof(buffer[0]), &items));
 }
