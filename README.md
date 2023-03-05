@@ -15,19 +15,11 @@
 
 ## About
 
-The origin of <b>I</b>ncorporated <b>M</b>ISRA <b>U</b>tility code (short <b>IMU</b>tility) start back as a sub-repository of [IMBootloader](https://github.com/IMProject/IMBootloader) project.
-Since we couldn't find any similar safety-critical utility open-source project in C, we decide to create our own and make it public. \
-We have set up a foundation for almost everything that is needed for code to be qualified as safety-critical.
+The IMUtility (<b>I</b>ncorporated <b>M</b>ISRA <b>U</b>tility Code) originated as a sub-repository of the [IMBootloader](https://github.com/IMProject/IMBootloader) project. After a thorough review of the available safety-critical utility open-source projects in C, we realized that none of them met our standards. Therefore, we made the decision to create our own project and make it publicly available.
 
-What we currently have:
-- unit tests with [Unity](https://github.com/ThrowTheSwitch/Unity) framework
-- code style that is formatted with Astyle
-- cppcheck with all checks enabled
-- MISRA C 2012 checks with cppcheck
-- MISRA C 2012 checks with [ECLAIR](https://www.bugseng.com/eclair) sponsored by Buggseng
+Our team has meticulously laid the foundation for everything necessary to ensure the code meets the rigorous standards required for safety-critical applications. Presently, we have incorporated unit tests using the [Unity](https://github.com/ThrowTheSwitch/Unity) framework, ensured code style conformance through Astyle formatting, and implemented cppcheck with all checks enabled. Additionally, we have enforced MISRA C 2012 checks using both cppcheck and [ECLAIR](https://www.bugseng.com/eclair), sponsored by Buggseng.
 
-What we are missing:
-- we still need to add code coverage check for unit tests (code needs to be 100% covered if possible)
+However, to further enhance the project's quality, we intend to add a code coverage check for unit tests to achieve 100% coverage where feasible. This will serve as an additional layer of assurance that the code is of the highest quality and complies with safety-critical standards.
 
 ## ECLAIR
 <b>ECLAIR 3.12.0</b> is certified for use in safety-critical development in compliance with:
