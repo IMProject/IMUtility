@@ -42,6 +42,8 @@ CFLAGS += -Wno-unknown-pragmas
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -Wundef
 CFLAGS += -Wold-style-definition
+CFLAGS += -ftest-coverage
+CFLAGS += -fprofile-arcs
 
 C_DEFS += \
 -DGIT_BRANCH=\"$(BRANCH)\" \
@@ -50,7 +52,7 @@ C_DEFS += \
 
 TARGET_BASE1=all_tests
 TARGET1 = $(TARGET_BASE1)$(TARGET_EXTENSION)
-SRC_FILES1=\
+SRC_FILES=\
   $(UNITY_ROOT)/src/unity.c \
   $(UNITY_ROOT)/extras/fixture/src/unity_fixture.c \
   Src/base64.c \
@@ -104,7 +106,44 @@ misra:
 	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
 	@cppcheck cppcheck -IInc Src --force --addon=misra.py --inline-suppr --suppress=misra-c2012-2.3 \
 	 --suppress=misra-c2012-8.7 --error-exitcode=1
-	
+
+#######################################
+# Code coverage
+#######################################
+GCOV_EXTENSIONS=*.gc*
+GCOVR_FOLDER=gcovr-report
+LCOV_FOLDER=lcov-report
+GCOV_FILES=\
+  base64.c \
+  bubble_sort.c \
+  crc32.c \
+  heap_sort.c \
+  json.c \
+  priority_queue.c \
+  queue.c \
+  scheduler.c \
+  utils.c \
+
+gcov:
+	gcov $(GCOV_FILES)
+
+lcov-report: gcov
+	mkdir $(LCOV_FOLDER)
+	lcov --capture --directory . --output-file $(LCOV_FOLDER)/coverage.info
+	lcov --remove $(LCOV_FOLDER)/coverage.info '*/Tests/*' --output-file $(LCOV_FOLDER)/coverage.info
+	genhtml $(LCOV_FOLDER)/coverage.info --output-directory $(LCOV_FOLDER)
+
+gcovr-report: gcov
+	mkdir $(GCOVR_FOLDER)
+	gcovr -e "Tests" --root . --html --html-details --output $(GCOVR_FOLDER)/coverage.html
+
+#######################################
+# Dependancies
+#######################################
+deps:
+	sudo apt-get install lcov clang-format
+	pip3 install gcovr
+
 #######################################
 # Unit test
 #######################################
@@ -112,11 +151,12 @@ misra:
 all: clean default
 
 default:
-	$(C_COMPILER) $(CFLAGS) $(C_DEFS) $(INC_DIRS) $(SYMBOLS) -g $(SRC_FILES1) -o $(TARGET1) -lm
+	$(C_COMPILER) $(CFLAGS) $(C_DEFS) $(INC_DIRS) $(SYMBOLS) -g $(SRC_FILES) -o $(TARGET1) -lm
 	- ./$(TARGET1) -v 
 
 clean:
-	$(CLEANUP) $(TARGET1)
+	$(CLEANUP) $(TARGET1) $(GCOV_EXTENSIONS) \
+	rmdir -rf $(GCOVR_FOLDER) $(LCOV_FOLDER)
 
 ci: CFLAGS += -Werror
 ci: default
