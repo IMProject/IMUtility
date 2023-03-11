@@ -50,11 +50,11 @@ C_DEFS += \
 -DGIT_HASH=\"$(HASH)\" \
 -DGIT_TAG=\"$(TAG)\"
 
-TARGET_BASE1=all_tests
-TARGET1 = $(TARGET_BASE1)$(TARGET_EXTENSION)
-SRC_FILES=\
-  $(UNITY_ROOT)/src/unity.c \
-  $(UNITY_ROOT)/extras/fixture/src/unity_fixture.c \
+TARGET_DIR=build
+TARGET_BASE=all_tests
+TARGET = $(TARGET_DIR)/$(TARGET_BASE)$(TARGET_EXTENSION)
+
+IMUTILITY_FILES=\
   Src/base64.c \
   Src/bubble_sort.c \
   Src/crc32.c \
@@ -63,7 +63,11 @@ SRC_FILES=\
   Src/priority_queue.c \
   Src/queue.c \
   Src/scheduler.c \
-  Src/utils.c \
+  Src/utils.c
+
+SRC_FILES+=$(IMUTILITY_FILES) \
+  $(UNITY_ROOT)/src/unity.c \
+  $(UNITY_ROOT)/extras/fixture/src/unity_fixture.c \
   Tests/Helper/sort_functions.c \
   Tests/test_main.c \
   Tests/test_base64.c \
@@ -113,27 +117,14 @@ misra:
 GCOV_EXTENSIONS=*.gc*
 GCOVR_FOLDER=gcovr-report
 LCOV_FOLDER=lcov-report
-GCOV_FILES=\
-  base64.c \
-  bubble_sort.c \
-  crc32.c \
-  heap_sort.c \
-  json.c \
-  priority_queue.c \
-  queue.c \
-  scheduler.c \
-  utils.c \
 
-gcov:
-	gcov $(GCOV_FILES)
-
-lcov-report: gcov
+lcov-report: all
 	mkdir $(LCOV_FOLDER)
 	lcov --capture --directory . --output-file $(LCOV_FOLDER)/coverage.info
 	lcov --remove $(LCOV_FOLDER)/coverage.info '*/Tests/*' --output-file $(LCOV_FOLDER)/coverage.info
 	genhtml $(LCOV_FOLDER)/coverage.info --output-directory $(LCOV_FOLDER)
 
-gcovr-report: gcov
+gcovr-report: all
 	mkdir $(GCOVR_FOLDER)
 	gcovr -e "Tests" --root . --html --html-details --output $(GCOVR_FOLDER)/coverage.html
 
@@ -141,7 +132,7 @@ gcovr-report: gcov
 # Dependancies
 #######################################
 deps:
-	sudo apt-get install lcov clang-format
+	sudo apt-get install lcov
 	pip3 install gcovr
 
 #######################################
@@ -151,12 +142,13 @@ deps:
 all: clean default
 
 default:
-	$(C_COMPILER) $(CFLAGS) $(C_DEFS) $(INC_DIRS) $(SYMBOLS) -g $(SRC_FILES) -o $(TARGET1) -lm
-	- ./$(TARGET1) -v 
+	mkdir $(TARGET_DIR)
+	$(C_COMPILER) $(CFLAGS) $(C_DEFS) $(INC_DIRS) $(SYMBOLS) -g $(SRC_FILES) -o $(TARGET) -lm
+	- ./$(TARGET) -v 
 
 clean:
-	$(CLEANUP) $(TARGET1) $(GCOV_EXTENSIONS) \
-	rmdir -rf $(GCOVR_FOLDER) $(LCOV_FOLDER)
+	$(CLEANUP) $(TARGET) $(GCOV_EXTENSIONS) \
+	rmdir -rf $(TARGET_DIR) $(GCOVR_FOLDER) $(LCOV_FOLDER)
 
 ci: CFLAGS += -Werror
 ci: default
