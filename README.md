@@ -17,9 +17,9 @@
 
 The IMUtility (<b>I</b>ncorporated <b>M</b>ISRA <b>U</b>tility Code) originated as a sub-repository of the [IMBootloader](https://github.com/IMProject/IMBootloader) project. After a thorough review of the available safety-critical utility open-source projects in C, we realized that none of them met our standards. Therefore, we made the decision to create our own project and make it publicly available.
 
-Our team has meticulously laid the foundation for everything necessary to ensure the code meets the rigorous standards required for safety-critical applications. Presently, we have incorporated unit tests using the [Unity](https://github.com/ThrowTheSwitch/Unity) framework, ensured code style conformance through Astyle formatting, and implemented cppcheck with all checks enabled. Additionally, we have enforced MISRA C 2012 checks using both cppcheck and [ECLAIR](https://www.bugseng.com/eclair), sponsored by Buggseng.
+Our team has meticulously laid the foundation for everything necessary to ensure the code meets the rigorous standards required for safety-critical applications. Presently, we have incorporated unit tests using the [Unity](https://github.com/ThrowTheSwitch/Unity) framework, code coverage using gcov/lcov, ensured code style conformance through Astyle formatting, and implemented cppcheck with all checks enabled. Additionally, we have enforced MISRA C 2012 checks using both cppcheck and [ECLAIR](https://www.bugseng.com/eclair), sponsored by Bugseng.
 
-However, to further enhance the project's quality, we intend to add a code coverage check for unit tests to achieve 100% coverage where feasible. This will serve as an additional layer of assurance that the code is of the highest quality and complies with safety-critical standards.
+However, to further enhance the project's quality, we intend to achieve 100% coverage where feasible. This will serve as an additional layer of assurance that the code is of the highest quality and complies with safety-critical standards.
 
 ## ECLAIR
 <b>ECLAIR 3.12.0</b> is certified for use in safety-critical development in compliance with:
@@ -40,8 +40,8 @@ Before you open PR:
 - run `make cppcheck`
 - run `make misra`
 
-After PR is open ECLAIR will check your code and Bot will report any MISRA violation existing in the code. 
-After you fix all violations we will review your code, and after that code can be merged into the main branch.
+After PR is opened, ECLAIR will check your code and Bot will report if any MISRA violation exists in the code. 
+After all violations are fixed, we will review your code, and after that code can be merged into the main branch.
 
 #### Discord
 Join us on the Discord channel https://discord.gg/R6nZxZqDH3
