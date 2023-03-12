@@ -32,31 +32,67 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_UTILS_H_
-#define UTILITY_UTILS_H_
+#include "crc32_base.h"
 
-#include "typedefs.h"
+#include "utils.h"
 
-bool Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result);
-bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer);
-void Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size);
+#define REFLECTED_INPUT_BITS_NUM    (8U)
+#define REFLECTED_OUTPUT_BITS_NUM   (32U)
 
-// Big-endian
-void Utils_SerializeBlobBE(byte_t* buf, const byte_t* src, uint32_t size);
-void Utils_Serialize32BE(byte_t* buf, uint32_t value);
-void Utils_Serialize24BE(byte_t* buf, uint32_t value);
-void Utils_Serialize16BE(byte_t* buf, uint16_t value);
-void Utils_Serialize8BE(byte_t* buf, uint8_t value);
-void Utils_DeserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size);
-void Utils_Deserialize32BE(const byte_t* buf, uint32_t* value);
-void Utils_Deserialize24BE(const byte_t* buf, uint32_t* value);
-void Utils_Deserialize16BE(const byte_t* buf, uint16_t* value);
-void Utils_Deserialize8BE(const byte_t* buf, uint8_t* value);
+void
+Crc32Base_tableCalculator(uint32_t polynomial, uint32_t crc_table[256]) {
 
-// Little-endian
-void Utils_SerializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size);
-void Utils_DeserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size);
+    uint32_t top_bit = 0x80000000U;
 
-uint32_t Utils_BitReflect(uint32_t data, uint8_t n_bits);
+    for (uint32_t dividend = 0U; dividend < 256U; ++dividend) {
+        uint32_t residue = dividend << 24U;
 
-#endif /* UTILITY_UTILS_H_ */
+        for (uint8_t bit = 0U; bit < 8U; bit++) {
+            if (0U == (residue & top_bit)) {
+                residue <<= 1U;
+            } else {
+                residue = (residue << 1U) ^ polynomial;
+            }
+        }
+
+        crc_table[dividend] = residue;
+    }
+}
+
+uint32_t
+Crc32Base(
+    const uint32_t crc_table[256],
+    const uint8_t* crc_data_ptr,
+    uint32_t crc_length,
+    uint32_t crc_initial_value,
+    uint32_t final_xor_value,
+    bool reflected_output,
+    bool reflected_input,
+    bool final_xor) {
+
+    uint32_t crc = crc_initial_value;
+    const uint8_t* temp_data_ptr = crc_data_ptr;
+
+    for (uint32_t counter = 0U; counter < crc_length; ++counter) {
+        uint8_t temp;
+
+        if (reflected_input) {
+            temp = (uint8_t)Utils_BitReflect(*temp_data_ptr, REFLECTED_INPUT_BITS_NUM);
+        } else {
+            temp = *temp_data_ptr;
+        }
+
+        crc = (crc << 8u) ^ crc_table[(uint8_t)((crc >> 24U) ^ temp)];
+        ++temp_data_ptr;
+
+    }
+
+    if (reflected_output) {
+        crc = Utils_BitReflect(crc, REFLECTED_OUTPUT_BITS_NUM);
+    }
+
+    if (final_xor) {
+        crc ^= final_xor_value;
+    }
+    return crc;
+}

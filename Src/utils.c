@@ -200,3 +200,28 @@ void
 Utils_Deserialize8BE(const byte_t* buf, uint8_t* value) {
     *value = buf[0];
 }
+
+uint32_t
+Utils_BitReflect(uint32_t data, uint8_t n_bits) {
+
+    uint32_t reflection = 0u;
+    uint32_t temp_data = data;
+
+    /*
+    * Reflect the data around the center bit.
+    */
+    for (uint8_t bit = 0u; bit < n_bits; ++bit) {
+        /*
+        * If the LSB bit is set, set the reflection of it.
+        */
+        if (1u == (temp_data & 1u) ) {
+            /* -E> compliant MC3R1.R12.2 1 The shift count is granted to be between 0 and 31 due to bit masking. */
+            reflection |= (uint32_t)((uint32_t)1U << (0x1FU & ((n_bits - 1U) - bit)));
+        }
+
+        temp_data = (temp_data >> 1u);
+    }
+
+    return reflection;
+
+}

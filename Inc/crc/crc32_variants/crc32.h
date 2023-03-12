@@ -32,31 +32,32 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_UTILS_H_
-#define UTILITY_UTILS_H_
+#ifndef UTILITY_CRC32_H_
+#define UTILITY_CRC32_H_
 
 #include "typedefs.h"
 
-bool Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result);
-bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer);
-void Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size);
+/**
+ * @brief Calculates an 32-bit CRC checksum for a block of data using polynomial (0x4C11DB7).
+ *
+ * This function calculates an 32-bit CRC checksum for the given block of data
+ * using a basic algorithm that uses the polynomial (0x4C11DB7).
+ * The 'crc_data_ptr' parameter should be a pointer to the block of data to
+ * calculate the checksum for. The 'crc_length' parameter is the length of the
+ * data block in bytes. The 'final_xor' parameter indicates whether to perform
+ * a final XOR operation on the calculated CRC value before returning it.
+ * The calculation is performed using a lookup table for efficiency.
+ *
+ * @param[in] crc_data_ptr A pointer to the data block to calculate the checksum for.
+ * @param[in] crc_length The length of the data block in bytes.
+ * @param[in] final_xor Whether to perform a final XOR operation on the calculated CRC value.
+ *
+ * @return The calculated CRC checksum.
+ */
+uint32_t Crc32(
+    const uint8_t* crc_data_ptr,
+    uint32_t crc_length,
+    bool final_xor
+);
 
-// Big-endian
-void Utils_SerializeBlobBE(byte_t* buf, const byte_t* src, uint32_t size);
-void Utils_Serialize32BE(byte_t* buf, uint32_t value);
-void Utils_Serialize24BE(byte_t* buf, uint32_t value);
-void Utils_Serialize16BE(byte_t* buf, uint16_t value);
-void Utils_Serialize8BE(byte_t* buf, uint8_t value);
-void Utils_DeserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size);
-void Utils_Deserialize32BE(const byte_t* buf, uint32_t* value);
-void Utils_Deserialize24BE(const byte_t* buf, uint32_t* value);
-void Utils_Deserialize16BE(const byte_t* buf, uint16_t* value);
-void Utils_Deserialize8BE(const byte_t* buf, uint8_t* value);
-
-// Little-endian
-void Utils_SerializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size);
-void Utils_DeserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size);
-
-uint32_t Utils_BitReflect(uint32_t data, uint8_t n_bits);
-
-#endif /* UTILITY_UTILS_H_ */
+#endif /* UTILITY_CRC32_H_ */

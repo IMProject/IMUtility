@@ -57,7 +57,30 @@ TARGET = $(TARGET_DIR)/$(TARGET_BASE)$(TARGET_EXTENSION)
 IMUTILITY_FILES=\
   Src/base64.c \
   Src/bubble_sort.c \
-  Src/crc32.c \
+  Src/crc/crc8_base.c \
+  Src/crc/crc8_variants/crc8.c \
+  Src/crc/crc8_variants/crc8_8h2f.c \
+  Src/crc/crc8_variants/crc8_cdma2000.c \
+  Src/crc/crc8_variants/crc8_darc.c \
+  Src/crc/crc8_variants/crc8_dvb_s2.c \
+  Src/crc/crc8_variants/crc8_ebu.c \
+  Src/crc/crc8_variants/crc8_icode.c \
+  Src/crc/crc8_variants/crc8_itu.c \
+  Src/crc/crc8_variants/crc8_maxim.c \
+  Src/crc/crc8_variants/crc8_rohc.c \
+  Src/crc/crc8_variants/crc8_sae_j1850.c \
+  Src/crc/crc8_variants/crc8_sae_j1850_zero.c \
+  Src/crc/crc8_variants/crc8_wcdma.c \
+  Src/crc/crc32_base.c \
+  Src/crc/crc32_variants/crc32.c \
+  Src/crc/crc32_variants/crc32_bzip2.c \
+  Src/crc/crc32_variants/crc32_c.c \
+  Src/crc/crc32_variants/crc32_d.c \
+  Src/crc/crc32_variants/crc32_jamcrc.c \
+  Src/crc/crc32_variants/crc32_mpeg2.c \
+  Src/crc/crc32_variants/crc32_posix.c \
+  Src/crc/crc32_variants/crc32_q.c \
+  Src/crc/crc32_variants/crc32_xfer.c \
   Src/heap_sort.c \
   Src/json.c \
   Src/priority_queue.c \
@@ -72,6 +95,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_main.c \
   Tests/test_base64.c \
   Tests/test_bubble_sort.c \
+  Tests/test_crc8.c \
   Tests/test_crc32.c \
   Tests/test_heap_sort.c \
   Tests/test_json.c \
@@ -79,7 +103,8 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_queue.c \
   Tests/test_scheduler.c \
   Tests/test_utils.c
-INC_DIRS=-IInc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
+INC_DIRS_CODE=-IInc -IInc/crc -IInc/crc/crc8_variants -IInc/crc/crc32_variants
+INC_DIRS=$(INC_DIRS_CODE) -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS = -DUNITY_FIXTURE_NO_EXTRAS
 SYMBOLS += -DUNITY_INCLUDE_DOUBLE
 SYMBOLS += -DUNITY_DOUBLE_PRECISION=1e-12
@@ -108,7 +133,7 @@ cppcheck:
 	
 misra:
 	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
-	@cppcheck cppcheck -IInc Src --force --addon=misra.py --inline-suppr --suppress=misra-c2012-2.3 \
+	@cppcheck cppcheck $(INC_DIRS_CODE) Src --force --addon=misra.py --inline-suppr --suppress=misra-c2012-2.3 \
 	 --suppress=misra-c2012-8.7 --error-exitcode=1
 
 #######################################
