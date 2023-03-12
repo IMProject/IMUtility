@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 - 2023 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,31 +32,27 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_UTILS_H_
-#define UTILITY_UTILS_H_
+#ifndef UTILITY_CRC8_DARC_H_
+#define UTILITY_CRC8_DARC_H_
 
 #include "typedefs.h"
 
-bool Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result);
-bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer);
-void Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size);
+/**
+ * @brief Calculates the CRC-8 checksum using the DARC polynomial (0x39).
+ *
+ * This function takes a pointer to a block of data and its length, and returns
+ * the CRC-8 checksum calculated using the DARC (Data Radio Channel) polynomial (0x39).
+ * The checksum is returned as an unsigned 8-bit integer.
+ * The calculation is performed using a lookup table for efficiency.
+ *
+ * @param[in] crc_data_ptr A pointer to the block of data to calculate the checksum for.
+ * @param[in] crc_length The length of the data block in bytes.
+ *
+ * @return The calculated CRC-8 checksum.
+ */
+uint8_t Crc8_darc(
+    const uint8_t* crc_data_ptr,
+    uint32_t crc_length
+);
 
-// Big-endian
-void Utils_SerializeBlobBE(byte_t* buf, const byte_t* src, uint32_t size);
-void Utils_Serialize32BE(byte_t* buf, uint32_t value);
-void Utils_Serialize24BE(byte_t* buf, uint32_t value);
-void Utils_Serialize16BE(byte_t* buf, uint16_t value);
-void Utils_Serialize8BE(byte_t* buf, uint8_t value);
-void Utils_DeserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size);
-void Utils_Deserialize32BE(const byte_t* buf, uint32_t* value);
-void Utils_Deserialize24BE(const byte_t* buf, uint32_t* value);
-void Utils_Deserialize16BE(const byte_t* buf, uint16_t* value);
-void Utils_Deserialize8BE(const byte_t* buf, uint8_t* value);
-
-// Little-endian
-void Utils_SerializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size);
-void Utils_DeserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size);
-
-uint32_t Utils_BitReflect(uint32_t data, uint8_t n_bits);
-
-#endif /* UTILITY_UTILS_H_ */
+#endif /* UTILITY_CRC8_DARC_H_ */

@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,19 +32,25 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_CRC32_H_
-#define UTILITY_CRC32_H_
+#ifndef UTILITY_CRC8_DVB_S2_H_
+#define UTILITY_CRC8_DVB_S2_H_
 
 #include "typedefs.h"
 
-uint32_t CalculateCRC32(
+/**
+ * @brief Calculates the CRC8-DVB-S2 checksum for the given data.
+ *
+ * This function calculates the CRC8-DVB-S2 checksum using the polynomial 0xD5.
+ * The calculation is performed using a lookup table for efficiency.
+ *
+ * @param[in] crc_data_ptr A pointer to the block of data to calculate the checksum for.
+ * @param[in] crc_length The length of the data block in bytes.
+ *
+ * @return The calculated CRC8-DVB-S2 checksum.
+ */
+uint8_t Crc8_dvbS2(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length,
-    uint32_t crc_initial_value,
-    uint32_t xor_value,
-    bool reflected_output,
-    bool reflected_input,
-    bool final_xor
+    uint32_t crc_length
 );
 
-#endif /* UTILITY_CRC32_H_ */
+#endif /* UTILITY_CRC8_DVB_S2_H_ */

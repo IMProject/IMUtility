@@ -55,8 +55,35 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 ### Bubble sort
 - BubbleSort_sort
 
-### CRC32
-- CalculateCRC32
+### Crc8
+- Crc8Base_tableCalculator
+- Crc8Base   // Base used for calculating all Crc8 variants
+- Crc8       // Basic Crc8, polynomial 0x07
+- Crc8_8h2f
+- Crc8_cdma2000
+- Crc8_darc
+- Crc8_dvbS2
+- Crc8_ebu
+- Crc8_icode
+- Crc8_itu
+- Crc8_maxim
+- Crc8_rohc
+- Crc8_SaeJ1850
+- Crc8_saeJ1850Zero
+- Crc8_wcdma
+
+### Crc32
+- Crc32Base_tableCalculator
+- Crc32Base  // Base used for calculating all Crc32 variants
+- Crc32      // Basic Crc32
+- Crc32_bzip2
+- Crc32_c
+- Crc32_d
+- Crc32_jamcrc
+- Crc32_mpeg2
+- Crc32_posix
+- Crc32_q
+- Crc32_xfer
 
 ### Heap sort
 - HeapSort_sort

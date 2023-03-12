@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,24 +32,22 @@
  *
  ****************************************************************************/
 
-#include "crc32.h"
+#include "crc32_jamcrc.h"
 
-#define REFLECTED_INPUT_BITS_NUM    (8U)
-#define REFLECTED_OUTPUT_BITS_NUM   (32U)
+#include "crc32_base.h"
 
-static uint32_t Reflect(uint32_t data, uint8_t n_bits);
+#define INITIAL_CRC32_VALUE (0xFFFFFFFFU)
+#define FINAL_XOR_VALUE (0x0U)
+#define REFLECTED_OUTPUT (true)
+#define REFLECTED_INPUT (true)
 
 uint32_t
-CalculateCRC32(
+Crc32_jamcrc(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length,
-    uint32_t crc_initial_value,
-    uint32_t xor_value,
-    bool reflected_output,
-    bool reflected_input,
-    bool final_xor) {
+    uint32_t crc_length) {
 
-    const uint32_t crc_table[256] = {
+    /* CRC32-JAMCRC (Polynomial 0x4C11DB7) */
+    static const uint32_t crc_table[256] = {
         0x00000000U, 0x04C11DB7U, 0x09823B6EU, 0x0D4326D9U, 0x130476DCU, 0x17C56B6BU, 0x1A864DB2U, 0x1E475005U,
         0x2608EDB8U, 0x22C9F00FU, 0x2F8AD6D6U, 0x2B4BCB61U, 0x350C9B64U, 0x31CD86D3U, 0x3C8EA00AU, 0x384FBDBDU,
         0x4C11DB70U, 0x48D0C6C7U, 0x4593E01EU, 0x4152FDA9U, 0x5F15ADACU, 0x5BD4B01BU, 0x569796C2U, 0x52568B75U,
@@ -83,54 +81,15 @@ CalculateCRC32(
         0x89B8FD09U, 0x8D79E0BEU, 0x803AC667U, 0x84FBDBD0U, 0x9ABC8BD5U, 0x9E7D9662U, 0x933EB0BBU, 0x97FFAD0CU,
         0xAFB010B1U, 0xAB710D06U, 0xA6322BDFU, 0xA2F33668U, 0xBCB4666DU, 0xB8757BDAU, 0xB5365D03U, 0xB1F740B4U
     };
-    uint32_t counter;
-    uint8_t temp;
-    uint32_t crc = crc_initial_value;
-    const uint8_t* temp_data_ptr = crc_data_ptr;
 
-    for (counter = 0u; counter < crc_length; ++counter) {
-        if (reflected_input) {
-            temp = (uint8_t)Reflect(*temp_data_ptr, REFLECTED_INPUT_BITS_NUM);
-        } else {
-            temp = *temp_data_ptr;
-        }
-
-        crc = (crc << 8u) ^ crc_table[(uint8_t)((crc >> 24u) ^ temp)];
-        ++temp_data_ptr;
-
-    }
-
-    if (reflected_output) {
-        crc = Reflect(crc, REFLECTED_OUTPUT_BITS_NUM);
-    }
-
-    if (final_xor) {
-        crc ^= xor_value;
-    }
-    return crc;
+    return Crc32Base(
+               crc_table,
+               crc_data_ptr,
+               crc_length,
+               INITIAL_CRC32_VALUE,
+               FINAL_XOR_VALUE,
+               REFLECTED_OUTPUT,
+               REFLECTED_INPUT,
+               false
+           );
 }
-
-static uint32_t
-Reflect(uint32_t data, uint8_t n_bits) {
-
-    uint32_t reflection = 0u;
-    uint32_t temp_data = data;
-
-    /*
-    * Reflect the data about the center bit.
-    */
-    for (uint8_t bit = 0u; bit < n_bits; ++bit) {
-        /*
-        * If the LSB bit is set, set the reflection of it.
-        */
-        if (1u == (temp_data & 1u) ) {
-            /* -E> compliant MC3R1.R12.2 1 The shift count is granted to be between 0 and 31 due to bit masking. */
-            reflection |= (uint32_t)((uint32_t)1U << (0x1FU & ((n_bits - 1U) - bit)));
-        }
-
-        temp_data = (temp_data >> 1u);
-    }
-
-    return reflection;
-
-}   /* reflect() */
