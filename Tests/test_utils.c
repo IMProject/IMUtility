@@ -93,6 +93,22 @@ TEST(Utils, Utils_StringToUint32) {
 
     char not_a_number_4_string[] = "429496729A";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_4_string, strlen(not_a_number_4_string), &ui32_number));
+
+    char number_string_edge_case_1[] = "/";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_1, strlen(number_string_edge_case_1), &ui32_number));
+
+    char number_string_edge_case_2[] = ":";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_2, strlen(number_string_edge_case_2), &ui32_number));
+
+    const uint8_t force_overflow_check_size = 10U;
+    char number_string_edge_case_3[10U] = "12345A";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_3, force_overflow_check_size, &ui32_number));
+
+    char number_string_edge_case_4[] = "123456789/";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_4, strlen(number_string_edge_case_4), &ui32_number));
+
+    char number_string_edge_case_5[] = "123456789:";
+    TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_5, strlen(number_string_edge_case_5), &ui32_number));
 }
 
 TEST(Utils, Utils_SwapElements) {
