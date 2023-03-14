@@ -38,6 +38,22 @@
 #include "typedefs.h"
 
 bool Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result);
+
+/**
+ * @brief Converts a string to an unsigned 32-bit integer.
+ *
+ * This function converts a string to an unsigned 32-bit integer. The string does not need
+ * to be null-terminated and requires the string length to be provided. The function returns
+ * a boolean value indicating the success of the conversion and stores the converted integer
+ * in the provided integer pointer.
+ *
+ * @param[in] str Pointer to the string to convert.
+   @param[in] str_length Length of the string.
+   @param[out] integer Pointer to store the converted unsigned 32-bit integer.
+
+   @return true if the conversion was successful, false otherwise.
+ */
+
 bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer);
 void Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size);
 
