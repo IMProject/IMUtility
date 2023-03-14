@@ -66,7 +66,7 @@ Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* intege
         length = str_length - 1U;
     }
 
-    while ((length > i) && (str[i] != '\0') && success) {
+    while ((length > i) && success) {
 
         if ((str[i] >= '0') && (str[i] <= '9')) {
 
