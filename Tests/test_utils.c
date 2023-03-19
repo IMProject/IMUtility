@@ -25,20 +25,33 @@ TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_QuickUint32Pow10);
     RUN_TEST_CASE(Utils, Utils_StringToUint32);
     RUN_TEST_CASE(Utils, Utils_SwapElements);
+
     RUN_TEST_CASE(Utils, Utils_SerializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_Serialize32BE);
     RUN_TEST_CASE(Utils, Utils_Serialize24BE);
     RUN_TEST_CASE(Utils, Utils_Serialize16BE);
-    RUN_TEST_CASE(Utils, Utils_Serialize8BE);
+
     RUN_TEST_CASE(Utils, Utils_DeserializeBlobBE);
     RUN_TEST_CASE(Utils, Utils_Deserialize32BE);
     RUN_TEST_CASE(Utils, Utils_Deserialize24BE);
     RUN_TEST_CASE(Utils, Utils_Deserialize16BE);
-    RUN_TEST_CASE(Utils, Utils_Deserialize8BE);
+
     RUN_TEST_CASE(Utils, Utils_SerializeBlobLE);
+    RUN_TEST_CASE(Utils, Utils_Serialize32LE);
+    RUN_TEST_CASE(Utils, Utils_Serialize24LE);
+    RUN_TEST_CASE(Utils, Utils_Serialize16LE);
+
     RUN_TEST_CASE(Utils, Utils_DeserializeBlobLE);
+    RUN_TEST_CASE(Utils, Utils_Deserialize32LE);
+    RUN_TEST_CASE(Utils, Utils_Deserialize24LE);
+    RUN_TEST_CASE(Utils, Utils_Deserialize16LE);
+
+    RUN_TEST_CASE(Utils, Utils_Serialize8);
+    RUN_TEST_CASE(Utils, Utils_Deserialize8);
+
     RUN_TEST_CASE(Utils, Utils_BigEndianSerializeDeserialize);
     RUN_TEST_CASE(Utils, Utils_LittleEndianSerializeDeserialize);
+
 }
 
 TEST(Utils, Utils_QuickUint32Pow10) {
@@ -134,7 +147,7 @@ TEST(Utils, Utils_SerializeBlobBE) {
     Utils_SerializeBlobBE(result_data, test_data_1, size);
 
     for (uint32_t i = 0; i < size; ++i) {
-        TEST_ASSERT_EQUAL_UINT8(result_data[i], test_data_1[i]);
+        TEST_ASSERT_EQUAL_HEX8(result_data[i], test_data_1[i]);
     }
 }
 
@@ -145,14 +158,14 @@ TEST(Utils, Utils_Serialize32BE) {
     Utils_Serialize32BE(&buffer[0], value1);
     Utils_Serialize32BE(&buffer[4], value2);
 
-    TEST_ASSERT_EQUAL_UINT8(buffer[0], 0x11U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[1], 0x22U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[2], 0x33U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[3], 0x44U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[4], 0x55U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[5], 0x66U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[6], 0x77U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[7], 0x88U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[0], 0x11U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[1], 0x22U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[2], 0x33U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[3], 0x44U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[4], 0x55U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[5], 0x66U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[6], 0x77U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[7], 0x88U);
 }
 
 TEST(Utils, Utils_Serialize24BE) {
@@ -162,12 +175,12 @@ TEST(Utils, Utils_Serialize24BE) {
     Utils_Serialize24BE(&buffer[0], value1);
     Utils_Serialize24BE(&buffer[3], value2);
 
-    TEST_ASSERT_EQUAL_UINT8(buffer[0], 0x11U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[1], 0x22U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[2], 0x33U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[3], 0x44U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[4], 0x55U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[5], 0x66U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[0], 0x11U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[1], 0x22U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[2], 0x33U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[3], 0x44U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[4], 0x55U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[5], 0x66U);
 }
 
 TEST(Utils, Utils_Serialize16BE) {
@@ -177,27 +190,10 @@ TEST(Utils, Utils_Serialize16BE) {
     Utils_Serialize16BE(&buffer[0], value1);
     Utils_Serialize16BE(&buffer[2], value2);
 
-    TEST_ASSERT_EQUAL_UINT8(buffer[0], 0x11U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[1], 0x22U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[2], 0x33U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[3], 0x44U);
-}
-
-TEST(Utils, Utils_Serialize8BE) {
-    byte_t buffer[10];
-    uint8_t value1 = 0x11U;
-    uint8_t value2 = 0x22U;
-    uint8_t value3 = 0x33U;
-    uint8_t value4 = 0x44U;
-    Utils_Serialize8BE(&buffer[0], value1);
-    Utils_Serialize8BE(&buffer[1], value2);
-    Utils_Serialize8BE(&buffer[2], value3);
-    Utils_Serialize8BE(&buffer[3], value4);
-
-    TEST_ASSERT_EQUAL_UINT8(buffer[0], 0x11U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[1], 0x22U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[2], 0x33U);
-    TEST_ASSERT_EQUAL_UINT8(buffer[3], 0x44U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[0], 0x11U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[1], 0x22U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[2], 0x33U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[3], 0x44U);
 }
 
 TEST(Utils, Utils_DeserializeBlobBE) {
@@ -206,7 +202,7 @@ TEST(Utils, Utils_DeserializeBlobBE) {
     Utils_DeserializeBlobBE(test_data_1, result_data, size);
 
     for (uint32_t i = 0; i < size; ++i) {
-        TEST_ASSERT_EQUAL_UINT8(result_data[i], test_data_1[i]);
+        TEST_ASSERT_EQUAL_HEX8(result_data[i], test_data_1[i]);
     }
 }
 
@@ -214,46 +210,30 @@ TEST(Utils, Utils_Deserialize32BE) {
     uint32_t deserialize_value = 0U;
 
     deserialize_value = Utils_Deserialize32BE(&test_data_1[0]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x00010203U);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x00010203U);
 
     deserialize_value = Utils_Deserialize32BE(&test_data_1[4]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x04050607U);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x04050607U);
 }
 
 TEST(Utils, Utils_Deserialize24BE) {
     uint32_t deserialize_value = 0U;
 
     deserialize_value = Utils_Deserialize24BE(&test_data_1[0]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x000102U);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x000102U);
 
     deserialize_value =  Utils_Deserialize24BE(&test_data_1[3]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x030405U);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x030405U);
 }
 
 TEST(Utils, Utils_Deserialize16BE) {
     uint16_t deserialize_value = 0U;
 
     deserialize_value = Utils_Deserialize16BE(&test_data_1[0]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x0001U);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x0001U);
 
     deserialize_value = Utils_Deserialize16BE(&test_data_1[2]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x0203U);
-}
-
-TEST(Utils, Utils_Deserialize8BE) {
-    uint8_t deserialize_value = 0U;
-
-    deserialize_value = Utils_Deserialize8BE(&test_data_1[0]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x00U);
-
-    deserialize_value = Utils_Deserialize8BE(&test_data_1[1]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x01U);
-
-    deserialize_value = Utils_Deserialize8BE(&test_data_1[2]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x02U);
-
-    deserialize_value = Utils_Deserialize8BE(&test_data_1[3]);
-    TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x03U);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x0203U);
 }
 
 TEST(Utils, Utils_SerializeBlobLE) {
@@ -262,8 +242,53 @@ TEST(Utils, Utils_SerializeBlobLE) {
     Utils_SerializeBlobLE(result_data, test_data_1, size);
 
     for (uint32_t i = 0, j = (size - 1); i < size; ++i, --j) {
-        TEST_ASSERT_EQUAL_UINT8(result_data[i], test_data_1[j]);
+        TEST_ASSERT_EQUAL_HEX8(result_data[i], test_data_1[j]);
     }
+}
+
+TEST(Utils, Utils_Serialize32LE) {
+    byte_t buffer[10];
+    uint32_t value1 = 0x11223344U;
+    uint32_t value2 = 0x55667788U;
+    Utils_Serialize32LE(&buffer[0], value1);
+    Utils_Serialize32LE(&buffer[4], value2);
+
+    TEST_ASSERT_EQUAL_HEX8(buffer[3], 0x11U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[2], 0x22U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[1], 0x33U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[0], 0x44U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[7], 0x55U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[6], 0x66U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[5], 0x77U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[4], 0x88U);
+}
+
+TEST(Utils, Utils_Serialize24LE) {
+    byte_t buffer[10];
+    uint32_t value1 = (0x00FFFFFFU & 0x112233U);
+    uint32_t value2 = (0x00FFFFFFU & 0x445566U);
+    Utils_Serialize24LE(&buffer[0], value1);
+    Utils_Serialize24LE(&buffer[3], value2);
+
+    TEST_ASSERT_EQUAL_HEX8(buffer[2], 0x11U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[1], 0x22U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[0], 0x33U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[5], 0x44U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[4], 0x55U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[3], 0x66U);
+}
+
+TEST(Utils, Utils_Serialize16LE) {
+    byte_t buffer[10];
+    uint16_t value1 = 0x1122U;
+    uint16_t value2 = 0x3344U;
+    Utils_Serialize16LE(&buffer[0], value1);
+    Utils_Serialize16LE(&buffer[2], value2);
+
+    TEST_ASSERT_EQUAL_HEX8(buffer[1], 0x11U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[0], 0x22U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[3], 0x33U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[2], 0x44U);
 }
 
 TEST(Utils, Utils_DeserializeBlobLE) {
@@ -272,8 +297,71 @@ TEST(Utils, Utils_DeserializeBlobLE) {
     Utils_DeserializeBlobLE(test_data_1, result_data, size);
 
     for (uint32_t i = 0, j = (size - 1); i < size; ++i, --j) {
-        TEST_ASSERT_EQUAL_UINT8(result_data[i], test_data_1[j]);
+        TEST_ASSERT_EQUAL_HEX8(result_data[i], test_data_1[j]);
     }
+}
+
+TEST(Utils, Utils_Deserialize32LE) {
+    uint32_t deserialize_value = 0U;
+
+    deserialize_value = Utils_Deserialize32LE(&test_data_1[0]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x03020100U);
+
+    deserialize_value = Utils_Deserialize32LE(&test_data_1[4]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x07060504U);
+}
+
+TEST(Utils, Utils_Deserialize24LE) {
+    uint32_t deserialize_value = 0U;
+
+    deserialize_value = Utils_Deserialize24LE(&test_data_1[0]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x020100U);
+
+    deserialize_value =  Utils_Deserialize24LE(&test_data_1[3]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x050403U);
+}
+
+TEST(Utils, Utils_Deserialize16LE) {
+    uint16_t deserialize_value = 0U;
+
+    deserialize_value = Utils_Deserialize16LE(&test_data_1[0]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x0100U);
+
+    deserialize_value = Utils_Deserialize16LE(&test_data_1[2]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x0302U);
+}
+
+TEST(Utils, Utils_Serialize8) {
+    byte_t buffer[10];
+    uint8_t value1 = 0x11U;
+    uint8_t value2 = 0x22U;
+    uint8_t value3 = 0x33U;
+    uint8_t value4 = 0x44U;
+    Utils_Serialize8(&buffer[0], value1);
+    Utils_Serialize8(&buffer[1], value2);
+    Utils_Serialize8(&buffer[2], value3);
+    Utils_Serialize8(&buffer[3], value4);
+
+    TEST_ASSERT_EQUAL_HEX8(buffer[0], 0x11U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[1], 0x22U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[2], 0x33U);
+    TEST_ASSERT_EQUAL_HEX8(buffer[3], 0x44U);
+}
+
+TEST(Utils, Utils_Deserialize8) {
+    uint8_t deserialize_value = 0U;
+
+    deserialize_value = Utils_Deserialize8(&test_data_1[0]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x00U);
+
+    deserialize_value = Utils_Deserialize8(&test_data_1[1]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x01U);
+
+    deserialize_value = Utils_Deserialize8(&test_data_1[2]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x02U);
+
+    deserialize_value = Utils_Deserialize8(&test_data_1[3]);
+    TEST_ASSERT_EQUAL_HEX32(deserialize_value, 0x03U);
 }
 
 TEST(Utils, Utils_BigEndianSerializeDeserialize) {
@@ -284,7 +372,7 @@ TEST(Utils, Utils_BigEndianSerializeDeserialize) {
     Utils_DeserializeBlobBE(result_data_serialize, result_data_deserialize, size);
 
     for (uint32_t i = 0; i < size; ++i) {
-        TEST_ASSERT_EQUAL_UINT8(result_data_deserialize[i], test_data_1[i]);
+        TEST_ASSERT_EQUAL_HEX8(result_data_deserialize[i], test_data_1[i]);
     }
 }
 
@@ -296,6 +384,6 @@ TEST(Utils, Utils_LittleEndianSerializeDeserialize) {
     Utils_DeserializeBlobLE(result_data_serialize, result_data_deserialize, size);
 
     for (uint32_t i = 0; i < size; ++i) {
-        TEST_ASSERT_EQUAL_UINT8(result_data_deserialize[i], test_data_1[i]);
+        TEST_ASSERT_EQUAL_HEX8(result_data_deserialize[i], test_data_1[i]);
     }
 }
