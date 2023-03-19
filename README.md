@@ -115,21 +115,30 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Scheduler_run
 
 ### Utils
-- Utils_QuickUint32Pow10
+- Utils_BitReflect
 - Utils_StringToUint32
 - Utils_SwapElements
+- Utils_QuickUint32Pow10
 
-- Utils_SerializeBlobBE
-- Utils_Serialize32BE
-- Utils_Serialize24BE
+- Utils_Serialize8
+- Utils_Deserialize8
+
 - Utils_Serialize16BE
-- Utils_Serialize8BE
-- Utils_DeserializeBlobBE
-- Utils_Deserialize32BE
-- Utils_Deserialize24BE
+- Utils_Serialize24BE
+- Utils_Serialize32BE
+- Utils_SerializeBlobBE
+
 - Utils_Deserialize16BE
-- Utils_Deserialize8BE
+- Utils_Deserialize24BE
+- Utils_Deserialize32BE
+- Utils_DeserializeBlobBE
 
+- Utils_Serialize16LE
+- Utils_Serialize24LE
+- Utils_Serialize32LE
 - Utils_SerializeBlobLE
-- Utils_DeserializeBlobLE
 
+- Utils_Deserialize16LE
+- Utils_Deserialize24LE
+- Utils_Deserialize32LE
+- Utils_DeserializeBlobLE
