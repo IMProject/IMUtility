@@ -36,21 +36,29 @@
 
 #define MAX_UINT32_POW_10_EXPONENT 10U
 
-bool
-Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result) {
-    bool success = false;
+uint32_t
+Utils_BitReflect(uint32_t data, uint8_t n_bits) {
 
-    const uint32_t pow10[MAX_UINT32_POW_10_EXPONENT] = {
-        1U, 10U, 100U, 1000U, 10000U,
-        100000U, 1000000U, 10000000U, 100000000U, 1000000000U
-    };
+    uint32_t reflection = 0u;
+    uint32_t temp_data = data;
 
-    if (exponent < MAX_UINT32_POW_10_EXPONENT) {
-        *result = pow10[exponent];
-        success = true;
+    /*
+    * Reflect the data around the center bit.
+    */
+    for (uint8_t bit = 0u; bit < n_bits; ++bit) {
+        /*
+        * If the LSB bit is set, set the reflection of it.
+        */
+        if (1u == (temp_data & 1u) ) {
+            /* -E> compliant MC3R1.R12.2 1 The shift count is granted to be between 0 and 31 due to bit masking. */
+            reflection |= (uint32_t)((uint32_t)1U << (0x1FU & ((n_bits - 1U) - bit)));
+        }
+
+        temp_data = (temp_data >> 1u);
     }
 
-    return success;
+    return reflection;
+
 }
 
 bool
@@ -117,132 +125,21 @@ Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size) {
     }
 }
 
-void
-Utils_SerializeBlobBE(byte_t* buf, const byte_t* src, uint32_t size) {
-    for (uint32_t i = 0; i < size; i++) {
-        buf[i] = src[i];
+bool
+Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result) {
+    bool success = false;
+
+    const uint32_t pow10[MAX_UINT32_POW_10_EXPONENT] = {
+        1U, 10U, 100U, 1000U, 10000U,
+        100000U, 1000000U, 10000000U, 100000000U, 1000000000U
+    };
+
+    if (exponent < MAX_UINT32_POW_10_EXPONENT) {
+        *result = pow10[exponent];
+        success = true;
     }
-}
 
-void
-Utils_Serialize32BE(byte_t* buf, uint32_t value) {
-    buf[0] = (uint8_t)(value >> 24u) & 0xFFu;
-    buf[1] = (uint8_t)(value >> 16u) & 0xFFu;
-    buf[2] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[3] = (uint8_t)(value) & 0xFFu;
-}
-
-void
-Utils_Serialize24BE(byte_t* buf, uint32_t value) {
-    buf[0] = (uint8_t)(value >> 16u) & 0xFFu;
-    buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[2] = (uint8_t)(value) & 0xFFu;
-}
-
-void
-Utils_Serialize16BE(byte_t* buf, uint16_t value) {
-    buf[0] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[1] = (uint8_t)(value) & 0xFFu;
-}
-
-void
-Utils_DeserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size) {
-    for (uint32_t i = 0; i < size; i++) {
-        dst[i] = buf[i];
-    }
-}
-
-uint32_t
-Utils_Deserialize32BE(const byte_t* buf) {
-    uint32_t value;
-    value = (uint32_t)buf[0] << 24u;
-    value |= (uint32_t)buf[1] << 16u;
-    value |= (uint32_t)buf[2] << 8u;
-    value |= (uint32_t)buf[3];
-    return value;
-}
-
-uint32_t
-Utils_Deserialize24BE(const byte_t* buf) {
-    uint32_t value;
-    value = (uint32_t)buf[0] << 16u;
-    value |= (uint32_t)buf[1] << 8u;
-    value |= (uint32_t)buf[2];
-    return value;
-}
-
-uint16_t
-Utils_Deserialize16BE(const byte_t* buf) {
-    uint16_t value;
-    value = (uint16_t)buf[0] << 8U;
-    value |= (uint16_t)buf[1];
-    return value;
-}
-
-void
-Utils_SerializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size) {
-    int32_t j = 0;
-    for (int32_t i = ((int32_t)size - 1); i >= 0; --i) {
-        buf[j] = src[i];
-        ++j;
-    }
-}
-
-void
-Utils_Serialize32LE(byte_t* buf, uint32_t value) {
-    buf[3] = (uint8_t)(value >> 24u) & 0xFFu;
-    buf[2] = (uint8_t)(value >> 16u) & 0xFFu;
-    buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[0] = (uint8_t)(value) & 0xFFu;
-}
-
-void
-Utils_Serialize24LE(byte_t* buf, uint32_t value) {
-    buf[2] = (uint8_t)(value >> 16u) & 0xFFu;
-    buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[0] = (uint8_t)(value) & 0xFFu;
-}
-
-void
-Utils_Serialize16LE(byte_t* buf, uint16_t value) {
-    buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
-    buf[0] = (uint8_t)(value) & 0xFFu;
-}
-
-void
-Utils_DeserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size) {
-    int32_t  j = 0;
-    for (int32_t i = ((int32_t)size - 1); i >= 0; --i) {
-        dst[j] = buf[i];
-        ++j;
-    }
-}
-
-uint32_t
-Utils_Deserialize32LE(const byte_t* buf) {
-    uint32_t value;
-    value = (uint32_t)buf[3] << 24u;
-    value |= (uint32_t)buf[2] << 16u;
-    value |= (uint32_t)buf[1] << 8u;
-    value |= (uint32_t)buf[0];
-    return value;
-}
-
-uint32_t
-Utils_Deserialize24LE(const byte_t* buf) {
-    uint32_t value;
-    value = (uint32_t)buf[2] << 16u;
-    value |= (uint32_t)buf[1] << 8u;
-    value |= (uint32_t)buf[0];
-    return value;
-}
-
-uint16_t
-Utils_Deserialize16LE(const byte_t* buf) {
-    uint16_t value;
-    value = (uint16_t)buf[1] << 8U;
-    value |= (uint16_t)buf[0];
-    return value;
+    return success;
 }
 
 void
@@ -256,27 +153,130 @@ Utils_Deserialize8(const byte_t* buf) {
     return value;
 }
 
-uint32_t
-Utils_BitReflect(uint32_t data, uint8_t n_bits) {
+void
+Utils_Serialize16BE(byte_t* buf, uint16_t value) {
+    buf[0] = (uint8_t)(value >> 8u) & 0xFFu;
+    buf[1] = (uint8_t)(value) & 0xFFu;
+}
 
-    uint32_t reflection = 0u;
-    uint32_t temp_data = data;
+void
+Utils_Serialize24BE(byte_t* buf, uint32_t value) {
+    buf[0] = (uint8_t)(value >> 16u) & 0xFFu;
+    buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
+    buf[2] = (uint8_t)(value) & 0xFFu;
+}
 
-    /*
-    * Reflect the data around the center bit.
-    */
-    for (uint8_t bit = 0u; bit < n_bits; ++bit) {
-        /*
-        * If the LSB bit is set, set the reflection of it.
-        */
-        if (1u == (temp_data & 1u) ) {
-            /* -E> compliant MC3R1.R12.2 1 The shift count is granted to be between 0 and 31 due to bit masking. */
-            reflection |= (uint32_t)((uint32_t)1U << (0x1FU & ((n_bits - 1U) - bit)));
-        }
+void
+Utils_Serialize32BE(byte_t* buf, uint32_t value) {
+    buf[0] = (uint8_t)(value >> 24u) & 0xFFu;
+    buf[1] = (uint8_t)(value >> 16u) & 0xFFu;
+    buf[2] = (uint8_t)(value >> 8u) & 0xFFu;
+    buf[3] = (uint8_t)(value) & 0xFFu;
+}
 
-        temp_data = (temp_data >> 1u);
+void
+Utils_SerializeBlobBE(byte_t* buf, const byte_t* src, uint32_t size) {
+    for (uint32_t i = 0; i < size; i++) {
+        buf[i] = src[i];
     }
+}
 
-    return reflection;
+uint16_t
+Utils_Deserialize16BE(const byte_t* buf) {
+    uint16_t value;
+    value = (uint16_t)buf[0] << 8U;
+    value |= (uint16_t)buf[1];
+    return value;
+}
 
+uint32_t
+Utils_Deserialize24BE(const byte_t* buf) {
+    uint32_t value;
+    value = (uint32_t)buf[0] << 16u;
+    value |= (uint32_t)buf[1] << 8u;
+    value |= (uint32_t)buf[2];
+    return value;
+}
+
+uint32_t
+Utils_Deserialize32BE(const byte_t* buf) {
+    uint32_t value;
+    value = (uint32_t)buf[0] << 24u;
+    value |= (uint32_t)buf[1] << 16u;
+    value |= (uint32_t)buf[2] << 8u;
+    value |= (uint32_t)buf[3];
+    return value;
+}
+
+void
+Utils_DeserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size) {
+    for (uint32_t i = 0; i < size; i++) {
+        dst[i] = buf[i];
+    }
+}
+
+void
+Utils_Serialize16LE(byte_t* buf, uint16_t value) {
+    buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
+    buf[0] = (uint8_t)(value) & 0xFFu;
+}
+
+void
+Utils_Serialize24LE(byte_t* buf, uint32_t value) {
+    buf[2] = (uint8_t)(value >> 16u) & 0xFFu;
+    buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
+    buf[0] = (uint8_t)(value) & 0xFFu;
+}
+
+void
+Utils_Serialize32LE(byte_t* buf, uint32_t value) {
+    buf[3] = (uint8_t)(value >> 24u) & 0xFFu;
+    buf[2] = (uint8_t)(value >> 16u) & 0xFFu;
+    buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
+    buf[0] = (uint8_t)(value) & 0xFFu;
+}
+
+void
+Utils_SerializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size) {
+    int32_t j = 0;
+    for (int32_t i = ((int32_t)size - 1); i >= 0; --i) {
+        buf[j] = src[i];
+        ++j;
+    }
+}
+
+uint16_t
+Utils_Deserialize16LE(const byte_t* buf) {
+    uint16_t value;
+    value = (uint16_t)buf[1] << 8U;
+    value |= (uint16_t)buf[0];
+    return value;
+}
+
+uint32_t
+Utils_Deserialize24LE(const byte_t* buf) {
+    uint32_t value;
+    value = (uint32_t)buf[2] << 16u;
+    value |= (uint32_t)buf[1] << 8u;
+    value |= (uint32_t)buf[0];
+    return value;
+}
+
+uint32_t
+Utils_Deserialize32LE(const byte_t* buf) {
+    uint32_t value;
+    value = (uint32_t)buf[3] << 24u;
+    value |= (uint32_t)buf[2] << 16u;
+    value |= (uint32_t)buf[1] << 8u;
+    value |= (uint32_t)buf[0];
+    return value;
+}
+
+void
+Utils_DeserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size) {
+    int32_t  j = 0;
+    for (int32_t i = ((int32_t)size - 1); i >= 0; --i) {
+        dst[j] = buf[i];
+        ++j;
+    }
 }
