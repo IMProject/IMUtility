@@ -213,46 +213,46 @@ TEST(Utils, Utils_DeserializeBlobBE) {
 TEST(Utils, Utils_Deserialize32BE) {
     uint32_t deserialize_value = 0U;
 
-    Utils_Deserialize32BE(&test_data_1[0], &deserialize_value);
+    deserialize_value = Utils_Deserialize32BE(&test_data_1[0]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x00010203U);
 
-    Utils_Deserialize32BE(&test_data_1[4], &deserialize_value);
+    deserialize_value = Utils_Deserialize32BE(&test_data_1[4]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x04050607U);
 }
 
 TEST(Utils, Utils_Deserialize24BE) {
     uint32_t deserialize_value = 0U;
 
-    Utils_Deserialize24BE(&test_data_1[0], &deserialize_value);
+    deserialize_value = Utils_Deserialize24BE(&test_data_1[0]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x000102U);
 
-    Utils_Deserialize24BE(&test_data_1[3], &deserialize_value);
+    deserialize_value =  Utils_Deserialize24BE(&test_data_1[3]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x030405U);
 }
 
 TEST(Utils, Utils_Deserialize16BE) {
     uint16_t deserialize_value = 0U;
 
-    Utils_Deserialize16BE(&test_data_1[0], &deserialize_value);
+    deserialize_value = Utils_Deserialize16BE(&test_data_1[0]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x0001U);
 
-    Utils_Deserialize16BE(&test_data_1[2], &deserialize_value);
+    deserialize_value = Utils_Deserialize16BE(&test_data_1[2]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x0203U);
 }
 
 TEST(Utils, Utils_Deserialize8BE) {
     uint8_t deserialize_value = 0U;
 
-    Utils_Deserialize8BE(&test_data_1[0], &deserialize_value);
+    deserialize_value = Utils_Deserialize8BE(&test_data_1[0]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x00U);
 
-    Utils_Deserialize8BE(&test_data_1[1], &deserialize_value);
+    deserialize_value = Utils_Deserialize8BE(&test_data_1[1]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x01U);
 
-    Utils_Deserialize8BE(&test_data_1[2], &deserialize_value);
+    deserialize_value = Utils_Deserialize8BE(&test_data_1[2]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x02U);
 
-    Utils_Deserialize8BE(&test_data_1[3], &deserialize_value);
+    deserialize_value = Utils_Deserialize8BE(&test_data_1[3]);
     TEST_ASSERT_EQUAL_UINT32(deserialize_value, 0x03U);
 }
 

@@ -64,10 +64,10 @@ void Utils_Serialize24BE(byte_t* buf, uint32_t value);
 void Utils_Serialize16BE(byte_t* buf, uint16_t value);
 void Utils_Serialize8BE(byte_t* buf, uint8_t value);
 void Utils_DeserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size);
-void Utils_Deserialize32BE(const byte_t* buf, uint32_t* value);
-void Utils_Deserialize24BE(const byte_t* buf, uint32_t* value);
-void Utils_Deserialize16BE(const byte_t* buf, uint16_t* value);
-void Utils_Deserialize8BE(const byte_t* buf, uint8_t* value);
+uint32_t Utils_Deserialize32BE(const byte_t* buf);
+uint32_t Utils_Deserialize24BE(const byte_t* buf);
+uint16_t Utils_Deserialize16BE(const byte_t* buf);
+uint8_t Utils_Deserialize8BE(const byte_t* buf);
 
 // Little-endian
 void Utils_SerializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size);
