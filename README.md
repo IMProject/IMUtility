@@ -72,6 +72,31 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Crc8_saeJ1850Zero
 - Crc8_wcdma
 
+### Crc8
+- Crc16_a
+- Crc16_arc
+- Crc16_augCcit
+- Crc16_buypass
+- Crc16_ccitFalse
+- Crc16_ccitZero (XModem)
+- Crc16_cdma2000
+- Crc16_dds110
+- Crc16_dectR
+- Crc16_dectX
+- Crc16_dnp
+- Crc16_en13757
+- Crc16_genibus
+- Crc16_kermit
+- Crc16_maxim
+- Crc16_mcrf4xx
+- Crc16_modbus
+- Crc16_riello
+- Crc16_t10Dif
+- Crc16_teledisk
+- Crc16_tms37157
+- Crc16_usb
+- Crc16_x25
+    
 ### Crc32
 - Crc32Base_tableCalculator
 - Crc32Base  // Base used for calculating all Crc32 variants

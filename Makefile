@@ -71,6 +71,30 @@ IMUTILITY_FILES=\
   Src/crc/crc8_variants/crc8_sae_j1850.c \
   Src/crc/crc8_variants/crc8_sae_j1850_zero.c \
   Src/crc/crc8_variants/crc8_wcdma.c \
+  Src/crc/crc16_base.c \
+  Src/crc/crc16_variants/crc16_a.c \
+  Src/crc/crc16_variants/crc16_arc.c \
+  Src/crc/crc16_variants/crc16_aug_ccit.c \
+  Src/crc/crc16_variants/crc16_buypass.c \
+  Src/crc/crc16_variants/crc16_ccit_false.c \
+  Src/crc/crc16_variants/crc16_ccit_zero.c \
+  Src/crc/crc16_variants/crc16_cdma2000.c \
+  Src/crc/crc16_variants/crc16_dds110.c \
+  Src/crc/crc16_variants/crc16_dect_r.c \
+  Src/crc/crc16_variants/crc16_dect_x.c \
+  Src/crc/crc16_variants/crc16_dnp.c \
+  Src/crc/crc16_variants/crc16_en_13757.c \
+  Src/crc/crc16_variants/crc16_genibus.c \
+  Src/crc/crc16_variants/crc16_kermit.c \
+  Src/crc/crc16_variants/crc16_maxim.c \
+  Src/crc/crc16_variants/crc16_mcrf4xx.c \
+  Src/crc/crc16_variants/crc16_modbus.c \
+  Src/crc/crc16_variants/crc16_riello.c \
+  Src/crc/crc16_variants/crc16_t10_dif.c \
+  Src/crc/crc16_variants/crc16_teledisk.c \
+  Src/crc/crc16_variants/crc16_tms37157.c \
+  Src/crc/crc16_variants/crc16_usb.c \
+  Src/crc/crc16_variants/crc16_x_25.c \
   Src/crc/crc32_base.c \
   Src/crc/crc32_variants/crc32.c \
   Src/crc/crc32_variants/crc32_bzip2.c \
@@ -96,6 +120,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_base64.c \
   Tests/test_bubble_sort.c \
   Tests/test_crc8.c \
+  Tests/test_crc16.c \
   Tests/test_crc32.c \
   Tests/test_heap_sort.c \
   Tests/test_json.c \
@@ -103,7 +128,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_queue.c \
   Tests/test_scheduler.c \
   Tests/test_utils.c
-INC_DIRS_CODE=-IInc -IInc/crc -IInc/crc/crc8_variants -IInc/crc/crc32_variants
+INC_DIRS_CODE=-IInc -IInc/crc -IInc/crc/crc8_variants -IInc/crc/crc16_variants -IInc/crc/crc32_variants
 INC_DIRS=$(INC_DIRS_CODE) -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS = -DUNITY_FIXTURE_NO_EXTRAS
 SYMBOLS += -DUNITY_INCLUDE_DOUBLE
