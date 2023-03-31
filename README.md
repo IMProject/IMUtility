@@ -2,8 +2,6 @@
 
 [![ECLAIR normal main](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/ECLAIR_normal/main/latest/badge.svg)](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/ECLAIR_normal/main/latest/index.html)
 
-[![ECLAIR final main](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/ECLAIR_final/main/latest/badge.svg)](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/ECLAIR_final/main/latest/index.html)
-
 [Browse all ECLAIR analyses](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/)
 
 
@@ -12,7 +10,7 @@
 [![codecov](https://codecov.io/gh/IMProject/IMUtility/branch/main/graph/badge.svg?token=XF771QJZ1G)](https://codecov.io/gh/IMProject/IMUtility)
 
 
-# IMUtility: A Safety-Critical Utility Code for C
+# IMUtility: A Safety-Critical Utility Code
 
 ## About
 
@@ -144,25 +142,20 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Utils_StringToUint32
 - Utils_SwapElements
 - Utils_QuickUint32Pow10
-
 - Utils_Serialize8
 - Utils_Deserialize8
-
 - Utils_Serialize16BE
 - Utils_Serialize24BE
 - Utils_Serialize32BE
 - Utils_SerializeBlobBE
-
 - Utils_Deserialize16BE
 - Utils_Deserialize24BE
 - Utils_Deserialize32BE
 - Utils_DeserializeBlobBE
-
 - Utils_Serialize16LE
 - Utils_Serialize24LE
 - Utils_Serialize32LE
 - Utils_SerializeBlobLE
-
 - Utils_Deserialize16LE
 - Utils_Deserialize24LE
 - Utils_Deserialize32LE
