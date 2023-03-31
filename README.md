@@ -70,7 +70,9 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Crc8_saeJ1850Zero
 - Crc8_wcdma
 
-### Crc8
+### Crc16
+- Crc16Base_tableCalculator
+- Crc16Base // Base used for calculating all Crc16 variants
 - Crc16_a
 - Crc16_arc
 - Crc16_augCcit
