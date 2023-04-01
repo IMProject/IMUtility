@@ -35,7 +35,7 @@
 #include "scheduler.h"
 
 void
-Scheduler_init(SchedulerTask_t* tasks, const uint32_t num_of_tasks) {
+Scheduler_init(SchedulerTask_t* tasks, uint32_t num_of_tasks) {
     for (uint32_t i = 0U; i < num_of_tasks; ++i) {
         tasks[i].function = NULL_PTR;
         tasks[i].active = false;
@@ -43,7 +43,7 @@ Scheduler_init(SchedulerTask_t* tasks, const uint32_t num_of_tasks) {
 }
 
 bool
-Scheduler_addTask(SchedulerTask_t* tasks, const uint32_t max_num_tasks, const SchedulerTask_t* const new_task) {
+Scheduler_addTask(SchedulerTask_t* tasks, uint32_t max_num_tasks, const SchedulerTask_t* const new_task) {
     bool status = false;
     for (uint32_t i = 0U; i < max_num_tasks; ++i) {
         if (tasks[i].function == NULL_PTR) {
@@ -57,7 +57,7 @@ Scheduler_addTask(SchedulerTask_t* tasks, const uint32_t max_num_tasks, const Sc
 }
 
 void
-Scheduler_run(const SchedulerTask_t* task, const uint32_t num_of_tasks) {
+Scheduler_run(const SchedulerTask_t* task, uint32_t num_of_tasks) {
     for (uint32_t i = 0U; i < num_of_tasks; ++i) {
         if ((task[i].function != NULL_PTR) && (task[i].active)) {
             task[i].function();

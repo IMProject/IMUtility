@@ -42,8 +42,32 @@ typedef struct {
     bool active;
 } SchedulerTask_t;
 
-void Scheduler_init(SchedulerTask_t* tasks, const uint32_t num_of_tasks);
-bool Scheduler_addTask(SchedulerTask_t* tasks, const uint32_t max_num_tasks, const SchedulerTask_t* const new_task);
-void Scheduler_run(const SchedulerTask_t* task, const uint32_t num_of_tasks);
+/**
+ * @brief Function used to initialize scheduler.
+ *
+ * @param[in, out] *tasks Pointer to tasks (tasks are represented as a structure that contains
+ *                        pointer to function and status (active/not active)).
+ * @param[in] num_of_tasks Number of tasks that will be initialized.
+ */
+void Scheduler_init(SchedulerTask_t* tasks, uint32_t num_of_tasks);
+
+/**
+ * @brief Function used to add new task in scheduler.
+ *
+ * @param[in, out] *tasks Pointer to tasks (array of tasks).
+ * @param[in] max_num_tasks Maximum number of tasks that can be added in scheduler.
+ * @param[in] *new_task Pointer to new task that will be added in scheduler.
+ *
+ * @return True if task is successfully added, otherwise false.
+ */
+bool Scheduler_addTask(SchedulerTask_t* tasks, uint32_t max_num_tasks, const SchedulerTask_t* const new_task);
+
+/**
+ * @brief Function used to run tasks. Tasks will be performed only once, and only active tasks.
+ *
+ * @param[in] *task Pointer to tasks (array of tasks).
+ * @param[in] num_of_tasks Number of tasks that will be performed.
+ */
+void Scheduler_run(const SchedulerTask_t* task, uint32_t num_of_tasks);
 
 #endif /* UTILITY_SCHEDULER_H_ */
