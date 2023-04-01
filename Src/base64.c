@@ -137,6 +137,10 @@ Base64_decode(const char* in, size_t in_len, uint8_t* out, size_t max_out_len) {
         success = 1;
     }
 
+    if (len == 0U) {
+        success = 1;
+    }
+
     if (success == 0) {
         size_t j = 0U;
         for (size_t i = 0U; i < len; i += 4U) {
