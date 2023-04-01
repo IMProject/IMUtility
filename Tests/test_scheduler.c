@@ -28,7 +28,7 @@ Function2(void) {
 }
 
 TEST(Scheduler, Scheduler_run) {
-    SchedulerTask_t tasks[2];
+    SchedulerTask_t tasks[3];
     SchedulerTask_t new_task;
 
     Scheduler_init(tasks, sizeof(tasks) / sizeof(tasks[0]));
@@ -37,11 +37,16 @@ TEST(Scheduler, Scheduler_run) {
     new_task.function = &Function1;
     TEST_ASSERT_TRUE(Scheduler_addTask(tasks, sizeof(tasks) / sizeof(tasks[0]), &new_task));
 
+    new_task.active = false;
+    new_task.function = &Function2;
+    TEST_ASSERT_TRUE(Scheduler_addTask(tasks, sizeof(tasks) / sizeof(tasks[0]), &new_task));
+
     new_task.active = true;
     new_task.function = &Function2;
     TEST_ASSERT_TRUE(Scheduler_addTask(tasks, sizeof(tasks) / sizeof(tasks[0]), &new_task));
 
     TEST_ASSERT_FALSE(Scheduler_addTask(tasks, sizeof(tasks) / sizeof(tasks[0]), &new_task));
 
+    tasks[2].function = NULL_PTR;
     Scheduler_run(tasks, sizeof(tasks) / sizeof(tasks[0]));
 }
