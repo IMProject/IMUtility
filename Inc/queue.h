@@ -46,7 +46,7 @@ typedef struct {
     uint8_t* buffer;
 } Queue_t;
 
-bool Queue_initQueue(Queue_t* const queue, const uint32_t capacity, const uint32_t element_size, uint8_t* buffer);
+bool Queue_initQueue(Queue_t* const queue, uint32_t capacity, uint32_t element_size, uint8_t* buffer);
 bool Queue_isFull(const Queue_t* const queue);
 bool Queue_isEmpty(const Queue_t* const queue);
 bool Queue_enqueue(Queue_t* const queue, const uint8_t* const element);
