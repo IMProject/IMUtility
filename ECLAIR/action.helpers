@@ -43,6 +43,7 @@ Unfixed reports: ${unfixedReports} [new: ${newReports}]"
   <img src="${eclairReportUrlPrefix}/rsrc/eclair.svg" width="100" />
 </a>
 Analysis Summary
+
 ${jobHeadline}\\
 ${countsMsg}\\
 [Browse analysis](${indexHtmlUrl})
