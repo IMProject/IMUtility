@@ -39,7 +39,10 @@ summary() {
 Unfixed reports: ${unfixedReports} [new: ${newReports}]"
     fi
     cat <<EOF >"${summaryTxt}"
-# [![ECLAIR](${eclairReportUrlPrefix}/rsrc/eclair.svg)](https://www.bugseng.com/eclair) Analysis summary
+<a href="https://www.bugseng.com/eclair">
+  <img src="${eclairReportUrlPrefix}/rsrc/eclair.svg" width="100" />
+</a>
+Analysis Summary
 ${jobHeadline}\\
 ${countsMsg}\\
 [Browse analysis](${indexHtmlUrl})
