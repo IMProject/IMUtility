@@ -50,10 +50,49 @@ typedef struct {
     uint8_t* buffer;
 } PriorityQueue_t;
 
+/**
+ * @brief Initialize priority queue.
+ *
+ * @param[out] *queue Pointer to priority queue (type PriorityQueue_t).
+ * @param[in] capacity Priority queue capacity.
+ * @param[in] element_size Size of the element, in bytes.
+ * @param[in] *items Pointer to items where all new elements will be stored (priority + *element).
+ *
+ * @return True if priority queue is successfully initialized, otherwise false.
+ */
 bool PriorityQueue_initQueue(PriorityQueue_t* const queue, uint32_t capacity, uint32_t element_size,
                              const PriorityQueueItem_t* items);
+
+/**
+ * @brief Check if priority queue is empty.
+ *
+ * @param[in] *queue Pointer to priority queue (type PriorityQueue_t).
+ *
+ * @return True if priority queue is empty, otherwise false.
+ */
 bool PriorityQueue_isEmpty(const PriorityQueue_t* const queue);
+
+/**
+ * @brief Insert an element at the end of the priority queue. If priority queue is full,
+ * check if the new element has higher priority than the lowest priority in the priority queue,
+ * if yes, remove the element with the lowest priority from the priority queue and insert the new
+ * element at the end of the priority queue.
+ *
+ * @param[in] *queue Pointer to priority queue (type PriorityQueue_t).
+ * @param[in] *item Pointer to the item that will be inserted in the priority queue.
+ *
+ * @return True if element is successfully inserted, otherwise false.
+ */
 bool PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* const item);
+
+/**
+ * @brief Remove the element with the highest priority from the priority queue.
+ *
+ * @param[in] *queue Pointer to priority queue (type PriorityQueue_t).
+ * @param[out] *element Pointer to element. Removed element will be stored here.
+ *
+ * @return True if element is successfully removed, otherwise false.
+ */
 bool PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element);
 
 #endif /* UTILITY_PRIORITY_QUEUE_H_ */
