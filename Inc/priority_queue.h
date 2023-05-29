@@ -50,7 +50,7 @@ typedef struct {
     uint8_t* buffer;
 } PriorityQueue_t;
 
-bool PriorityQueue_initQueue(PriorityQueue_t* const queue, const uint32_t capacity, const uint32_t element_size,
+bool PriorityQueue_initQueue(PriorityQueue_t* const queue, uint32_t capacity, uint32_t element_size,
                              const PriorityQueueItem_t* items);
 bool PriorityQueue_isEmpty(const PriorityQueue_t* const queue);
 bool PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* const item);
