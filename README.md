@@ -1,8 +1,10 @@
-[![ECLAIR](https://eclairit.com:3787/rsrc/eclair.png)](https://www.bugseng.com/eclair)
+<a href="https://www.bugseng.com/eclair">
+  <img src="https://eclairit.com:3787/rsrc/eclair.svg" width="100" />
+</a>
 
-[![ECLAIR normal main](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/ECLAIR_normal/main/latest/badge.svg)](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/ECLAIR_normal/main/latest/index.html)
+[![ECLAIR normal main](https://eclairit.com:3787/fs/var/local/eclair/github/IMProject/IMUtility.ecdf/ECLAIR_normal/main/latest/badge.svg)](https://eclairit.com:3787/fs/var/local/eclair/github/IMProject/IMUtility.ecdf/ECLAIR_normal/main/latest/index.html)
 
-[Browse all ECLAIR analyses](https://eclairit.com:3787/fs/home/eclair-github/public/IMProject/IMUtility.ecdf/)
+[Browse all ECLAIR analyses](https://eclairit.com:3787/fs/var/local/eclair/github/IMProject/IMUtility.ecdf/)
 
 
 [![Discord Shield](https://discordapp.com/api/guilds/1059535033347604560/widget.png?style=shield)](https://discord.gg/R6nZxZqDH3)
