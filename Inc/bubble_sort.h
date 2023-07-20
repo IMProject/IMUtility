@@ -37,6 +37,17 @@
 
 #include "typedefs.h"
 
-void BubbleSort_sort(uint8_t* buffer, const int32_t number_of_elements, const uint32_t element_size, bool (*compareFun)(void* first, void* second));
+/**
+ * @brief Sort elements using bubble sort algorithm.
+ *
+ * @param[in, out] *buffer Pointer to the buffer that contains elements that will be sorted.
+ * @param[in] number_of_elements Number of elements in the buffer.
+ * @param[in] element_size Size of the element, in bytes.
+ * @param[in] *compareFun Pointer to compare function. Compare function has two parameters (pointer to
+ *                        first element and pointer to second element). As a result, it returns boolean,
+ *                        true if first element is greater than second element, otherwise false.
+ */
+void BubbleSort_sort(byte_t* buffer, int32_t number_of_elements, uint32_t element_size,
+                     bool (*compareFun)(void* first, void* second));
 
 #endif /* UTILITY_BUBBLE_SORT_H_ */

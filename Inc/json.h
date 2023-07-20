@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2021 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2021-2023 IMProject Development Team. All rights reserved.
  *   Authors: Igor Misic <igy1000mb@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,13 +35,63 @@
 #ifndef UTILITY_JSON_H_
 #define UTILITY_JSON_H_
 
-#include <stdint.h>
-#include <stdbool.h>
 #include <string.h>
 
+#include "typedefs.h"
+
+/**
+ * @brief Start a JSON string in the given buffer
+ *
+ * This function starts a JSON string in the provided buffer by copying the opening brace character "{"
+ * to the beginning of the buffer. The function will set the success flag to true if the buffer size
+ * is greater than or equal to the minimum size required to hold the opening brace character.
+ *
+ * @param buffer The buffer to write the JSON string to
+ * @param buffer_size The size of the buffer in bytes
+ * @return Returns true if the JSON string was successfully started, false otherwise
+ */
 bool Json_startString(char* buffer, size_t buffer_size);
-bool Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value);
+
+/**
+ * @brief Add key-value pair to JSON string in the given buffer
+ *
+ * This function adds a key-value pair to the JSON string in the provided buffer by concatenating the
+ * key and value strings with their respective formatting characters to the end of the buffer. The
+ * function will set the success flag to true if the resulting string size does not exceed the buffer
+ * size and if the key-value pair is successfully added to the JSON string.
+ *
+ * @param buffer The buffer to write the JSON string to
+ * @param buffer_size The size of the buffer in bytes
+ * @param key The key string to add to the JSON object
+ * @param value The value string to add to the JSON object
+ * @return Returns true if the key-value pair was successfully added to the JSON string, false otherwise
+ */
+bool Json_addData(char* buffer, size_t buffer_size, const char* key, const char* value);
+
+/**
+ * @brief End a JSON string in the given buffer
+ *
+ * This function adds the closing brace character to the end of the JSON string in the provided buffer.
+ * The function will set the success flag to true if the resulting string size does not exceed the buffer
+ * size and if the closing brace character is successfully added to the JSON string.
+ *
+ * @param buffer The buffer to write the JSON string to
+ * @param buffer_size The size of the buffer in bytes
+ * @return Returns true if the JSON string was successfully ended with a closing brace character, false otherwise
+ */
 bool Json_endString(char* buffer, size_t buffer_size);
+
+/**
+ * @brief Searches for a key in a JSON buffer and returns its value.
+ *
+ * @param buffer The JSON buffer to search.
+ * @param buffer_size The size of the buffer.
+ * @param key The key to search for.
+ * @param value The output buffer for the value.
+ * @param max_value_size The maximum size of the value buffer.
+ * @return true If the key was found and the value was copied to the output buffer.
+ * @return false If the key was not found or the output buffer was too small.
+ */
 bool Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* value, size_t max_value_size);
 
 

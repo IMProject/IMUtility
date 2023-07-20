@@ -3,7 +3,7 @@ name: Unit tests
 on:
   push:
     branches: 
-    - 'main'
+    - '*'
   pull_request:
     branches:
     - '*'
@@ -30,3 +30,8 @@ jobs:
       
     - name: make ${{matrix.config}}
       run: make ${{matrix.config}}
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        gcov: true

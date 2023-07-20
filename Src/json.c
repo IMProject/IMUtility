@@ -34,15 +34,16 @@
 
 #include "json.h"
 
+#include "utils.h"
+
 #define MINIMAL_SIZE 2U // size of '{' or '}' + '\0'
 
 bool
 Json_startString(char* buffer, size_t buffer_size) {
-
     bool success = false;
 
-    if (buffer_size >  MINIMAL_SIZE) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
+    if (buffer_size >= MINIMAL_SIZE) {
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[0], "{");
         success = true;
     }
@@ -51,35 +52,34 @@ Json_startString(char* buffer, size_t buffer_size) {
 }
 
 bool
-Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* value) {
-
+Json_addData(char* buffer, size_t buffer_size, const char* key, const char* value) {
     bool success = false;
 
     size_t index = strlen(buffer);
-    size_t total_size = 0U;
-    total_size += strlen("\"\":\"\"") + strlen(key) + strlen(value) + 1U;
+    size_t total_size = strlen("\"\":\"\"") + strlen(key) + strlen(value) + 1U;
 
     if (0 == strcmp(&buffer[index - 1U], "\"")) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], ",");
         ++index;
     }
 
-    if (total_size <= (buffer_size - index)) {
-
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
+    if ((total_size + index) <= buffer_size) {
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "\"");
         index += strlen("\"");
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        /* -E> compliant MC3R1.R19.1 1 Overlap will not happen because of the check in if statement. */
         strcpy(&buffer[index], key);
         index += strlen(key);
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "\":\"");
         index += strlen("\":\"");
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
+        /* -E> compliant MC3R1.R19.1 1 Overlap will not happen because of the check in if statement. */
         strcpy(&buffer[index], value);
         index += strlen(value);
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "\"");
 
         success = true;
@@ -87,14 +87,14 @@ Json_addData(char* buffer, size_t buffer_size, const char* key,  const char* val
 
     return success;
 }
+
 bool
 Json_endString(char* buffer, size_t buffer_size) {
-
     bool success = false;
 
     size_t index = strlen(buffer);
     if (buffer_size >= (MINIMAL_SIZE + index)) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not used, not needed in this case
+        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "}");
         success = true;
     }
@@ -106,13 +106,18 @@ bool
 Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* value, size_t max_value_size) {
     bool success = false;
 
-    uint32_t max_search_size = (uint32_t)(buffer_size - strlen(key));
-
-    uint32_t index;
     size_t key_size = strlen(key);
+    uint32_t max_search_size = 0U;
+    uint32_t index;
 
-    for (index = 0; index < max_search_size; ++index) {
+    if (buffer_size > key_size) {
+        max_search_size = (uint32_t)(buffer_size - key_size);
+    }
 
+    for (index = 0U; index < max_search_size; ++index) {
+
+        /* -E> compliant MC3R1.R21.18 2 strncmp is guarded in for loop condition to not go out of buffer boundaries
+        by calculating max_search_size from buffer size and key size */
         if (0 == strncmp(&buffer[index], key, key_size)) {
 
             if (buffer[index + key_size] == '"') {

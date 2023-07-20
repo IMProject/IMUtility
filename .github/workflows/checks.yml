@@ -3,27 +3,35 @@ name: Checks
 on:
   push:
     branches: 
-    - 'main'
+    - '*'
   pull_request:
     branches:
     - '*'
 
 jobs:
-  build:
+  Static_Analysis:
 
     runs-on: ubuntu-latest
     
     container:
-      image: px4io/px4-dev-nuttx-focal:2021-09-08
+      image: igormisic/improject:v1.0.0
       options: --privileged --ulimit core=-1 --security-opt seccomp=unconfined
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Change Owner of Container Working Directory
+      run: chown root:root .
+        
+    - uses: actions/checkout@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-      
-    - name: Check format
+        
+    - name: Check code format
       run: make check_format
-
+      
+    - name: Run cppcheck
+      run: make cppcheck
+      
     - name: Check MISRA C:2012
       run: make misra
+
+      

@@ -46,12 +46,74 @@ typedef struct {
     uint8_t* buffer;
 } Queue_t;
 
-bool Queue_initQueue(Queue_t* const queue, const uint32_t capacity, const uint32_t element_size, uint8_t* buffer);
+/**
+ * @brief Initialize queue.
+ *
+ * @param[out] *queue Pointer to queue (type Queue_t).
+ * @param[in] capacity Queue capacity.
+ * @param[in] element_size Size of the element, in bytes.
+ * @param[in] *buffer Pointer to buffer where new elements will be saved.
+ *
+ * @return True if queue is successfully initialized, otherwise false.
+ */
+bool Queue_initQueue(Queue_t* const queue, uint32_t capacity, uint32_t element_size, uint8_t* buffer);
+
+/**
+ * @brief Check if queue is full.
+ *
+ * @param[in] *queue Pointer to queue (type Queue_t).
+ *
+ * @return True if queue is full, otherwise false.
+ */
 bool Queue_isFull(const Queue_t* const queue);
+
+/**
+ * @brief Check if queue is empty.
+ *
+ * @param[in] *queue Pointer to queue (type Queue_t).
+ *
+ * @return True if queue is empty, otherwise false.
+ */
 bool Queue_isEmpty(const Queue_t* const queue);
+
+/**
+ * @brief Insert an element at the end of the queue.
+ *
+ * @param[in] *queue Pointer to queue (type Queue_t).
+ * @param[in] *element Pointer to element that will be inserted in the queue.
+ *
+ * @return True if element is successfully inserted, otherwise false.
+ */
 bool Queue_enqueue(Queue_t* const queue, const uint8_t* const element);
+
+/**
+ * @brief Remove element from the end of the queue.
+ *
+ * @param[in] *queue Pointer to queue (type Queue_t).
+ * @param[out] *element Pointer to element. Removed element will be saved here.
+ *
+ * @return True if element is successfully removed, otherwise false.
+ */
 bool Queue_dequeue(Queue_t* const queue, uint8_t* const element);
+
+/**
+ * @brief Get the element from the front of the queue. Element will not be removed.
+ *
+ * @param[in] *queue Pointer to queue (type Queue_t).
+ * @param[out] *element Pointer to element. Front element will be saved here.
+ *
+ * @return True if front element is successfully fetched, otherwise false.
+ */
 bool Queue_front(const Queue_t* const queue, uint8_t* const element);
+
+/**
+ * @brief Get the element from the rear of the queue. Element will not be removed.
+ *
+ * @param[in] *queue Pointer to queue (type Queue_t).
+ * @param[out] *element Pointer to element. Rear element will be saved here.
+ *
+ * @return True if rear element is successfully fetched, otherwise false.
+ */
 bool Queue_rear(const Queue_t* const queue, uint8_t* const element);
 
 #endif /* UTILITY_QUEUE_H_ */

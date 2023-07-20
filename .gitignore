@@ -1,8 +1,7 @@
-
 .project
-
 .cproject
-
 .settings/
-
 *.out
+*.gc*
+gcovr-report
+lcov-report
