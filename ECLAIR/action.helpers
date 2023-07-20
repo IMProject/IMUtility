@@ -1,7 +1,9 @@
-if [ -n "${GITLAB_CI+x}" ]; then
+if [ -n "${GITLAB_CI:-}" ]; then
     ci=gitlab
-elif [ -n "${GITHUB_ACTION+x}" ]; then
+elif [ -n "${GITHUB_ACTION:-}" ]; then
     ci=github
+elif [ -n "${JENKINS_HOME:-}" ]; then
+    ci=jenkins
 else
     echo "Unexpected CI/CD context" >&2
     exit 1
@@ -32,22 +34,55 @@ summary() {
         eval "${var}=${val}"
     done <"${updateLog}"
 
+    case "${ci}" in
+    github)
+        nl="\\"
+        ;;
+    gitlab)
+        nl=""
+        ;;
+    jenkins)
+        nl="<br/>"
+        ;;
+    *)
+        nl=""
+        ;;
+    esac
+
     if [ -z "${newReports}" ]; then
-        countsMsg="Unfixed reports: ${unfixedReports}"
+        fixedMsg=""
+        unfixedMsg="Unfixed reports: ${unfixedReports}"
+        countsMsg="${unfixedMsg}"
     else
-        countsMsg="Fixed reports: ${fixedReports}\\
-Unfixed reports: ${unfixedReports} [new: ${newReports}]"
+        fixedMsg="Fixed reports: ${fixedReports}"
+        unfixedMsg="Unfixed reports: ${unfixedReports} [new: ${newReports}]"
+        countsMsg="${fixedMsg}${nl}
+${unfixedMsg}"
     fi
-    cat <<EOF >"${summaryTxt}"
+    case "${ci}" in
+    jenkins)
+        cat <<EOF >"${summaryTxt}"
+${countsMsg}                                                                              ${nl}
+<a href="https://www.bugseng.com/eclair">
+  <img src="${eclairReportUrlPrefix}/rsrc/eclair.svg" width="100" />
+</a>
+<h3>${jobHeadline}</h3>
+<a href="${indexHtmlUrl}">Browse analysis results</a>
+EOF
+        ;;
+    *)
+        cat <<EOF >"${summaryTxt}"
 <a href="https://www.bugseng.com/eclair">
   <img src="${eclairReportUrlPrefix}/rsrc/eclair.svg" width="100" />
 </a>
 Analysis Summary
 
-${jobHeadline}\\
-${countsMsg}\\
+${jobHeadline}${nl}
+${countsMsg}${nl}
 [Browse analysis](${indexHtmlUrl})
 EOF
+        ;;
+    esac
 
     case ${ci} in
     github)
@@ -59,9 +94,17 @@ EOF
         cat <<EOF
 ${jobHeadline}
 ${countsMsg}
-Browse analysys: ${esc}[33m${indexHtmlUrl}${esc}[m
+Browse analysis: ${esc}[33m${indexHtmlUrl}${esc}[m
 EOF
         close_section ECLAIR_summary
+        ;;
+    jenkins)
+        cat <<EOF
+${jobHeadline}
+${fixedMsg}
+${unfixedMsg}
+Browse analysis: ${indexHtmlUrl}
+EOF
         ;;
     *)
         echo "Unexpected CI/CD context" >&2
@@ -82,7 +125,7 @@ log_file() {
     fi
 
     case ${ci} in
-    github)
+    github | jenkins)
         echo "${section_name}"
         ;;
     gitlab)
@@ -97,7 +140,7 @@ log_file() {
     cat "${file}"
 
     case ${ci} in
-    github) ;;
+    github | jenkins) ;;
     gitlab)
         close_section "${section_id}"
         ;;
@@ -112,7 +155,7 @@ maybe_log_file_exit() {
     exit_code=$4
 
     case ${ci} in
-    github)
+    github | jenkins)
         echo "${section_name}"
         ;;
     gitlab)
@@ -129,11 +172,22 @@ maybe_log_file_exit() {
     fi
 
     case ${ci} in
-    github) ;;
+    github | jenkins) ;;
     gitlab)
         close_section "${section_id}"
         ;;
     *) ;;
     esac
     return "${exit_code}"
+}
+
+is_enabled() {
+    case "$1" in
+    true | TRUE | y | Y | yes | YES | 1)
+        return 0
+        ;;
+    *)
+        return 1
+        ;;
+    esac
 }
