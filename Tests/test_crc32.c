@@ -162,91 +162,145 @@ TEST(Crc32, CRC32Base_Without_finish_xor) {
 }
 
 TEST(Crc32, Crc32) {
-    TEST_ASSERT_EQUAL_HEX32(0x2144DF1CU, Crc32(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX32(0x24AB9D77U, Crc32(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX32(0xB6C9B287U, Crc32(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX32(0x32A06212U, Crc32(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX32(0xB0AE863DU, Crc32(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX32(0x9CDEA29BU, Crc32(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX32(0x2144DF1CU, Crc32(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x24AB9D77U, Crc32(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xB6C9B287U, Crc32(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x32A06212U, Crc32(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xB0AE863DU, Crc32(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x9CDEA29BU, Crc32(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc32(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc32(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0xB0AE863DU, crc_result);
 }
 
 TEST(Crc32, Crc32_bzip2) {
-    TEST_ASSERT_EQUAL_HEX32(0x38FB2284U, Crc32_bzip2(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX32(0x419EE6CAU, Crc32_bzip2(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX32(0x68F66ADFU, Crc32_bzip2(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX32(0x012DEA14U, Crc32_bzip2(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX32(0xD6039CBDU, Crc32_bzip2(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX32(0x4CE2D686U, Crc32_bzip2(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32_bzip2(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX32(0x38FB2284U, Crc32_bzip2(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x419EE6CAU, Crc32_bzip2(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x68F66ADFU, Crc32_bzip2(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x012DEA14U, Crc32_bzip2(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xD6039CBDU, Crc32_bzip2(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x4CE2D686U, Crc32_bzip2(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32_bzip2(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32_bzip2(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc32_bzip2(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc32_bzip2(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0xD6039CBDU, crc_result);
 }
 
 TEST(Crc32, Crc32_c) {
-    TEST_ASSERT_EQUAL_HEX32(0x48674BC7U, Crc32_c(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX32(0x70ABD088U, Crc32_c(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX32(0xDEAABEBBU, Crc32_c(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX32(0xA6ADEA2DU, Crc32_c(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX32(0xB59CA09BU, Crc32_c(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX32(0x99357B56U, Crc32_c(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32_c(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX32(0x48674BC7U, Crc32_c(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x70ABD088U, Crc32_c(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xDEAABEBBU, Crc32_c(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xA6ADEA2DU, Crc32_c(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xB59CA09BU, Crc32_c(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x99357B56U, Crc32_c(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32_c(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32_c(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc32_c(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc32_c(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0xB59CA09BU, crc_result);
 }
 
 TEST(Crc32, Crc32_d) {
-    TEST_ASSERT_EQUAL_HEX32(0xBAD8FAAEU, Crc32_d(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX32(0x001A059CU, Crc32_d(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX32(0x1A266FFAU, Crc32_d(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX32(0xC636481BU, Crc32_d(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX32(0xCF0E6328U, Crc32_d(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX32(0x4B92ADBEU, Crc32_d(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32_d(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX32(0xBAD8FAAEU, Crc32_d(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x001A059CU, Crc32_d(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x1A266FFAU, Crc32_d(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xC636481BU, Crc32_d(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xCF0E6328U, Crc32_d(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x4B92ADBEU, Crc32_d(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32_d(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32_d(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc32_d(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc32_d(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0xCF0E6328U, crc_result);
 }
 
 TEST(Crc32, Crc32_jamcrc) {
-    TEST_ASSERT_EQUAL_HEX32(0xDEBB20E3U, Crc32_jamcrc(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX32(0xDB546288U, Crc32_jamcrc(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX32(0x49364D78U, Crc32_jamcrc(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX32(0xCD5F9DEDU, Crc32_jamcrc(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX32(0x4F5179C2U, Crc32_jamcrc(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX32(0x63215D64U, Crc32_jamcrc(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX32(0x00000000U, Crc32_jamcrc(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX32(0xDEBB20E3U, Crc32_jamcrc(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xDB546288U, Crc32_jamcrc(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x49364D78U, Crc32_jamcrc(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xCD5F9DEDU, Crc32_jamcrc(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x4F5179C2U, Crc32_jamcrc(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x63215D64U, Crc32_jamcrc(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x00000000U, Crc32_jamcrc(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32_jamcrc(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc32_jamcrc(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc32_jamcrc(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0x4F5179C2U, crc_result);
 }
 
 TEST(Crc32, Crc32_mpeg2) {
-    TEST_ASSERT_EQUAL_HEX32(0xC704DD7BU, Crc32_mpeg2(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX32(0xBE611935U, Crc32_mpeg2(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX32(0x97099520U, Crc32_mpeg2(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX32(0xFED215EBU, Crc32_mpeg2(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX32(0x29FC6342U, Crc32_mpeg2(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX32(0xB31D2979U, Crc32_mpeg2(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX32(0x00000000U, Crc32_mpeg2(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX32(0xC704DD7BU, Crc32_mpeg2(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xBE611935U, Crc32_mpeg2(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x97099520U, Crc32_mpeg2(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xFED215EBU, Crc32_mpeg2(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x29FC6342U, Crc32_mpeg2(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xB31D2979U, Crc32_mpeg2(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x00000000U, Crc32_mpeg2(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32_mpeg2(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc32_mpeg2(&message5[2], 5U, &crc_result);
+    crc_result = Crc32_mpeg2(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0x29FC6342U, crc_result);
 }
 
 TEST(Crc32, Crc32_posix) {
-    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32_posix(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX32(0xF6FA9BCAU, Crc32_posix(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX32(0xAFF2B7A4U, Crc32_posix(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX32(0xC629376FU, Crc32_posix(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX32(0x5CD4F325U, Crc32_posix(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX32(0xFB86AB86U, Crc32_posix(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX32(0x38FB2284U, Crc32_posix(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX32(0xFFFFFFFFU, Crc32_posix(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xF6FA9BCAU, Crc32_posix(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xAFF2B7A4U, Crc32_posix(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xC629376FU, Crc32_posix(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x5CD4F325U, Crc32_posix(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xFB86AB86U, Crc32_posix(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x38FB2284U, Crc32_posix(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32_posix(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc32_posix(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc32_posix(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0x5CD4F325U, crc_result);
 }
 
 TEST(Crc32, Crc32_q) {
-    TEST_ASSERT_EQUAL_HEX32(0x00000000U, Crc32_q(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX32(0x09F26687U, Crc32_q(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX32(0x2C8E43FCU, Crc32_q(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX32(0xA854EA7CU, Crc32_q(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX32(0x64E7EA17U, Crc32_q(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX32(0x35BD0C6CU, Crc32_q(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX32(0x90A54352U, Crc32_q(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX32(0x00000000U, Crc32_q(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x09F26687U, Crc32_q(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x2C8E43FCU, Crc32_q(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xA854EA7CU, Crc32_q(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x64E7EA17U, Crc32_q(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x35BD0C6CU, Crc32_q(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x90A54352U, Crc32_q(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32_q(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc32_q(&message5[2], 5U, &crc_result);
+    crc_result = Crc32_q(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0x64E7EA17U, crc_result);
 }
 
 TEST(Crc32, Crc32_xfer) {
-    TEST_ASSERT_EQUAL_HEX32(0x00000000U, Crc32_xfer(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX32(0x620EF971U, Crc32_xfer(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX32(0x734620C1U, Crc32_xfer(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX32(0x6546295FU, Crc32_xfer(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX32(0xD543C03CU, Crc32_xfer(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX32(0x5C148A23U, Crc32_xfer(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX32(0x00003C56U, Crc32_xfer(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX32(0x00000000U, Crc32_xfer(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x620EF971U, Crc32_xfer(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x734620C1U, Crc32_xfer(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x6546295FU, Crc32_xfer(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0xD543C03CU, Crc32_xfer(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x5C148A23U, Crc32_xfer(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX32(0x00003C56U, Crc32_xfer(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint32_t crc_result = Crc32_xfer(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc32_xfer(&message5[2], 5U, &crc_result);
+    crc_result = Crc32_xfer(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX32(0xD543C03CU, crc_result);
 }

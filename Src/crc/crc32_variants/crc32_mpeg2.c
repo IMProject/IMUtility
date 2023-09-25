@@ -40,11 +40,13 @@
 #define FINAL_XOR_VALUE (0x0U)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (false)
 
 uint32_t
 Crc32_mpeg2(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    const uint32_t* last_crc_ptr) {
 
     /* CRC32-MPEG2 (Polynomial 0x4C11DB7) */
     static const uint32_t crc_table[256] = {
@@ -82,14 +84,20 @@ Crc32_mpeg2(
         0xAFB010B1U, 0xAB710D06U, 0xA6322BDFU, 0xA2F33668U, 0xBCB4666DU, 0xB8757BDAU, 0xB5365D03U, 0xB1F740B4U
     };
 
+    uint32_t crc_initial_value = INITIAL_CRC32_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
     return Crc32Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC32_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }
