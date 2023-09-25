@@ -48,12 +48,14 @@
  *
  * @param[in] crc_data_ptr A pointer to the block of data to calculate the checksum for.
  * @param[in] crc_length The length of the data block in bytes.
+ * @param[in] last_crc_ptr Pointer to the last CRC value for data chunks. Shall be set to NULL_PTR if it is the first or only operation.
  *
  * @return The calculated CRC-32 checksum.
  */
 uint32_t Crc32_mpeg2(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length
+    uint32_t crc_length,
+    const uint32_t* last_crc_ptr
 );
 
 #endif /* UTILITY_CRC32_MPEG2_H_ */

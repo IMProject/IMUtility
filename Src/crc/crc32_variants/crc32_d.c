@@ -40,12 +40,14 @@
 #define FINAL_XOR_VALUE (0xFFFFFFFFU)
 #define REFLECTED_OUTPUT (true)
 #define REFLECTED_INPUT (true)
+#define FINAL_XOR (true)
 
 uint32_t
 Crc32_d(
     const uint8_t* crc_data_ptr,
     uint32_t crc_length,
-    bool final_xor) {
+    bool final_crc,
+    const uint32_t* last_crc_ptr) {
 
     /* CRC32-D (Polynomial 0xA833982B) */
     static const uint32_t crc_table[256] = {
@@ -83,13 +85,26 @@ Crc32_d(
         0xCCE1A206U, 0x64D23A2DU, 0x34B50A7BU, 0x9C869250U, 0x947B6AD7U, 0x3C48F2FCU, 0x6C2FC2AAU, 0xC41C5A81U
     };
 
+    bool reflect_output = false;
+    bool final_xor = false;
+    uint32_t crc_initial_value = INITIAL_CRC32_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    if (final_crc) {
+        reflect_output = REFLECTED_OUTPUT;
+        final_xor = FINAL_XOR;
+    }
+
     return Crc32Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC32_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
-               REFLECTED_OUTPUT,
+               reflect_output,
                REFLECTED_INPUT,
                final_xor
            );
