@@ -40,11 +40,13 @@
 #define FINAL_XOR_VALUE (0x0U)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (false)
 
 uint16_t
 Crc16_cdma2000(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    const uint16_t* last_crc_ptr) {
 
     /* Table for CRC-16 CDMA2000 (Polynomial 0xC867) */
     static const uint16_t crc_table[256] = {
@@ -66,14 +68,20 @@ Crc16_cdma2000(
         0x1F33U, 0xD754U, 0x479AU, 0x8FFDU, 0xAE61U, 0x6606U, 0xF6C8U, 0x3EAFU, 0xB5F0U, 0x7D97U, 0xED59U, 0x253EU, 0x04A2U, 0xCCC5U, 0x5C0BU, 0x946CU
     };
 
-    return Crc16_base(
+    uint16_t crc_initial_value = INITIAL_CRC16_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    return Crc16Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC16_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }

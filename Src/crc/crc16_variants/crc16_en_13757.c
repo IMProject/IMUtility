@@ -40,12 +40,14 @@
 #define FINAL_XOR_VALUE (0xFFFFU)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (true)
 
 uint16_t
 Crc16_en13757(
     const uint8_t* crc_data_ptr,
     uint32_t crc_length,
-    bool final_xor) {
+    bool final_crc,
+    const uint16_t* last_crc_ptr) {
 
     /* Table for CRC-16 EN 13757 (Polynomial 0x3D65) */
     static const uint16_t crc_table[256] = {
@@ -67,11 +69,22 @@ Crc16_en13757(
         0xC83EU, 0xF55BU, 0xB2F4U, 0x8F91U, 0x3DAAU, 0x00CFU, 0x4760U, 0x7A05U, 0x1E73U, 0x2316U, 0x64B9U, 0x59DCU, 0xEBE7U, 0xD682U, 0x912DU, 0xAC48U
     };
 
-    return Crc16_base(
+    bool final_xor = false;
+    uint16_t crc_initial_value = INITIAL_CRC16_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    if (final_crc) {
+        final_xor = FINAL_XOR;
+    }
+
+    return Crc16Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC16_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,

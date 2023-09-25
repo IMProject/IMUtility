@@ -43,20 +43,21 @@
  * This function calculates an 16-bit CRC checksum for the given block of data
  * using polynomial 0x1021. The 'crc_data_ptr' parameter should be
  * a pointer to the block of data to calculate the checksum for. The 'crc_length'
- * parameter is the length of the data block in bytes. The 'final_xor' parameter
- * indicates whether to perform a final XOR operation on the calculated CRC
- * value before returning it. The calculation is performed using a lookup table for efficiency.
+ * parameter is the length of the data block in bytes.
+ * The calculation is performed using a lookup table for efficiency.
  *
  * @param[in] crc_data_ptr A pointer to the data block to calculate the checksum for.
  * @param[in] crc_length The length of the data block in bytes.
- * @param[in] final_xor Whether to perform a final XOR operation on the calculated CRC value.
+ * @param[in] final_crc Set the flag to 'true' if it is the last or only operation, and 'false' for data chunks.
+ * @param[in] last_crc_ptr Pointer to the last CRC value for data chunks. Shall be set to NULL_PTR if it is the first or only operation.
  *
  * @return The calculated CRC checksum.
  */
 uint16_t Crc16_genibus(
     const uint8_t* crc_data_ptr,
     uint32_t crc_length,
-    bool final_xor
+    bool final_crc,
+    const uint16_t* last_crc_ptr
 );
 
 #endif /* UTILITY_CRC16_GENIBUS_H_ */

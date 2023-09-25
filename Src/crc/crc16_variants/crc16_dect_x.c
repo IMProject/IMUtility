@@ -40,11 +40,13 @@
 #define FINAL_XOR_VALUE (0x0U)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (false)
 
 uint16_t
 Crc16_dectX(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    const uint16_t* last_crc_ptr) {
 
     /* Table for CRC-16 DECT X (Polynomial 0x0589) */
     static const uint16_t crc_table[256] = {
@@ -66,14 +68,20 @@ Crc16_dectX(
         0x41EBU, 0x4462U, 0x4AF9U, 0x4F70U, 0x57CFU, 0x5246U, 0x5CDDU, 0x5954U, 0x6DA3U, 0x682AU, 0x66B1U, 0x6338U, 0x7B87U, 0x7E0EU, 0x7095U, 0x751CU
     };
 
-    return Crc16_base(
+    uint16_t crc_initial_value = INITIAL_CRC16_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    return Crc16Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC16_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }
