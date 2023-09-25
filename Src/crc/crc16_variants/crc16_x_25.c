@@ -40,12 +40,14 @@
 #define FINAL_XOR_VALUE (0xFFFFU)
 #define REFLECTED_OUTPUT (true)
 #define REFLECTED_INPUT (true)
+#define FINAL_XOR (true)
 
 uint16_t
 Crc16_x25(
     const uint8_t* crc_data_ptr,
     uint32_t crc_length,
-    bool final_xor) {
+    bool final_crc,
+    const uint16_t* last_crc_ptr) {
 
     /* Table for CRC-16 X 25 (Polynomial 0x1021) */
     static const uint16_t crc_table[256] = {
@@ -67,13 +69,26 @@ Crc16_x25(
         0xEF1FU, 0xFF3EU, 0xCF5DU, 0xDF7CU, 0xAF9BU, 0xBFBAU, 0x8FD9U, 0x9FF8U, 0x6E17U, 0x7E36U, 0x4E55U, 0x5E74U, 0x2E93U, 0x3EB2U, 0x0ED1U, 0x1EF0U
     };
 
-    return Crc16_base(
+    bool reflect_output = false;
+    bool final_xor = false;
+    uint16_t crc_initial_value = INITIAL_CRC16_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    if (final_crc) {
+        reflect_output = REFLECTED_OUTPUT;
+        final_xor = FINAL_XOR;
+    }
+
+    return Crc16Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC16_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
-               REFLECTED_OUTPUT,
+               reflect_output,
                REFLECTED_INPUT,
                final_xor
            );

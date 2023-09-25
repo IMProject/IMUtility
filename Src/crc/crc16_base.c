@@ -60,7 +60,7 @@ Crc16Base_tableCalculator(uint16_t polynomial, uint16_t crc_table[256]) {
 }
 
 uint16_t
-Crc16_base(
+Crc16Base(
     const uint16_t crc_table[256],
     const uint8_t* crc_data_ptr,
     uint32_t crc_length,

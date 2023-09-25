@@ -40,11 +40,13 @@
 #define FINAL_XOR_VALUE (0x0U)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (false)
 
 uint16_t
 Crc16_dds110(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    const uint16_t* last_crc_ptr) {
 
     /* Table for CRC-16 CCIT DDS 110 (Polynomial 0x8005) */
     static const uint16_t crc_table[256] = {
@@ -66,14 +68,20 @@ Crc16_dds110(
         0x0220U, 0x8225U, 0x822FU, 0x022AU, 0x823BU, 0x023EU, 0x0234U, 0x8231U, 0x8213U, 0x0216U, 0x021CU, 0x8219U, 0x0208U, 0x820DU, 0x8207U, 0x0202U
     };
 
-    return Crc16_base(
+    uint16_t crc_initial_value = INITIAL_CRC16_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    return Crc16Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC16_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }

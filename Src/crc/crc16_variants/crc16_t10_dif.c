@@ -40,11 +40,13 @@
 #define FINAL_XOR_VALUE (0x0U)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (false)
 
 uint16_t
 Crc16_t10Dif(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    const uint16_t* last_crc_ptr) {
 
     /* Table for CRC-16 T10 DIF (Polynomial 0x8BB7) */
     static const uint16_t crc_table[256] = {
@@ -66,14 +68,20 @@ Crc16_t10Dif(
         0x1F65U, 0x94D2U, 0x83BCU, 0x080BU, 0xAD60U, 0x26D7U, 0x31B9U, 0xBA0EU, 0xF0D8U, 0x7B6FU, 0x6C01U, 0xE7B6U, 0x42DDU, 0xC96AU, 0xDE04U, 0x55B3U
     };
 
-    return Crc16_base(
+    uint16_t crc_initial_value = INITIAL_CRC16_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    return Crc16Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC16_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }

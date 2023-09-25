@@ -123,231 +123,369 @@ TEST(Crc16, Crc16Base_tableCalculator) {
 }
 
 TEST(Crc16, Crc16_a) {
-    TEST_ASSERT_EQUAL_HEX16(0x5600U, Crc16_a(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x33D3U, Crc16_a(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0x9D7CU, Crc16_a(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x3CB4U, Crc16_a(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0x6F1DU, Crc16_a(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x1D00U, Crc16_a(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0xA599U, Crc16_a(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x5600U, Crc16_a(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x33D3U, Crc16_a(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x9D7CU, Crc16_a(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x3CB4U, Crc16_a(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x6F1DU, Crc16_a(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x1D00U, Crc16_a(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xA599U, Crc16_a(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_a(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_a(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_a(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x6F1DU, crc_result);
 }
 
 TEST(Crc16, Crc16_arc) {
-    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_arc(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0xC2E1U, Crc16_arc(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0xBE3U, Crc16_arc(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x6CCFU, Crc16_arc(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xAE98U, Crc16_arc(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0xE24EU, Crc16_arc(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x9401U, Crc16_arc(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_arc(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC2E1U, Crc16_arc(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x0BE3U, Crc16_arc(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x6CCFU, Crc16_arc(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xAE98U, Crc16_arc(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xE24EU, Crc16_arc(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x9401U, Crc16_arc(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_arc(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_arc(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_arc(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xAE98U, crc_result);
 }
 
 TEST(Crc16, Crc16_augCcit) {
-    TEST_ASSERT_EQUAL_HEX16(0x0E10U, Crc16_augCcit(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x0EE4U, Crc16_augCcit(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0xAAF3U, Crc16_augCcit(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x3229U, Crc16_augCcit(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0x3942U, Crc16_augCcit(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0xDAD5U, Crc16_augCcit(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x97DFU, Crc16_augCcit(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0E10U, Crc16_augCcit(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x0EE4U, Crc16_augCcit(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xAAF3U, Crc16_augCcit(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x3229U, Crc16_augCcit(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x3942U, Crc16_augCcit(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xDAD5U, Crc16_augCcit(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x97DFU, Crc16_augCcit(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_augCcit(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_augCcit(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_augCcit(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x3942U, crc_result);
 }
 
 TEST(Crc16, Crc16_buypass) {
-    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_buypass(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x89E1U, Crc16_buypass(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0xC5F6U, Crc16_buypass(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x726FU, Crc16_buypass(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0x4FD0U, Crc16_buypass(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0xF093U, Crc16_buypass(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x8029U, Crc16_buypass(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_buypass(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x89E1U, Crc16_buypass(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC5F6U, Crc16_buypass(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x726FU, Crc16_buypass(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x4FD0U, Crc16_buypass(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF093U, Crc16_buypass(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x8029U, Crc16_buypass(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_buypass(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_buypass(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_buypass(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x4FD0U, crc_result);
 }
 
 TEST(Crc16, Crc16_ccitFalse) {
-    TEST_ASSERT_EQUAL_HEX16(0x84C0U, Crc16_ccitFalse(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0xD374U, Crc16_ccitFalse(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0x2023U, Crc16_ccitFalse(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0xB8F9U, Crc16_ccitFalse(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xF53FU, Crc16_ccitFalse(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x0745U, Crc16_ccitFalse(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x1D0FU, Crc16_ccitFalse(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x84C0U, Crc16_ccitFalse(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xD374U, Crc16_ccitFalse(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x2023U, Crc16_ccitFalse(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xB8F9U, Crc16_ccitFalse(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF53FU, Crc16_ccitFalse(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x0745U, Crc16_ccitFalse(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x1D0FU, Crc16_ccitFalse(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_ccitFalse(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_ccitFalse(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_ccitFalse(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xF53FU, crc_result);
 }
 
 TEST(Crc16, Crc16_ccitZero) {
-    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_ccitZero(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x1FE8U, Crc16_ccitZero(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0xA4E3U, Crc16_ccitZero(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x3C39U, Crc16_ccitZero(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xED4DU, Crc16_ccitZero(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0xCBD9U, Crc16_ccitZero(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x99CFU, Crc16_ccitZero(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_ccitZero(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x1FE8U, Crc16_ccitZero(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xA4E3U, Crc16_ccitZero(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x3C39U, Crc16_ccitZero(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xED4DU, Crc16_ccitZero(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xCBD9U, Crc16_ccitZero(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x99CFU, Crc16_ccitZero(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_ccitZero(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_ccitZero(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_ccitZero(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xED4DU, crc_result);
 }
 
 TEST(Crc16, Crc16_cdma2000) {
-    TEST_ASSERT_EQUAL_HEX16(0xA101U, Crc16_cdma2000(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x98F9U, Crc16_cdma2000(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0x9658U, Crc16_cdma2000(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x7124U, Crc16_cdma2000(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0x2DCBU, Crc16_cdma2000(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x023FU, Crc16_cdma2000(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x8A85U, Crc16_cdma2000(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0xA101U, Crc16_cdma2000(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x98F9U, Crc16_cdma2000(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x9658U, Crc16_cdma2000(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x7124U, Crc16_cdma2000(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x2DCBU, Crc16_cdma2000(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x023FU, Crc16_cdma2000(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x8A85U, Crc16_cdma2000(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_cdma2000(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_cdma2000(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_cdma2000(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x2DCBU, crc_result);
 }
 
 TEST(Crc16, Crc16_dds110) {
-    TEST_ASSERT_EQUAL_HEX16(0x00D8U, Crc16_dds110(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0xADE1U, Crc16_dds110(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0xC52EU, Crc16_dds110(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x72B7U, Crc16_dds110(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0x2FF7U, Crc16_dds110(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0xD493U, Crc16_dds110(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x80F1U, Crc16_dds110(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x00D8U, Crc16_dds110(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xADE1U, Crc16_dds110(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC52EU, Crc16_dds110(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x72B7U, Crc16_dds110(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x2FF7U, Crc16_dds110(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xD493U, Crc16_dds110(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x80F1U, Crc16_dds110(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_dds110(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_dds110(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_dds110(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x2FF7U, crc_result);
 }
 
 TEST(Crc16, Crc16_dectR) {
-    TEST_ASSERT_EQUAL_HEX16(0x0001U, Crc16_dectR(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX16(0xC746U, Crc16_dectR(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX16(0x860AU, Crc16_dectR(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX16(0x3C4FU, Crc16_dectR(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX16(0xEE45U, Crc16_dectR(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX16(0x36FDU, Crc16_dectR(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX16(0x983CU, Crc16_dectR(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX16(0x0001U, Crc16_dectR(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC746U, Crc16_dectR(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x860AU, Crc16_dectR(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x3C4FU, Crc16_dectR(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xEE45U, Crc16_dectR(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x36FDU, Crc16_dectR(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x983CU, Crc16_dectR(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_dectR(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_dectR(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_dectR(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xEE45U, crc_result);
 }
 
 TEST(Crc16, Crc16_dectX) {
-    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_dectX(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0xC747U, Crc16_dectX(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0x860BU, Crc16_dectX(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x3C4EU, Crc16_dectX(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xEE44U, Crc16_dectX(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x36FCU, Crc16_dectX(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x983DU, Crc16_dectX(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_dectX(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC747U, Crc16_dectX(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x860BU, Crc16_dectX(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x3C4EU, Crc16_dectX(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xEE44U, Crc16_dectX(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x36FCU, Crc16_dectX(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x983DU, Crc16_dectX(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_dectX(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_dectX(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_dectX(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xEE44U, crc_result);
 }
 
 TEST(Crc16, Crc16_dnp) {
-    TEST_ASSERT_EQUAL_HEX16(0xFFFFU, Crc16_dnp(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX16(0x7425U, Crc16_dnp(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX16(0x9935U, Crc16_dnp(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX16(0xFD1FU, Crc16_dnp(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX16(0x9BE3U, Crc16_dnp(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX16(0xC6FFU, Crc16_dnp(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX16(0x7A8FU, Crc16_dnp(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX16(0xFFFFU, Crc16_dnp(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x7425U, Crc16_dnp(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x9935U, Crc16_dnp(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xFD1FU, Crc16_dnp(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x9BE3U, Crc16_dnp(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC6FFU, Crc16_dnp(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x7A8FU, Crc16_dnp(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_dnp(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_dnp(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_dnp(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x9BE3U, crc_result);
 }
 
 TEST(Crc16, Crc16_en13757) {
-    TEST_ASSERT_EQUAL_HEX16(0xFFFFU, Crc16_en13757(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX16(0xD754U, Crc16_en13757(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX16(0xAD16U, Crc16_en13757(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX16(0xF72AU, Crc16_en13757(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX16(0x7A1FU, Crc16_en13757(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX16(0xB31FU, Crc16_en13757(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX16(0xF15EU, Crc16_en13757(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX16(0xFFFFU, Crc16_en13757(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xD754U, Crc16_en13757(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xAD16U, Crc16_en13757(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF72AU, Crc16_en13757(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x7A1FU, Crc16_en13757(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xB31FU, Crc16_en13757(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF15EU, Crc16_en13757(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_en13757(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_en13757(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_en13757(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x7A1FU, crc_result);
 }
 
 TEST(Crc16, Crc16_genibus) {
-    TEST_ASSERT_EQUAL_HEX16(0x7B3FU, Crc16_genibus(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX16(0x2C8BU, Crc16_genibus(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX16(0xDFDCU, Crc16_genibus(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX16(0x4706U, Crc16_genibus(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX16(0x0AC0U, Crc16_genibus(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX16(0xF8BAU, Crc16_genibus(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX16(0xE2F0U, Crc16_genibus(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX16(0x7B3FU, Crc16_genibus(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x2C8BU, Crc16_genibus(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xDFDCU, Crc16_genibus(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x4706U, Crc16_genibus(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x0AC0U, Crc16_genibus(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF8BAU, Crc16_genibus(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xE2F0U, Crc16_genibus(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_genibus(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_genibus(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_genibus(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x0AC0U, crc_result);
 }
 
 TEST(Crc16, Crc16_kermit) {
-    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_kermit(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x96C7U, Crc16_kermit(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0xCB7CU, Crc16_kermit(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x6AB4U, Crc16_kermit(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xF191U, Crc16_kermit(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0xB814U, Crc16_kermit(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0xF399U, Crc16_kermit(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_kermit(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x96C7U, Crc16_kermit(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xCB7CU, Crc16_kermit(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x6AB4U, Crc16_kermit(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF191U, Crc16_kermit(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xB814U, Crc16_kermit(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF399U, Crc16_kermit(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_kermit(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_kermit(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_kermit(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xF191U, crc_result);
 }
 
 TEST(Crc16, Crc16_maxim) {
-    TEST_ASSERT_EQUAL_HEX16(0xFFFFU, Crc16_maxim(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX16(0x3D1EU, Crc16_maxim(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX16(0xF41CU, Crc16_maxim(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX16(0x9330U, Crc16_maxim(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX16(0x5167U, Crc16_maxim(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX16(0x1DB1U, Crc16_maxim(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX16(0x6BFEU, Crc16_maxim(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX16(0xFFFFU, Crc16_maxim(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x3D1EU, Crc16_maxim(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF41CU, Crc16_maxim(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x9330U, Crc16_maxim(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x5167U, Crc16_maxim(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x1DB1U, Crc16_maxim(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x6BFEU, Crc16_maxim(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_maxim(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_maxim(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_maxim(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x5167U, crc_result);
 }
 
 TEST(Crc16, Crc16_mcrf4xx) {
-    TEST_ASSERT_EQUAL_HEX16(0x0321U, Crc16_mcrf4xx(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0xAFF4U, Crc16_mcrf4xx(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0xC85DU, Crc16_mcrf4xx(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x6995U, Crc16_mcrf4xx(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xBF89U, Crc16_mcrf4xx(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x8127U, Crc16_mcrf4xx(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0xF0B8U, Crc16_mcrf4xx(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0321U, Crc16_mcrf4xx(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xAFF4U, Crc16_mcrf4xx(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC85DU, Crc16_mcrf4xx(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x6995U, Crc16_mcrf4xx(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xBF89U, Crc16_mcrf4xx(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x8127U, Crc16_mcrf4xx(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF0B8U, Crc16_mcrf4xx(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_mcrf4xx(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_mcrf4xx(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_mcrf4xx(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xBF89U, crc_result);
 }
 
 TEST(Crc16, Crc16_modbus) {
-    TEST_ASSERT_EQUAL_HEX16(0x2400U, Crc16_modbus(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x0290U, Crc16_modbus(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0x2FE3U, Crc16_modbus(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x48CFU, Crc16_modbus(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0x5E92U, Crc16_modbus(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x223FU, Crc16_modbus(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0xB001U, Crc16_modbus(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x2400U, Crc16_modbus(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x0290U, Crc16_modbus(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x2FE3U, Crc16_modbus(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x48CFU, Crc16_modbus(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x5E92U, Crc16_modbus(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x223FU, Crc16_modbus(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xB001U, Crc16_modbus(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_modbus(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_modbus(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_modbus(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x5E92U, crc_result);
 }
 
 TEST(Crc16, Crc16_riello) {
-    TEST_ASSERT_EQUAL_HEX16(0x2766U, Crc16_riello(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0xC281U, Crc16_riello(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0xEC1AU, Crc16_riello(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x4DD2U, Crc16_riello(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xB3C8U, Crc16_riello(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0xEC52U, Crc16_riello(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0xD4FFU, Crc16_riello(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x2766U, Crc16_riello(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC281U, Crc16_riello(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xEC1AU, Crc16_riello(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x4DD2U, Crc16_riello(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xB3C8U, Crc16_riello(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xEC52U, Crc16_riello(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xD4FFU, Crc16_riello(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_riello(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_riello(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_riello(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xB3C8U, crc_result);
 }
 
 TEST(Crc16, Crc16_t10Dif) {
-    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_t10Dif(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x6276U, Crc16_t10Dif(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0x9231U, Crc16_t10Dif(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x0FF2U, Crc16_t10Dif(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xA725U, Crc16_t10Dif(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x1A01U, Crc16_t10Dif(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x77B5U, Crc16_t10Dif(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_t10Dif(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x6276U, Crc16_t10Dif(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x9231U, Crc16_t10Dif(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x0FF2U, Crc16_t10Dif(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xA725U, Crc16_t10Dif(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x1A01U, Crc16_t10Dif(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x77B5U, Crc16_t10Dif(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_t10Dif(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_t10Dif(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_t10Dif(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xA725U, crc_result);
 }
 
 TEST(Crc16, Crc16_teledisk) {
-    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_teledisk(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0x3079U, Crc16_teledisk(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0x612FU, Crc16_teledisk(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0xF1AEU, Crc16_teledisk(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xC07BU, Crc16_teledisk(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x50D4U, Crc16_teledisk(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x30B8U, Crc16_teledisk(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0x0000U, Crc16_teledisk(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x3079U, Crc16_teledisk(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x612FU, Crc16_teledisk(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF1AEU, Crc16_teledisk(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xC07BU, Crc16_teledisk(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x50D4U, Crc16_teledisk(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x30B8U, Crc16_teledisk(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_teledisk(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc16_teledisk(&message5[2], 5U, &crc_result);
+    crc_result = Crc16_teledisk(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xC07BU, crc_result);
 }
 
 TEST(Crc16, Crc16_tms37157) {
-    TEST_ASSERT_EQUAL_HEX16(0xF8DFU, Crc16_tms37157(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX16(0xBEC8U, Crc16_tms37157(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX16(0x33A3U, Crc16_tms37157(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX16(0x926BU, Crc16_tms37157(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX16(0xF6A9U, Crc16_tms37157(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX16(0x901BU, Crc16_tms37157(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX16(0x0B46U, Crc16_tms37157(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX16(0xF8DFU, Crc16_tms37157(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xBEC8U, Crc16_tms37157(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x33A3U, Crc16_tms37157(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x926BU, Crc16_tms37157(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xF6A9U, Crc16_tms37157(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x901BU, Crc16_tms37157(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x0B46U, Crc16_tms37157(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_tms37157(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_tms37157(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_tms37157(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xF6A9U, crc_result);
 }
 
 TEST(Crc16, Crc16_usb) {
-    TEST_ASSERT_EQUAL_HEX16(0xDBFFU, Crc16_usb(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX16(0xFD6FU, Crc16_usb(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX16(0xD01CU, Crc16_usb(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX16(0xB730U, Crc16_usb(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX16(0xA16DU, Crc16_usb(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX16(0xDDC0U, Crc16_usb(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX16(0x4FFEU, Crc16_usb(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX16(0xDBFFU, Crc16_usb(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xFD6FU, Crc16_usb(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xD01CU, Crc16_usb(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xB730U, Crc16_usb(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xA16DU, Crc16_usb(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0xDDC0U, Crc16_usb(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x4FFEU, Crc16_usb(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_usb(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_usb(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_usb(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xA16DU, crc_result);
 }
 
 TEST(Crc16, Crc16_x25) {
-    TEST_ASSERT_EQUAL_HEX16(0xFCDEU, Crc16_x25(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX16(0x500BU, Crc16_x25(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX16(0x37A2U, Crc16_x25(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX16(0x966AU, Crc16_x25(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX16(0x4076U, Crc16_x25(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX16(0x7ED8U, Crc16_x25(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX16(0x0F47U, Crc16_x25(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX16(0xFCDEU, Crc16_x25(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x500BU, Crc16_x25(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x37A2U, Crc16_x25(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x966AU, Crc16_x25(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x4076U, Crc16_x25(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x7ED8U, Crc16_x25(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX16(0x0F47U, Crc16_x25(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint16_t crc_result = Crc16_x25(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc16_x25(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc16_x25(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x4076U, crc_result);
 }

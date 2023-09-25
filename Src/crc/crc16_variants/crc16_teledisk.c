@@ -40,11 +40,13 @@
 #define FINAL_XOR_VALUE (0x0U)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (false)
 
 uint16_t
 Crc16_teledisk(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    const uint16_t* last_crc_ptr) {
 
     /* Table for CRC-16 TELEDISK (Polynomial 0xA097) */
     static const uint16_t crc_table[256] = {
@@ -66,14 +68,20 @@ Crc16_teledisk(
         0x1586U, 0xB511U, 0xF43FU, 0x54A8U, 0x7663U, 0xD6F4U, 0x97DAU, 0x374DU, 0xD24CU, 0x72DBU, 0x33F5U, 0x9362U, 0xB1A9U, 0x113EU, 0x5010U, 0xF087U
     };
 
-    return Crc16_base(
+    uint16_t crc_initial_value = INITIAL_CRC16_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    return Crc16Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC16_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }
