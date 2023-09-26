@@ -46,12 +46,16 @@
  *
  * @param[in] crc_data_ptr A pointer to the block of data to calculate the checksum for.
  * @param[in] crc_length The length of the data block in bytes.
+ * @param[in] final_crc Set the flag to 'true' if it is the last or only operation, and 'false' for data chunks.
+ * @param[in] last_crc_ptr Pointer to the last CRC value for data chunks. Shall be set to NULL_PTR if it is the first or only operation.
  *
  * @return The calculated CRC-8 checksum.
  */
 uint8_t Crc8_wcdma(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length
+    uint32_t crc_length,
+    bool final_crc,
+    const uint8_t* last_crc_ptr
 );
 
 #endif /* UTILITY_CRC8_WCDMA_H_ */

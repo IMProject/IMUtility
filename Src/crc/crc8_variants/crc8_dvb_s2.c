@@ -40,11 +40,13 @@
 #define FINAL_XOR_VALUE (0x0U)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (false)
 
 uint8_t
 Crc8_dvbS2(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    const uint8_t* last_crc_ptr) {
 
     /* Table for CRC-8 DVB S2 (Polynomial 0xD5) */
     static const uint8_t crc_table[256] = {
@@ -66,14 +68,20 @@ Crc8_dvbS2(
         0x84U, 0x51U, 0xFBU, 0x2EU, 0x7AU, 0xAFU, 0x05U, 0xD0U, 0xADU, 0x78U, 0xD2U, 0x07U, 0x53U, 0x86U, 0x2CU, 0xF9U
     };
 
+    uint8_t crc_initial_value = INITIAL_CRC8_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
     return Crc8Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC8_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }
