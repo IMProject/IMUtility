@@ -40,11 +40,14 @@
 #define FINAL_XOR_VALUE (0x00U)
 #define REFLECTED_OUTPUT (true)
 #define REFLECTED_INPUT (true)
+#define FINAL_XOR (false)
 
 uint8_t
 Crc8_maxim(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    bool final_crc,
+    const uint8_t* last_crc_ptr) {
 
     /* Table for CRC-8 MAXIM (Polynomial 0x31) */
     static const uint8_t crc_table[256] = {
@@ -66,14 +69,25 @@ Crc8_maxim(
         0x82U, 0xB3U, 0xE0U, 0xD1U, 0x46U, 0x77U, 0x24U, 0x15U, 0x3BU, 0x0AU, 0x59U, 0x68U, 0xFFU, 0xCEU, 0x9DU, 0xAC
     };
 
+    bool reflect_output = false;
+    uint8_t crc_initial_value = INITIAL_CRC8_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    if (final_crc) {
+        reflect_output = REFLECTED_OUTPUT;
+    }
+
     return Crc8Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC8_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
-               REFLECTED_OUTPUT,
+               reflect_output,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }

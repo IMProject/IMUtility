@@ -40,11 +40,14 @@
 #define FINAL_XOR_VALUE (0x0U)
 #define REFLECTED_OUTPUT (true)
 #define REFLECTED_INPUT (true)
+#define FINAL_XOR (false)
 
 uint8_t
 Crc8_rohc(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    bool final_crc,
+    const uint8_t* last_crc_ptr) {
 
     /* Table for CRC-8 ROHC (Polynomial 0x07) */
     static const uint8_t crc_table[256] = {
@@ -66,14 +69,25 @@ Crc8_rohc(
         0xDEU, 0xD9U, 0xD0U, 0xD7U, 0xC2U, 0xC5U, 0xCCU, 0xCBU, 0xE6U, 0xE1U, 0xE8U, 0xEFU, 0xFAU, 0xFDU, 0xF4U, 0xF3U
     };
 
+    bool reflect_output = false;
+    uint8_t crc_initial_value = INITIAL_CRC8_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    if (final_crc) {
+        reflect_output = REFLECTED_OUTPUT;
+    }
+
     return Crc8Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC8_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
-               REFLECTED_OUTPUT,
+               reflect_output,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }

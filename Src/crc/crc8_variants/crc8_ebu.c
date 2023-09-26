@@ -40,11 +40,14 @@
 #define FINAL_XOR_VALUE (0x00U)
 #define REFLECTED_OUTPUT (true)
 #define REFLECTED_INPUT (true)
+#define FINAL_XOR (false)
 
 uint8_t
 Crc8_ebu(
     const uint8_t* crc_data_ptr,
-    uint32_t crc_length) {
+    uint32_t crc_length,
+    bool final_crc,
+    const uint8_t* last_crc_ptr) {
 
     /* Table for CRC-8 EBU (Polynomial 0x1D) */
     static const uint8_t crc_table[256] = {
@@ -66,14 +69,25 @@ Crc8_ebu(
         0x7FU, 0x62U, 0x45U, 0x58U, 0x0BU, 0x16U, 0x31U, 0x2CU, 0x97U, 0x8AU, 0xADU, 0xB0U, 0xE3U, 0xFEU, 0xD9U, 0xC4U
     };
 
+    bool reflect_output = false;
+    uint8_t crc_initial_value = INITIAL_CRC8_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    if (final_crc) {
+        reflect_output = REFLECTED_OUTPUT;
+    }
+
     return Crc8Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC8_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
-               REFLECTED_OUTPUT,
+               reflect_output,
                REFLECTED_INPUT,
-               false
+               FINAL_XOR
            );
 }

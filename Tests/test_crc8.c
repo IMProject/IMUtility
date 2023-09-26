@@ -43,7 +43,7 @@ TEST_GROUP_RUNNER(Crc8) {
     RUN_TEST_CASE(Crc8, Crc8_itu);
     RUN_TEST_CASE(Crc8, Crc8_maxim);
     RUN_TEST_CASE(Crc8, Crc8_rohc);
-    RUN_TEST_CASE(Crc8, Crc8_saeJ18850);
+    RUN_TEST_CASE(Crc8, Crc8_saeJ1850);
     RUN_TEST_CASE(Crc8, Crc8_saeJ1850Zero);
     RUN_TEST_CASE(Crc8, Crc8_wcdma);
 }
@@ -101,131 +101,209 @@ TEST(Crc8, Crc8Base_tableCalculator) {
 }
 
 TEST(Crc8, Crc8) {
-    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0x2FU, Crc8(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0xB1U, Crc8(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0x11U, Crc8(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0x59U, Crc8(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0xB1U, Crc8(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0xDEU, Crc8(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x2FU, Crc8(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xB1U, Crc8(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x11U, Crc8(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x59U, Crc8(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xB1U, Crc8(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xDEU, Crc8(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc8(&message5[2], 5U, &crc_result);
+    crc_result = Crc8(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x59U, crc_result);
 }
 
 TEST(Crc8, Crc8_8h2f) {
-    TEST_ASSERT_EQUAL_HEX8(0x12U, Crc8_8h2f(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX8(0xC2U, Crc8_8h2f(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX8(0xC6U, Crc8_8h2f(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX8(0x77U, Crc8_8h2f(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX8(0x11U, Crc8_8h2f(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX8(0x33U, Crc8_8h2f(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX8(0x6CU, Crc8_8h2f(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX8(0x12U, Crc8_8h2f(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xC2U, Crc8_8h2f(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xC6U, Crc8_8h2f(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x77U, Crc8_8h2f(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x11U, Crc8_8h2f(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x33U, Crc8_8h2f(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x6CU, Crc8_8h2f(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_8h2f(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc8_8h2f(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc8_8h2f(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x11U, crc_result);
 }
 
 TEST(Crc8, Crc8_cdma2000) {
-    TEST_ASSERT_EQUAL_HEX8(0xAFU, Crc8_cdma2000(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0xCBU, Crc8_cdma2000(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0xA9U, Crc8_cdma2000(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0xAFU, Crc8_cdma2000(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0x3CU, Crc8_cdma2000(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0xD7U, Crc8_cdma2000(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0x0CU, Crc8_cdma2000(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0xAFU, Crc8_cdma2000(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xCBU, Crc8_cdma2000(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xA9U, Crc8_cdma2000(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xAFU, Crc8_cdma2000(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x3CU, Crc8_cdma2000(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xD7U, Crc8_cdma2000(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x0CU, Crc8_cdma2000(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_cdma2000(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc8_cdma2000(&message5[2], 5U, &crc_result);
+    crc_result = Crc8_cdma2000(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x3CU, crc_result);
 }
 
 TEST(Crc8, Crc8_darc) {
-    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_darc(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0x0DU, Crc8_darc(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0x4FU, Crc8_darc(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0xE2U, Crc8_darc(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0x99U, Crc8_darc(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0x43U, Crc8_darc(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0x03U, Crc8_darc(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_darc(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x0DU, Crc8_darc(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x4FU, Crc8_darc(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xE2U, Crc8_darc(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x99U, Crc8_darc(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x43U, Crc8_darc(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x03U, Crc8_darc(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_darc(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc8_darc(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc8_darc(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x99U, crc_result);
 }
 
 TEST(Crc8, Crc8_dvbS2) {
-    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_dvbS2(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0x1AU, Crc8_dvbS2(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0x72U, Crc8_dvbS2(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0xEDU, Crc8_dvbS2(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0x77U, Crc8_dvbS2(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0xA9U, Crc8_dvbS2(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0x21U, Crc8_dvbS2(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_dvbS2(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x1AU, Crc8_dvbS2(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x72U, Crc8_dvbS2(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xEDU, Crc8_dvbS2(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x77U, Crc8_dvbS2(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xA9U, Crc8_dvbS2(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x21U, Crc8_dvbS2(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_dvbS2(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc8_dvbS2(&message5[2], 5U, &crc_result);
+    crc_result = Crc8_dvbS2(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x77U, crc_result);
 }
 
 TEST(Crc8, Crc8_ebu) {
-    TEST_ASSERT_EQUAL_HEX8(0x65U, Crc8_ebu(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0x90U, Crc8_ebu(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0x57U, Crc8_ebu(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0x18U, Crc8_ebu(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0x42U, Crc8_ebu(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0x3DU, Crc8_ebu(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0xD1U, Crc8_ebu(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x65U, Crc8_ebu(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x90U, Crc8_ebu(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x57U, Crc8_ebu(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x18U, Crc8_ebu(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x42U, Crc8_ebu(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x3DU, Crc8_ebu(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xD1U, Crc8_ebu(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_ebu(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc8_ebu(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc8_ebu(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x42U, crc_result);
 }
 
 TEST(Crc8, Crc8_icode) {
-    TEST_ASSERT_EQUAL_HEX8(0x81U, Crc8_icode(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0xCBU, Crc8_icode(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0xA1U, Crc8_icode(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0x60U, Crc8_icode(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0xFEU, Crc8_icode(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0x70U, Crc8_icode(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0xACU, Crc8_icode(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x81U, Crc8_icode(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xCBU, Crc8_icode(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xA1U, Crc8_icode(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x60U, Crc8_icode(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xFEU, Crc8_icode(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x70U, Crc8_icode(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xACU, Crc8_icode(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_icode(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc8_icode(&message5[2], 5U, &crc_result);
+    crc_result = Crc8_icode(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xFEU, crc_result);
 }
 
 TEST(Crc8, Crc8_itu) {
-    TEST_ASSERT_EQUAL_HEX8(0x55U, Crc8_itu(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX8(0x7AU, Crc8_itu(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX8(0xE4U, Crc8_itu(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX8(0x44U, Crc8_itu(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX8(0x0CU, Crc8_itu(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX8(0xE4U, Crc8_itu(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX8(0x8BU, Crc8_itu(message7, sizeof(message7), true));
+    TEST_ASSERT_EQUAL_HEX8(0x55U, Crc8_itu(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x7AU, Crc8_itu(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xE4U, Crc8_itu(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x44U, Crc8_itu(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x0CU, Crc8_itu(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xE4U, Crc8_itu(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x8BU, Crc8_itu(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_itu(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc8_itu(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc8_itu(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x0CU, crc_result);
 }
 
 TEST(Crc8, Crc8_maxim) {
-    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_maxim(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0x68U, Crc8_maxim(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0xE2U, Crc8_maxim(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0x99U, Crc8_maxim(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0xEBU, Crc8_maxim(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0xFAU, Crc8_maxim(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0x8DU, Crc8_maxim(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_maxim(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x68U, Crc8_maxim(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xE2U, Crc8_maxim(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x99U, Crc8_maxim(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xEBU, Crc8_maxim(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xFAU, Crc8_maxim(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x8DU, Crc8_maxim(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_maxim(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc8_maxim(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc8_maxim(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xEBU, crc_result);
 }
 
 TEST(Crc8, Crc8_rohc) {
-    TEST_ASSERT_EQUAL_HEX8(0x8BU, Crc8_rohc(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0xA8U, Crc8_rohc(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0x96U, Crc8_rohc(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0x8BU, Crc8_rohc(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0x1DU, Crc8_rohc(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0x30U, Crc8_rohc(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0xF0U, Crc8_rohc(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x8BU, Crc8_rohc(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xA8U, Crc8_rohc(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x96U, Crc8_rohc(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x8BU, Crc8_rohc(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x1DU, Crc8_rohc(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x30U, Crc8_rohc(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xF0U, Crc8_rohc(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_rohc(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc8_rohc(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc8_rohc(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0x1DU, crc_result);
 }
 
-TEST(Crc8, Crc8_saeJ18850) {
-    TEST_ASSERT_EQUAL_HEX8(0x59U, Crc8_saeJ1850(message1, sizeof(message1), true));
-    TEST_ASSERT_EQUAL_HEX8(0x37U, Crc8_saeJ1850(message2, sizeof(message2), true));
-    TEST_ASSERT_EQUAL_HEX8(0x79U, Crc8_saeJ1850(message3, sizeof(message3), true));
-    TEST_ASSERT_EQUAL_HEX8(0xB8U, Crc8_saeJ1850(message4, sizeof(message4), true));
-    TEST_ASSERT_EQUAL_HEX8(0xCBU, Crc8_saeJ1850(message5, sizeof(message5), true));
-    TEST_ASSERT_EQUAL_HEX8(0x8CU, Crc8_saeJ1850(message6, sizeof(message6), true));
-    TEST_ASSERT_EQUAL_HEX8(0x74U, Crc8_saeJ1850(message7, sizeof(message7), true));
+TEST(Crc8, Crc8_saeJ1850) {
+    TEST_ASSERT_EQUAL_HEX8(0x59U, Crc8_saeJ1850(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x37U, Crc8_saeJ1850(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x79U, Crc8_saeJ1850(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xB8U, Crc8_saeJ1850(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xCBU, Crc8_saeJ1850(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x8CU, Crc8_saeJ1850(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x74U, Crc8_saeJ1850(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_saeJ1850(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc8_saeJ1850(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc8_saeJ1850(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xCBU, crc_result);
 }
 
 TEST(Crc8, Crc8_saeJ1850Zero) {
-    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_saeJ1850Zero(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0xC6U, Crc8_saeJ1850Zero(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0x20U, Crc8_saeJ1850Zero(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0xE1U, Crc8_saeJ1850Zero(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0xB7U, Crc8_saeJ1850Zero(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0x7DU, Crc8_saeJ1850Zero(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0x2DU, Crc8_saeJ1850Zero(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_saeJ1850Zero(message1, sizeof(message1), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xC6U, Crc8_saeJ1850Zero(message2, sizeof(message2), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x20U, Crc8_saeJ1850Zero(message3, sizeof(message3), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xE1U, Crc8_saeJ1850Zero(message4, sizeof(message4), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xB7U, Crc8_saeJ1850Zero(message5, sizeof(message5), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x7DU, Crc8_saeJ1850Zero(message6, sizeof(message6), NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x2DU, Crc8_saeJ1850Zero(message7, sizeof(message7), NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_saeJ1850Zero(&message5[0], 2U, NULL_PTR);
+    crc_result = Crc8_saeJ1850Zero(&message5[2], 5U, &crc_result);
+    crc_result = Crc8_saeJ1850Zero(&message5[7], 2U, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xB7U, crc_result);
 }
 
 TEST(Crc8, Crc8_wcdma) {
-    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_wcdma(message1, sizeof(message1)));
-    TEST_ASSERT_EQUAL_HEX8(0x76U, Crc8_wcdma(message2, sizeof(message2)));
-    TEST_ASSERT_EQUAL_HEX8(0x28U, Crc8_wcdma(message3, sizeof(message3)));
-    TEST_ASSERT_EQUAL_HEX8(0x50U, Crc8_wcdma(message4, sizeof(message4)));
-    TEST_ASSERT_EQUAL_HEX8(0xF9U, Crc8_wcdma(message5, sizeof(message5)));
-    TEST_ASSERT_EQUAL_HEX8(0xE7U, Crc8_wcdma(message6, sizeof(message6)));
-    TEST_ASSERT_EQUAL_HEX8(0xC5U, Crc8_wcdma(message7, sizeof(message7)));
+    TEST_ASSERT_EQUAL_HEX8(0x00U, Crc8_wcdma(message1, sizeof(message1), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x76U, Crc8_wcdma(message2, sizeof(message2), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x28U, Crc8_wcdma(message3, sizeof(message3), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0x50U, Crc8_wcdma(message4, sizeof(message4), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xF9U, Crc8_wcdma(message5, sizeof(message5), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xE7U, Crc8_wcdma(message6, sizeof(message6), true, NULL_PTR));
+    TEST_ASSERT_EQUAL_HEX8(0xC5U, Crc8_wcdma(message7, sizeof(message7), true, NULL_PTR));
+
+    // Test with message in chunks
+    uint8_t crc_result = Crc8_wcdma(&message5[0], 2U, false, NULL_PTR);
+    crc_result = Crc8_wcdma(&message5[2], 5U, false, &crc_result);
+    crc_result = Crc8_wcdma(&message5[7], 2U, true, &crc_result);
+    TEST_ASSERT_EQUAL_HEX16(0xF9U, crc_result);
 }

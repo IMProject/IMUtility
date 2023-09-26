@@ -40,12 +40,14 @@
 #define FINAL_XOR_VALUE (0xFFU)
 #define REFLECTED_OUTPUT (false)
 #define REFLECTED_INPUT (false)
+#define FINAL_XOR (true)
 
 uint8_t
 Crc8_8h2f(
     const uint8_t* crc_data_ptr,
     uint32_t crc_length,
-    bool final_xor) {
+    bool final_crc,
+    const uint8_t* last_crc_ptr) {
 
     /* Table for CRC-8 8H2F (Polynomial 0x2F) */
     static const uint8_t crc_table[256] = {
@@ -67,11 +69,22 @@ Crc8_8h2f(
         0xD8U, 0xF7U, 0x86U, 0xA9U, 0x64U, 0x4BU, 0x3AU, 0x15U, 0x8FU, 0xA0U, 0xD1U, 0xFEU, 0x33U, 0x1CU, 0x6DU, 0x42U
     };
 
+    bool final_xor = false;
+    uint8_t crc_initial_value = INITIAL_CRC8_VALUE;
+
+    if (NULL_PTR != last_crc_ptr) {
+        crc_initial_value = *last_crc_ptr;
+    }
+
+    if (final_crc) {
+        final_xor = FINAL_XOR;
+    }
+
     return Crc8Base(
                crc_table,
                crc_data_ptr,
                crc_length,
-               INITIAL_CRC8_VALUE,
+               crc_initial_value,
                FINAL_XOR_VALUE,
                REFLECTED_OUTPUT,
                REFLECTED_INPUT,
