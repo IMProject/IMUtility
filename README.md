@@ -121,6 +121,11 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Json_endString
 - Json_findByKey
 
+### Map
+- Map_initMap
+- Map_insert
+- Map_getValue
+
 ### Priority queue
 - PriorityQueue_initQueue
 - PriorityQueue_isEmpty
