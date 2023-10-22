@@ -60,7 +60,7 @@ void Scheduler_init(SchedulerTask_t* tasks, uint32_t num_of_tasks);
  *
  * @return True if task is successfully added, otherwise false.
  */
-bool Scheduler_addTask(SchedulerTask_t* tasks, uint32_t max_num_tasks, const SchedulerTask_t* const new_task);
+bool Scheduler_addTask(SchedulerTask_t* tasks, uint32_t max_num_tasks, const SchedulerTask_t* new_task);
 
 /**
  * @brief Function used to run tasks. Tasks will be performed only once, and only active tasks.

@@ -62,7 +62,7 @@ uint32_t Utils_BitReflect(uint32_t data, uint8_t n_bits);
  *
  * @return true if the conversion was successful, false otherwise.
  */
-bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer);
+bool Utils_StringToUint32(const char* str, uint8_t str_length, uint32_t* integer);
 
 /**
  * @brief Swaps the contents of two byte arrays of the same size.
@@ -71,7 +71,7 @@ bool Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* i
  * @param second[in/out] Pointer to the second array.
  * @param size[in] The number of bytes in each array.
  */
-void Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size);
+void Utils_SwapElements(byte_t* first, byte_t* second, uint32_t size);
 
 /**
  * @brief Quickly calculates 10 raised to the power of the given exponent
@@ -86,7 +86,7 @@ void Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size);
  *       The lookup table contains the precomputed values of 10^0 to 10^9.
  *       If the given exponent is greater than 9, the function returns false.
  */
-bool Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result);
+bool Utils_QuickUint32Pow10(uint8_t exponent, uint32_t* result);
 
 /**
  * @brief Serialize a 8-bit value into a buffer (for little-endian and big-endian).

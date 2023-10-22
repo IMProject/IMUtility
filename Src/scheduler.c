@@ -43,7 +43,7 @@ Scheduler_init(SchedulerTask_t* tasks, uint32_t num_of_tasks) {
 }
 
 bool
-Scheduler_addTask(SchedulerTask_t* tasks, uint32_t max_num_tasks, const SchedulerTask_t* const new_task) {
+Scheduler_addTask(SchedulerTask_t* tasks, uint32_t max_num_tasks, const SchedulerTask_t* new_task) {
     bool status = false;
     for (uint32_t i = 0U; i < max_num_tasks; ++i) {
         if (tasks[i].function == NULL_PTR) {
