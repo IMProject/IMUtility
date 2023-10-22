@@ -60,7 +60,7 @@ typedef struct {
  *
  * @return True if priority queue is successfully initialized, otherwise false.
  */
-bool PriorityQueue_initQueue(PriorityQueue_t* const queue, uint32_t capacity, uint32_t element_size,
+bool PriorityQueue_initQueue(PriorityQueue_t* queue, uint32_t capacity, uint32_t element_size,
                              const PriorityQueueItem_t* items);
 
 /**
@@ -70,7 +70,7 @@ bool PriorityQueue_initQueue(PriorityQueue_t* const queue, uint32_t capacity, ui
  *
  * @return True if priority queue is empty, otherwise false.
  */
-bool PriorityQueue_isEmpty(const PriorityQueue_t* const queue);
+bool PriorityQueue_isEmpty(const PriorityQueue_t* queue);
 
 /**
  * @brief Insert an element at the end of the priority queue. If priority queue is full,
@@ -83,7 +83,7 @@ bool PriorityQueue_isEmpty(const PriorityQueue_t* const queue);
  *
  * @return True if element is successfully inserted, otherwise false.
  */
-bool PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem_t* const item);
+bool PriorityQueue_enqueue(PriorityQueue_t* queue, const PriorityQueueItem_t* item);
 
 /**
  * @brief Remove the element with the highest priority from the priority queue.
@@ -93,6 +93,6 @@ bool PriorityQueue_enqueue(PriorityQueue_t* const queue, const PriorityQueueItem
  *
  * @return True if element is successfully removed, otherwise false.
  */
-bool PriorityQueue_dequeue(PriorityQueue_t* const queue, uint8_t* const element);
+bool PriorityQueue_dequeue(PriorityQueue_t* queue, uint8_t* element);
 
 #endif /* UTILITY_PRIORITY_QUEUE_H_ */

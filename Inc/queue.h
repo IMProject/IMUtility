@@ -56,7 +56,7 @@ typedef struct {
  *
  * @return True if queue is successfully initialized, otherwise false.
  */
-bool Queue_initQueue(Queue_t* const queue, uint32_t capacity, uint32_t element_size, uint8_t* buffer);
+bool Queue_initQueue(Queue_t* queue, uint32_t capacity, uint32_t element_size, uint8_t* buffer);
 
 /**
  * @brief Check if queue is full.
@@ -65,7 +65,7 @@ bool Queue_initQueue(Queue_t* const queue, uint32_t capacity, uint32_t element_s
  *
  * @return True if queue is full, otherwise false.
  */
-bool Queue_isFull(const Queue_t* const queue);
+bool Queue_isFull(const Queue_t* queue);
 
 /**
  * @brief Check if queue is empty.
@@ -74,7 +74,7 @@ bool Queue_isFull(const Queue_t* const queue);
  *
  * @return True if queue is empty, otherwise false.
  */
-bool Queue_isEmpty(const Queue_t* const queue);
+bool Queue_isEmpty(const Queue_t* queue);
 
 /**
  * @brief Insert an element at the end of the queue.
@@ -84,7 +84,7 @@ bool Queue_isEmpty(const Queue_t* const queue);
  *
  * @return True if element is successfully inserted, otherwise false.
  */
-bool Queue_enqueue(Queue_t* const queue, const uint8_t* const element);
+bool Queue_enqueue(Queue_t* queue, const uint8_t* element);
 
 /**
  * @brief Remove element from the end of the queue.
@@ -94,7 +94,7 @@ bool Queue_enqueue(Queue_t* const queue, const uint8_t* const element);
  *
  * @return True if element is successfully removed, otherwise false.
  */
-bool Queue_dequeue(Queue_t* const queue, uint8_t* const element);
+bool Queue_dequeue(Queue_t* queue, uint8_t* element);
 
 /**
  * @brief Get the element from the front of the queue. Element will not be removed.
@@ -104,7 +104,7 @@ bool Queue_dequeue(Queue_t* const queue, uint8_t* const element);
  *
  * @return True if front element is successfully fetched, otherwise false.
  */
-bool Queue_front(const Queue_t* const queue, uint8_t* const element);
+bool Queue_front(const Queue_t* queue, uint8_t* element);
 
 /**
  * @brief Get the element from the rear of the queue. Element will not be removed.
@@ -114,6 +114,6 @@ bool Queue_front(const Queue_t* const queue, uint8_t* const element);
  *
  * @return True if rear element is successfully fetched, otherwise false.
  */
-bool Queue_rear(const Queue_t* const queue, uint8_t* const element);
+bool Queue_rear(const Queue_t* queue, uint8_t* element);
 
 #endif /* UTILITY_QUEUE_H_ */

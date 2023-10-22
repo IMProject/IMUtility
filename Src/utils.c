@@ -62,7 +62,7 @@ Utils_BitReflect(uint32_t data, uint8_t n_bits) {
 }
 
 bool
-Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* integer) {
+Utils_StringToUint32(const char* str, uint8_t str_length, uint32_t* integer) {
     bool success = true;
     bool check_overflow = false;
     uint8_t i = 0U;
@@ -114,7 +114,7 @@ Utils_StringToUint32(const char* str, const uint8_t str_length, uint32_t* intege
 }
 
 void
-Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size) {
+Utils_SwapElements(byte_t* first, byte_t* second, uint32_t size) {
     byte_t* first_element = first;
     byte_t* second_element = second;
     uint32_t index = size;
@@ -126,7 +126,7 @@ Utils_SwapElements(byte_t* first, byte_t* second, const uint32_t size) {
 }
 
 bool
-Utils_QuickUint32Pow10(const uint8_t exponent, uint32_t* result) {
+Utils_QuickUint32Pow10(uint8_t exponent, uint32_t* result) {
     bool success = false;
 
     const uint32_t pow10[MAX_UINT32_POW_10_EXPONENT] = {
