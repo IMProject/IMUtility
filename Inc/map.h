@@ -58,8 +58,8 @@ typedef struct {
  *
  * @return True if map is successfully initialized, otherwise false.
  */
-bool Map_initMap(Map_t* map, byte_t* keys, byte_t* values, int32_t key_size, int32_t value_size,
-                 int32_t max_map_size);
+bool Map_init(Map_t* map, byte_t* keys, byte_t* values, int32_t key_size, int32_t value_size,
+              int32_t max_map_size);
 
 /**
  * @brief Insert new element in the map.
