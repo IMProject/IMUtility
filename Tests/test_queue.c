@@ -23,13 +23,13 @@ TEST(Queue, Queue_enqueue_dequeue_uint32) {
     uint32_t array[100];
     const uint32_t capacity = sizeof(array) / sizeof(array[0]);
     Queue_t queue;
-    TEST_ASSERT_TRUE(Queue_initQueue(&queue, capacity, sizeof(array[0]), (uint8_t*)array));
+    TEST_ASSERT_TRUE(Queue_init(&queue, capacity, sizeof(array[0]), (uint8_t*)array));
 
     // queue is not full
-    TEST_ASSERT_FALSE(Queue_isFull(&queue));
+    TEST_ASSERT_FALSE(Queue_full(&queue));
 
     // queue is empty
-    TEST_ASSERT_TRUE(Queue_isEmpty(&queue));
+    TEST_ASSERT_TRUE(Queue_empty(&queue));
 
     uint32_t element;
 
@@ -48,7 +48,7 @@ TEST(Queue, Queue_enqueue_dequeue_uint32) {
     }
 
     // queue is full
-    TEST_ASSERT_TRUE(Queue_isFull(&queue));
+    TEST_ASSERT_TRUE(Queue_full(&queue));
     TEST_ASSERT_FALSE(Queue_enqueue(&queue, (uint8_t*)&i));
 
     // check front element, queue = NULL_PTR
@@ -97,10 +97,10 @@ TEST(Queue, Queue_enqueue_dequeue_float32_t) {
     float32_t array[100];
     const uint32_t capacity = sizeof(array) / sizeof(array[0]);
     Queue_t queue;
-    TEST_ASSERT_TRUE(Queue_initQueue(&queue, capacity, sizeof(array[0]), (uint8_t*)array));
+    TEST_ASSERT_TRUE(Queue_init(&queue, capacity, sizeof(array[0]), (uint8_t*)array));
 
-    TEST_ASSERT_FALSE(Queue_isFull(&queue));
-    TEST_ASSERT_TRUE(Queue_isEmpty(&queue));
+    TEST_ASSERT_FALSE(Queue_full(&queue));
+    TEST_ASSERT_TRUE(Queue_empty(&queue));
     float32_t element = 1.0F;
     TEST_ASSERT_FALSE(Queue_dequeue(&queue, (uint8_t*)&element));
 
@@ -112,7 +112,7 @@ TEST(Queue, Queue_enqueue_dequeue_float32_t) {
     }
 
     // queue is full
-    TEST_ASSERT_TRUE(Queue_isFull(&queue));
+    TEST_ASSERT_TRUE(Queue_full(&queue));
     TEST_ASSERT_FALSE(Queue_enqueue(&queue, (uint8_t*)&element));
 
     // check front element
@@ -138,17 +138,17 @@ TEST(Queue, Queue_enqueue_dequeue_float32_t) {
 TEST(Queue, Queue_no_capacity) {
     float128_t array[100];
     Queue_t queue;
-    TEST_ASSERT_FALSE(Queue_initQueue(&queue, 0U, sizeof(array[0]), (uint8_t*)array));
+    TEST_ASSERT_FALSE(Queue_init(&queue, 0U, sizeof(array[0]), (uint8_t*)array));
 }
 
 TEST(Queue, Queue_element_size_zero) {
     float128_t array[100];
     Queue_t queue;
-    TEST_ASSERT_FALSE(Queue_initQueue(&queue, sizeof(array) / sizeof(array[0]), 0U, (uint8_t*)array));
+    TEST_ASSERT_FALSE(Queue_init(&queue, sizeof(array) / sizeof(array[0]), 0U, (uint8_t*)array));
 }
 
 TEST(Queue, Queue_buffer_null_ptr) {
     float128_t array[100];
     Queue_t queue;
-    TEST_ASSERT_FALSE(Queue_initQueue(&queue, sizeof(array) / sizeof(array[0]), sizeof(array[0]), NULL_PTR));
+    TEST_ASSERT_FALSE(Queue_init(&queue, sizeof(array) / sizeof(array[0]), sizeof(array[0]), NULL_PTR));
 }

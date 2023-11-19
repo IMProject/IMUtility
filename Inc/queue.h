@@ -56,7 +56,7 @@ typedef struct {
  *
  * @return True if queue is successfully initialized, otherwise false.
  */
-bool Queue_initQueue(Queue_t* queue, uint32_t capacity, uint32_t element_size, uint8_t* buffer);
+bool Queue_init(Queue_t* queue, uint32_t capacity, uint32_t element_size, uint8_t* buffer);
 
 /**
  * @brief Check if queue is full.
@@ -65,7 +65,7 @@ bool Queue_initQueue(Queue_t* queue, uint32_t capacity, uint32_t element_size, u
  *
  * @return True if queue is full, otherwise false.
  */
-bool Queue_isFull(const Queue_t* queue);
+bool Queue_full(const Queue_t* queue);
 
 /**
  * @brief Check if queue is empty.
@@ -74,7 +74,7 @@ bool Queue_isFull(const Queue_t* queue);
  *
  * @return True if queue is empty, otherwise false.
  */
-bool Queue_isEmpty(const Queue_t* queue);
+bool Queue_empty(const Queue_t* queue);
 
 /**
  * @brief Insert an element at the end of the queue.
