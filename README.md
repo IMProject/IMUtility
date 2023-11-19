@@ -127,8 +127,8 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Map_getValue
 
 ### Priority queue
-- PriorityQueue_initQueue
-- PriorityQueue_isEmpty
+- PriorityQueue_init
+- PriorityQueue_empty
 - PriorityQueue_enqueue
 - PriorityQueue_dequeue
 

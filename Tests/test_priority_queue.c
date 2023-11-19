@@ -28,9 +28,9 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_uint32) {
     items.priority = priority_array;
     const uint32_t capacity = sizeof(buffer) / sizeof(buffer[0]);
     PriorityQueue_t queue;
-    TEST_ASSERT_TRUE(PriorityQueue_initQueue(&queue, capacity, sizeof(buffer[0]), &items));
+    TEST_ASSERT_TRUE(PriorityQueue_init(&queue, capacity, sizeof(buffer[0]), &items));
 
-    TEST_ASSERT_TRUE(PriorityQueue_isEmpty(&queue));
+    TEST_ASSERT_TRUE(PriorityQueue_empty(&queue));
     uint32_t element;
     TEST_ASSERT_FALSE(PriorityQueue_dequeue(&queue, (uint8_t*)&element));
 
@@ -72,9 +72,9 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
     items.priority = priority_array;
     const uint32_t capacity = sizeof(buffer) / sizeof(buffer[0]);
     PriorityQueue_t queue;
-    TEST_ASSERT_TRUE(PriorityQueue_initQueue(&queue, capacity, sizeof(buffer[0]), &items));
+    TEST_ASSERT_TRUE(PriorityQueue_init(&queue, capacity, sizeof(buffer[0]), &items));
 
-    TEST_ASSERT_TRUE(PriorityQueue_isEmpty(&queue));
+    TEST_ASSERT_TRUE(PriorityQueue_empty(&queue));
     float32_t element;
     TEST_ASSERT_FALSE(PriorityQueue_dequeue(&queue, (uint8_t*)&element));
 
@@ -112,25 +112,25 @@ TEST(PriorityQueue, PriorityQueue_enqueue_dequeue_float32_t) {
 TEST(PriorityQueue, PriorityQueue_queue_null_ptr) {
     float64_t buffer[100];
     PriorityQueueItem_t items = {};
-    TEST_ASSERT_FALSE(PriorityQueue_initQueue(NULL_PTR, sizeof(buffer) / sizeof(buffer[0]), sizeof(buffer[0]), &items));
+    TEST_ASSERT_FALSE(PriorityQueue_init(NULL_PTR, sizeof(buffer) / sizeof(buffer[0]), sizeof(buffer[0]), &items));
 }
 
 TEST(PriorityQueue, PriorityQueue_no_capacity) {
     float64_t buffer[100];
     PriorityQueueItem_t items = {};
     PriorityQueue_t queue;
-    TEST_ASSERT_FALSE(PriorityQueue_initQueue(&queue, 0U, sizeof(buffer[0]), &items));
+    TEST_ASSERT_FALSE(PriorityQueue_init(&queue, 0U, sizeof(buffer[0]), &items));
 }
 
 TEST(PriorityQueue, PriorityQueue_element_size_zero) {
     float64_t buffer[100];
     PriorityQueueItem_t items = {};
     PriorityQueue_t queue;
-    TEST_ASSERT_FALSE(PriorityQueue_initQueue(&queue, sizeof(buffer) / sizeof(buffer[0]), 0U, &items));
+    TEST_ASSERT_FALSE(PriorityQueue_init(&queue, sizeof(buffer) / sizeof(buffer[0]), 0U, &items));
 }
 
 TEST(PriorityQueue, PriorityQueue_items_null_ptr) {
     float64_t buffer[100];
     PriorityQueue_t queue;
-    TEST_ASSERT_FALSE(PriorityQueue_initQueue(&queue, sizeof(buffer) / sizeof(buffer[0]), sizeof(buffer[0]), NULL_PTR));
+    TEST_ASSERT_FALSE(PriorityQueue_init(&queue, sizeof(buffer) / sizeof(buffer[0]), sizeof(buffer[0]), NULL_PTR));
 }
