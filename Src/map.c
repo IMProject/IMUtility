@@ -39,7 +39,7 @@
 #define INDEX_NOT_FOUND (-1)
 
 static int32_t
-Map_findIndex(const Map_t* map, const byte_t* key, int32_t size) {
+GetIndex(const Map_t* map, const byte_t* key, int32_t size) {
     int32_t index = INDEX_NOT_FOUND;
     for (int32_t i = 0; i < size; ++i) {
         /* -E> compliant MC3R1.R21.18 1 map->key_size is a size of the key in the map and it has appropriate value. */
@@ -52,8 +52,8 @@ Map_findIndex(const Map_t* map, const byte_t* key, int32_t size) {
 }
 
 bool
-Map_initMap(Map_t* map, byte_t* keys, byte_t* values, int32_t key_size, int32_t value_size,
-            int32_t max_map_size) {
+Map_init(Map_t* map, byte_t* keys, byte_t* values, int32_t key_size, int32_t value_size,
+         int32_t max_map_size) {
     bool status = false;
     if ((key_size != 0) && (value_size != 0) && (max_map_size != 0) && (keys != NULL_PTR) && (values != NULL_PTR)) {
         map->keys = keys;
@@ -71,7 +71,7 @@ bool
 Map_insert(Map_t* map, const byte_t* key, const byte_t* value) {
     bool status = false;
     if (map != NULL_PTR) {
-        int32_t index = Map_findIndex(map, key, map->current_size);
+        int32_t index = GetIndex(map, key, map->current_size);
         if (index == INDEX_NOT_FOUND) {
             if (map->current_size != map->max_map_size) {
                 /* -E> compliant MC3R1.R21.18 4 map->key_size is a size of the key in the map and it has appropriate value. */
@@ -103,7 +103,7 @@ bool
 Map_getValue(const Map_t* map, const byte_t* key, byte_t* value) {
     bool status = false;
     if (map != NULL_PTR) {
-        int32_t index = Map_findIndex(map, key, map->current_size);
+        int32_t index = GetIndex(map, key, map->current_size);
         if (index != INDEX_NOT_FOUND) {
             /* -E> compliant MC3R1.R21.18 4 map->value_size is a size of the value in the map and it has appropriate value. */
             /* -E> compliant MC3R1.R19.1 3 Overlap will not happen because the map->value_size is the size of the value

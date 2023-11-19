@@ -122,7 +122,7 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Json_findByKey
 
 ### Map
-- Map_initMap
+- Map_init
 - Map_insert
 - Map_getValue
 
