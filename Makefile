@@ -56,6 +56,7 @@ TARGET = $(TARGET_DIR)/$(TARGET_BASE)$(TARGET_EXTENSION)
 
 IMUTILITY_FILES=\
   Src/base64.c \
+  Src/bit_manipulation.c \
   Src/bubble_sort.c \
   Src/crc/crc8_base.c \
   Src/crc/crc8_variants/crc8.c \
@@ -119,6 +120,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/Helper/sort_functions.c \
   Tests/test_main.c \
   Tests/test_base64.c \
+  Tests/test_bit_manipulation.c \
   Tests/test_bubble_sort.c \
   Tests/test_crc8.c \
   Tests/test_crc16.c \

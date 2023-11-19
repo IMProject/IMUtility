@@ -52,6 +52,13 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Base64_encode
 - Base64_decode
 
+### Bit manipulation
+- BitManipulation_reflect
+- BitManipulation_bitSet
+- BitManipulation_setBit
+- BitManipulation_clearBit
+- BitManipulation_toggleBit
+
 ### Bubble sort
 - BubbleSort_sort
 
@@ -147,7 +154,6 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Scheduler_run
 
 ### Utils
-- Utils_BitReflect
 - Utils_StringToUint32
 - Utils_SwapElements
 - Utils_QuickUint32Pow10
