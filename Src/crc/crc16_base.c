@@ -34,7 +34,7 @@
 
 #include "crc16_base.h"
 
-#include "utils.h"
+#include "bit_manipulation.h"
 
 #define REFLECTED_INPUT_BITS_NUM    (8U)
 #define REFLECTED_OUTPUT_BITS_NUM   (16U)
@@ -77,7 +77,7 @@ Crc16Base(
         uint8_t temp;
 
         if (reflected_input) {
-            temp = (uint8_t)Utils_BitReflect(*temp_data_ptr, REFLECTED_INPUT_BITS_NUM);
+            temp = (uint8_t)BitManipulation_reflect(*temp_data_ptr, REFLECTED_INPUT_BITS_NUM);
         } else {
             temp = *temp_data_ptr;
         }
@@ -87,7 +87,7 @@ Crc16Base(
     }
 
     if (reflected_output) {
-        crc = (uint16_t)Utils_BitReflect(crc, REFLECTED_OUTPUT_BITS_NUM);
+        crc = (uint16_t)BitManipulation_reflect(crc, REFLECTED_OUTPUT_BITS_NUM);
     }
 
     if (final_xor) {

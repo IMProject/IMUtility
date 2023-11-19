@@ -39,16 +39,6 @@
 #include "typedefs.h"
 
 /**
- * @brief This function reflects the bits in data around the center bit.
- *
- * @param[in] data The input data to be reflected.
- * @param[in] n_bits The number of bits in the input data to be reflected.
- * @return uint32_t The reflected data.
- *
- */
-uint32_t Utils_BitReflect(uint32_t data, uint8_t n_bits);
-
-/**
  * @brief Converts a string to an unsigned 32-bit integer.
  *
  * This function converts a string to an unsigned 32-bit integer. The string does not need
