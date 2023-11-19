@@ -37,12 +37,12 @@
 #include <string.h>
 
 static bool
-IsPriorityQueueFull(const PriorityQueue_t* queue) {
+Full(const PriorityQueue_t* queue) {
     return (queue->size == queue->capacity);
 }
 
 static uint32_t
-FindHighestPriorityIndex(const PriorityQueue_t* queue) {
+GetHighestPriorityIndex(const PriorityQueue_t* queue) {
     uint32_t highest_priority = queue->priority_array[0];
     uint32_t index = 0U;
 
@@ -57,7 +57,7 @@ FindHighestPriorityIndex(const PriorityQueue_t* queue) {
 }
 
 static uint32_t
-FindLowestPriorityIndex(const PriorityQueue_t* queue) {
+GetLowestPriorityIndex(const PriorityQueue_t* queue) {
     uint32_t lowest_priority = queue->priority_array[0];
     uint32_t index = 0U;
 
@@ -72,8 +72,8 @@ FindLowestPriorityIndex(const PriorityQueue_t* queue) {
 }
 
 bool
-PriorityQueue_initQueue(PriorityQueue_t* queue, uint32_t capacity, uint32_t element_size,
-                        const PriorityQueueItem_t* items) {
+PriorityQueue_init(PriorityQueue_t* queue, uint32_t capacity, uint32_t element_size,
+                   const PriorityQueueItem_t* items) {
     bool status = false;
     if ((queue != NULL_PTR) && (capacity != 0U) && (element_size != 0U) && (items != NULL_PTR)) {
         queue->capacity = capacity;
@@ -87,14 +87,14 @@ PriorityQueue_initQueue(PriorityQueue_t* queue, uint32_t capacity, uint32_t elem
 }
 
 bool
-PriorityQueue_isEmpty(const PriorityQueue_t* queue) {
+PriorityQueue_empty(const PriorityQueue_t* queue) {
     return (queue->size == 0U);
 }
 
 bool
 PriorityQueue_enqueue(PriorityQueue_t* queue, const PriorityQueueItem_t* item) {
     bool status = false;
-    if (!IsPriorityQueueFull(queue)) {
+    if (!Full(queue)) {
         uint8_t* buffer = queue->buffer;
         /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, there is a guard that checks that priority
          * queue is not full. */
@@ -104,7 +104,7 @@ PriorityQueue_enqueue(PriorityQueue_t* queue, const PriorityQueueItem_t* item) {
         queue->size = queue->size + 1U;
         status = true;
     } else {
-        uint32_t lowest_priority_index = FindLowestPriorityIndex(queue);
+        uint32_t lowest_priority_index = GetLowestPriorityIndex(queue);
         if (queue->priority_array[lowest_priority_index] < (*(item->priority))) {
             status = true;
             uint8_t* buffer = queue->buffer;
@@ -134,9 +134,9 @@ PriorityQueue_enqueue(PriorityQueue_t* queue, const PriorityQueueItem_t* item) {
 bool
 PriorityQueue_dequeue(PriorityQueue_t* queue, uint8_t* element) {
     bool status = false;
-    if (!PriorityQueue_isEmpty(queue)) {
+    if (!PriorityQueue_empty(queue)) {
         status = true;
-        uint32_t highest_priority_index = FindHighestPriorityIndex(queue);
+        uint32_t highest_priority_index = GetHighestPriorityIndex(queue);
         uint8_t* buffer = queue->buffer;
         /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, element has same size as one element
          * in buffer, and their size is stored in element_size member. */

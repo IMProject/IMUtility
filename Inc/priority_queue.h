@@ -60,8 +60,8 @@ typedef struct {
  *
  * @return True if priority queue is successfully initialized, otherwise false.
  */
-bool PriorityQueue_initQueue(PriorityQueue_t* queue, uint32_t capacity, uint32_t element_size,
-                             const PriorityQueueItem_t* items);
+bool PriorityQueue_init(PriorityQueue_t* queue, uint32_t capacity, uint32_t element_size,
+                        const PriorityQueueItem_t* items);
 
 /**
  * @brief Check if priority queue is empty.
@@ -70,7 +70,7 @@ bool PriorityQueue_initQueue(PriorityQueue_t* queue, uint32_t capacity, uint32_t
  *
  * @return True if priority queue is empty, otherwise false.
  */
-bool PriorityQueue_isEmpty(const PriorityQueue_t* queue);
+bool PriorityQueue_empty(const PriorityQueue_t* queue);
 
 /**
  * @brief Insert an element at the end of the priority queue. If priority queue is full,
