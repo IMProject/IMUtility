@@ -37,7 +37,7 @@
 #include <string.h>
 
 bool
-Queue_initQueue(Queue_t* queue, uint32_t capacity, uint32_t element_size, uint8_t* buffer) {
+Queue_init(Queue_t* queue, uint32_t capacity, uint32_t element_size, uint8_t* buffer) {
     bool status = false;
     if ((element_size != 0U) && (capacity != 0U) && (buffer != NULL_PTR)) {
         queue->capacity = capacity;
@@ -52,12 +52,12 @@ Queue_initQueue(Queue_t* queue, uint32_t capacity, uint32_t element_size, uint8_
 }
 
 bool
-Queue_isFull(const Queue_t* queue) {
+Queue_full(const Queue_t* queue) {
     return (queue->size == queue->capacity);
 }
 
 bool
-Queue_isEmpty(const Queue_t* queue) {
+Queue_empty(const Queue_t* queue) {
     return (queue->size == 0U);
 }
 
@@ -65,7 +65,7 @@ bool
 Queue_enqueue(Queue_t* queue, const uint8_t* element) {
     bool status = false;
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
-        if (!Queue_isFull(queue)) {
+        if (!Queue_full(queue)) {
             uint8_t* buffer = queue->buffer;
             /* -E> compliant MC3R1.R21.18 4 Buffer overflow will not happen, element has same size as one element
              * in buffer, and their size is stored in element_size member. Also, there is a guard that checks that
@@ -84,7 +84,7 @@ bool
 Queue_dequeue(Queue_t* queue, uint8_t* element) {
     bool status = false;
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
-        if (!Queue_isEmpty(queue)) {
+        if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
             /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, element has same size as one element
              * in buffer, and their size is stored in element_size member. */
@@ -102,7 +102,7 @@ bool
 Queue_front(const Queue_t* queue, uint8_t* element) {
     bool status = false;
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
-        if (!Queue_isEmpty(queue)) {
+        if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
             /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, element has same size as one element
              * in buffer, and their size is stored in element_size member. */
@@ -118,7 +118,7 @@ bool
 Queue_rear(const Queue_t* queue, uint8_t* element) {
     bool status = false;
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
-        if (!Queue_isEmpty(queue)) {
+        if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
             /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, element has same size as one element
              * in buffer, and their size is stored in element_size member. */

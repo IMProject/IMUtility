@@ -133,9 +133,9 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - PriorityQueue_dequeue
 
 ### Queue
-- Queue_initQueue
-- Queue_isFull
-- Queue_isEmpty
+- Queue_init
+- Queue_full
+- Queue_empty
 - Queue_enqueue
 - Queue_dequeue
 - Queue_front
