@@ -32,7 +32,7 @@
  *
  ****************************************************************************/
 
-#include "bubble_sort.h"
+#include "sort/bubble_sort.h"
 
 #include "utils.h"
 
