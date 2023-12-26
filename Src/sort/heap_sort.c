@@ -62,7 +62,7 @@ Heapify(byte_t* buffer, int32_t n, int32_t i, uint32_t element_size,
         }
 
         if (largest != index) {
-            Utils_SwapElements(&elements[index * (int32_t)element_size], &elements[largest * (int32_t)element_size], element_size);
+            Utils_swapElements(&elements[index * (int32_t)element_size], &elements[largest * (int32_t)element_size], element_size);
             index = largest;
         } else {
             continue_iterating = false;
@@ -80,7 +80,7 @@ HeapSort_sort(byte_t* buffer, int32_t number_of_elements, uint32_t element_size,
     }
 
     for (i = number_of_elements - 1; i >= 0; --i) {
-        Utils_SwapElements(&elements[0], &elements[i * (int32_t)element_size], element_size);
+        Utils_swapElements(&elements[0], &elements[i * (int32_t)element_size], element_size);
         Heapify(elements, i, 0, element_size, compareFun);
     }
 }

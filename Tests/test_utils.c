@@ -113,18 +113,27 @@ TEST(Utils, Utils_StringToUint32) {
 
 TEST(Utils, Utils_SwapElements) {
     {
-        int a = 3;
-        int b = 4;
-        Utils_SwapElements((byte_t*)&a, (byte_t*)&b, sizeof(int));
+        int8_t a = 3;
+        int8_t b = 4;
+        Utils_swapElements((byte_t*)&a, (byte_t*)&b, sizeof(int8_t));
         TEST_ASSERT_EQUAL_INT(a, 4);
         TEST_ASSERT_EQUAL_INT(b, 3);
     }
     {
-        double a = 3.1;
-        double b = 4.2;
-        Utils_SwapElements((byte_t*)&a, (byte_t*)&b, sizeof(double));
+        float64_t a = 3.1;
+        float64_t b = 4.2;
+        Utils_swapElements((byte_t*)&a, (byte_t*)&b, sizeof(float64_t));
         TEST_ASSERT_EQUAL_DOUBLE(a, 4.2);
         TEST_ASSERT_EQUAL_DOUBLE(b, 3.1);
+    }
+    {
+        float64_t a[2] = {3.2, 8.4};
+        float64_t b[2] = {4.2, 9.4};
+        Utils_swapElements((byte_t*)&a, (byte_t*)&b, sizeof(a));
+        TEST_ASSERT_EQUAL_DOUBLE(a[0], 4.2);
+        TEST_ASSERT_EQUAL_DOUBLE(a[1], 9.4);
+        TEST_ASSERT_EQUAL_DOUBLE(b[0], 3.2);
+        TEST_ASSERT_EQUAL_DOUBLE(b[1], 8.4);
     }
 }
 

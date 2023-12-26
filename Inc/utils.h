@@ -55,13 +55,13 @@
 bool Utils_StringToUint32(const char* str, uint8_t str_length, uint32_t* integer);
 
 /**
- * @brief Swaps the contents of two byte arrays of the same size.
+ * @brief Swap two elements. Swap the content of two byte arrays of the same size.
  *
  * @param first[in/out] Pointer to the first array.
  * @param second[in/out] Pointer to the second array.
- * @param size[in] The number of bytes in each array.
+ * @param size[in] Size of the element. The number of bytes in each array.
  */
-void Utils_SwapElements(byte_t* first, byte_t* second, uint32_t size);
+void Utils_swapElements(byte_t* first, byte_t* second, uint32_t size);
 
 /**
  * @brief Quickly calculates 10 raised to the power of the given exponent

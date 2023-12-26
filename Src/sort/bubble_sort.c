@@ -46,7 +46,7 @@ BubbleSort_sort(byte_t* buffer, int32_t number_of_elements, uint32_t element_siz
         swapped = false;
         for (int32_t j = 0; j < (number_of_elements - i - 1); ++j) {
             if (compareFun(&elements[j * (int32_t)element_size], &elements[(j + 1) * (int32_t)element_size])) {
-                Utils_SwapElements(&elements[j * (int32_t)element_size], &elements[(j + 1) * (int32_t)element_size], element_size);
+                Utils_swapElements(&elements[j * (int32_t)element_size], &elements[(j + 1) * (int32_t)element_size], element_size);
                 swapped = true;
             }
         }

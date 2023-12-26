@@ -89,7 +89,7 @@ Utils_StringToUint32(const char* str, uint8_t str_length, uint32_t* integer) {
 }
 
 void
-Utils_SwapElements(byte_t* first, byte_t* second, uint32_t size) {
+Utils_swapElements(byte_t* first, byte_t* second, uint32_t size) {
     byte_t* first_element = first;
     byte_t* second_element = second;
     uint32_t index = size;

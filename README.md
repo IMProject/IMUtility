@@ -155,7 +155,7 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 
 ### Utils
 - Utils_StringToUint32
-- Utils_SwapElements
+- Utils_swapElements
 - Utils_QuickUint32Pow10
 - Utils_Serialize8
 - Utils_Deserialize8
