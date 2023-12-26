@@ -107,6 +107,7 @@ IMUTILITY_FILES=\
   Src/crc/crc32_variants/crc32_xfer.c \
   Src/sort/bubble_sort.c \
   Src/sort/heap_sort.c \
+  Src/sort/selection_sort.c \
   Src/json.c \
   Src/map.c \
   Src/priority_queue.c \
@@ -131,6 +132,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_priority_queue.c \
   Tests/test_queue.c \
   Tests/test_scheduler.c \
+  Tests/test_selection_sort.c \
   Tests/test_utils.c
 INC_DIRS_CODE=-IInc -IInc/crc -IInc/crc/crc8_variants -IInc/crc/crc16_variants -IInc/crc/crc32_variants
 INC_DIRS=$(INC_DIRS_CODE) -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src

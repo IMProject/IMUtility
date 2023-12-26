@@ -15,6 +15,7 @@ RunAllTests(void) {
     RUN_TEST_GROUP(PriorityQueue);
     RUN_TEST_GROUP(Queue);
     RUN_TEST_GROUP(Scheduler);
+    RUN_TEST_GROUP(SelectionSort);
     RUN_TEST_GROUP(Utils);
 }
 

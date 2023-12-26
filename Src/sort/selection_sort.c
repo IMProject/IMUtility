@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2022 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
  *   Authors: Juraj Ciberlin <jciberlin1@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,22 +32,27 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_HEAP_SORT_H_
-#define UTILITY_HEAP_SORT_H_
+#include "sort/selection_sort.h"
 
-#include "typedefs.h"
+#include "utils.h"
 
-/**
- * @brief Sort elements using heap sort algorithm.
- *
- * @param[in/out] *buffer Pointer to the buffer that contains elements that will be sorted.
- * @param[in] number_of_elements Number of elements in the buffer.
- * @param[in] element_size Size of the element, in bytes.
- * @param[in] *compareFun Pointer to compare function. Compare function has two parameters (pointer to
- *                        first element and pointer to second element). As a result, it returns boolean,
- *                        true if first element is greater than second element, otherwise false.
- */
-void HeapSort_sort(byte_t* buffer, int32_t number_of_elements, uint32_t element_size,
-                   bool (*compareFun)(void* first, void* second));
+void
+SelectionSort_sort(byte_t* buffer, uint32_t number_of_elements, uint32_t element_size,
+                   bool (*compareFun)(void* first, void* second)) {
+    byte_t* elements = buffer;
+    uint32_t i;
+    uint32_t j;
 
-#endif /* UTILITY_HEAP_SORT_H_ */
+    for (i = 0U; i < (number_of_elements - 1U); ++i) {
+        uint32_t min_index = i;
+        for (j = i + 1U; j < number_of_elements; ++j) {
+            if (compareFun(&elements[min_index * element_size], &elements[j * element_size])) {
+                min_index = j;
+            }
+        }
+
+        if (min_index != i) {
+            Utils_swapElements(&elements[min_index * element_size], &elements[i * element_size], element_size);
+        }
+    }
+}

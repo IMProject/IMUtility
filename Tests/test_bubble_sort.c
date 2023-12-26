@@ -26,7 +26,7 @@ TEST(BubbleSort, BubbleSort_int32) {
                     CompareInt32);
 
     for (uint32_t i = 0U; i < (sizeof(unsorted_array) / sizeof(unsorted_array[0])); ++i) {
-        TEST_ASSERT_EQUAL_INT32(unsorted_array[i], sorted_array[i]);
+        TEST_ASSERT_EQUAL_INT32(sorted_array[i], unsorted_array[i]);
     }
 }
 
@@ -37,7 +37,7 @@ TEST(BubbleSort, BubbleSort_float64) {
                     CompareFloat64);
 
     for (uint32_t i = 0U; i < (sizeof(unsorted_array) / sizeof(unsorted_array[0])); ++i) {
-        TEST_ASSERT_EQUAL_DOUBLE(unsorted_array[i], sorted_array[i]);
+        TEST_ASSERT_EQUAL_DOUBLE(sorted_array[i], unsorted_array[i]);
     }
 }
 
@@ -48,6 +48,6 @@ TEST(BubbleSort, BubbleSort_uint64) {
                     CompareUint64);
 
     for (uint32_t i = 0U; i < (sizeof(unsorted_array) / sizeof(unsorted_array[0])); ++i) {
-        TEST_ASSERT_EQUAL_UINT64(unsorted_array[i], sorted_array[i]);
+        TEST_ASSERT_EQUAL_UINT64(sorted_array[i], unsorted_array[i]);
     }
 }
