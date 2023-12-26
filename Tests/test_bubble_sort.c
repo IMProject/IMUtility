@@ -1,9 +1,9 @@
-#include "bubble_sort.h"
+#include "sort/bubble_sort.h"
 
 #include "unity.h"
 #include "unity_fixture.h"
 
-#include "Helper/sort_functions.h"
+#include "helper/sort_functions.h"
 
 TEST_GROUP(BubbleSort);
 
