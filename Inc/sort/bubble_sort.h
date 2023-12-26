@@ -40,7 +40,7 @@
 /**
  * @brief Sort elements using bubble sort algorithm.
  *
- * @param[in, out] *buffer Pointer to the buffer that contains elements that will be sorted.
+ * @param[in/out] *buffer Pointer to the buffer that contains elements that will be sorted.
  * @param[in] number_of_elements Number of elements in the buffer.
  * @param[in] element_size Size of the element, in bytes.
  * @param[in] *compareFun Pointer to compare function. Compare function has two parameters (pointer to

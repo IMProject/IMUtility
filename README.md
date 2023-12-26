@@ -153,6 +153,9 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Scheduler_addTask
 - Scheduler_run
 
+### Selection sort
+- SelectionSort_sort
+
 ### Utils
 - Utils_StringToUint32
 - Utils_swapElements

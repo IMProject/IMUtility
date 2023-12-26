@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2022 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
  *   Authors: Juraj Ciberlin <jciberlin1@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,13 +32,19 @@
  *
  ****************************************************************************/
 
-#ifndef UTILITY_HEAP_SORT_H_
-#define UTILITY_HEAP_SORT_H_
+#ifndef UTILITY_SELECTION_SORT_H_
+#define UTILITY_SELECTION_SORT_H_
 
 #include "typedefs.h"
 
 /**
- * @brief Sort elements using heap sort algorithm.
+ * @brief Sort elements using selection sort algorithm. Selection sort algorithm is an in-place
+ * comparison sorting algorithm that has O(n2) time complexity. It divides the input array into
+ * two parts, sorted sub-array of items which is built up from left to right and unsorted items
+ * that occupies the rest of the array. The sorted sub-array is empty and the unsorted sub-array
+ * is the entire input array. The algorithm proceeds by finding the smallest element in the
+ * unsorted sub-array, swapping it with the leftmost unsorted element (putting it in sorted order),
+ * and moving the sub-array boundaries one element to the right.
  *
  * @param[in/out] *buffer Pointer to the buffer that contains elements that will be sorted.
  * @param[in] number_of_elements Number of elements in the buffer.
@@ -47,7 +53,7 @@
  *                        first element and pointer to second element). As a result, it returns boolean,
  *                        true if first element is greater than second element, otherwise false.
  */
-void HeapSort_sort(byte_t* buffer, int32_t number_of_elements, uint32_t element_size,
-                   bool (*compareFun)(void* first, void* second));
+void SelectionSort_sort(byte_t* buffer, uint32_t number_of_elements, uint32_t element_size,
+                        bool (*compareFun)(void* first, void* second));
 
-#endif /* UTILITY_HEAP_SORT_H_ */
+#endif /* UTILITY_SELECTION_SORT_H_ */
