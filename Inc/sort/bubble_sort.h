@@ -47,7 +47,7 @@
  *                        first element and pointer to second element). As a result, it returns boolean,
  *                        true if first element is greater than second element, otherwise false.
  */
-void BubbleSort_sort(byte_t* buffer, int32_t number_of_elements, uint32_t element_size,
+void BubbleSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_size,
                      bool (*compareFun)(void* first, void* second));
 
 #endif /* UTILITY_BUBBLE_SORT_H_ */

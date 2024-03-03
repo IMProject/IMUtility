@@ -37,22 +37,21 @@
 #include "utils.h"
 
 void
-SelectionSort_sort(byte_t* buffer, uint32_t number_of_elements, uint32_t element_size,
+SelectionSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_size,
                    bool (*compareFun)(void* first, void* second)) {
     byte_t* elements = buffer;
-    uint32_t i;
-    uint32_t j;
+    int32_t j;
 
-    for (i = 0U; i < (number_of_elements - 1U); ++i) {
-        uint32_t min_index = i;
-        for (j = i + 1U; j < number_of_elements; ++j) {
+    for (int32_t i = 0; i < (number_of_elements - 1); ++i) {
+        int32_t min_index = i;
+        for (j = i + 1; j < number_of_elements; ++j) {
             if (compareFun(&elements[min_index * element_size], &elements[j * element_size])) {
                 min_index = j;
             }
         }
 
         if (min_index != i) {
-            Utils_swapElements(&elements[min_index * element_size], &elements[i * element_size], element_size);
+            Utils_swapElements(&elements[min_index * element_size], &elements[i * element_size], (uint32_t)element_size);
         }
     }
 }
