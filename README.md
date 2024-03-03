@@ -122,6 +122,9 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 ### Heap sort
 - HeapSort_sort
 
+### Insertion sort
+- InsertionSort_sort
+
 ### JSON
 - Json_startString
 - Json_addData

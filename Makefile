@@ -107,6 +107,7 @@ IMUTILITY_FILES=\
   Src/crc/crc32_variants/crc32_xfer.c \
   Src/sort/bubble_sort.c \
   Src/sort/heap_sort.c \
+  Src/sort/insertion_sort.c \
   Src/sort/selection_sort.c \
   Src/json.c \
   Src/map.c \
@@ -127,6 +128,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_crc16.c \
   Tests/test_crc32.c \
   Tests/test_heap_sort.c \
+  Tests/test_insertion_sort.c \
   Tests/test_json.c \
   Tests/test_map.c \
   Tests/test_priority_queue.c \
