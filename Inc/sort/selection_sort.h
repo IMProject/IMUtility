@@ -39,7 +39,7 @@
 
 /**
  * @brief Sort elements using selection sort algorithm. Selection sort algorithm is an in-place
- * comparison sorting algorithm that has O(n2) time complexity. It divides the input array into
+ * comparison sorting algorithm that has O(N^2) time complexity. It divides the input array into
  * two parts, sorted sub-array of items which is built up from left to right and unsorted items
  * that occupies the rest of the array. The sorted sub-array is empty and the unsorted sub-array
  * is the entire input array. The algorithm proceeds by finding the smallest element in the
@@ -53,7 +53,7 @@
  *                        first element and pointer to second element). As a result, it returns boolean,
  *                        true if first element is greater than second element, otherwise false.
  */
-void SelectionSort_sort(byte_t* buffer, uint32_t number_of_elements, uint32_t element_size,
+void SelectionSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_size,
                         bool (*compareFun)(void* first, void* second));
 
 #endif /* UTILITY_SELECTION_SORT_H_ */
