@@ -59,8 +59,9 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - BitManipulation_clearBit
 - BitManipulation_toggleBit
 
-### Bubble sort
-- BubbleSort_sort
+### Ciphering algorithms
+- CaesarCipher_encrypt
+- CaesarCipher_decrypt
 
 ### Crc8
 - Crc8Base_tableCalculator
@@ -119,12 +120,6 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Crc32_q
 - Crc32_xfer
 
-### Heap sort
-- HeapSort_sort
-
-### Insertion sort
-- InsertionSort_sort
-
 ### JSON
 - Json_startString
 - Json_addData
@@ -156,7 +151,10 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Scheduler_addTask
 - Scheduler_run
 
-### Selection sort
+### Sort algorithms
+- BubbleSort_sort
+- HeapSort_sort
+- InsertionSort_sort
 - SelectionSort_sort
 
 ### Utils
