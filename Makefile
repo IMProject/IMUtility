@@ -57,6 +57,7 @@ TARGET = $(TARGET_DIR)/$(TARGET_BASE)$(TARGET_EXTENSION)
 IMUTILITY_FILES=\
   Src/base64.c \
   Src/bit_manipulation.c \
+  Src/ciphering/caesar_cipher.c \
   Src/crc/crc8_base.c \
   Src/crc/crc8_variants/crc8.c \
   Src/crc/crc8_variants/crc8_8h2f.c \
@@ -124,6 +125,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_base64.c \
   Tests/test_bit_manipulation.c \
   Tests/test_bubble_sort.c \
+  Tests/test_caesar_cipher.c \
   Tests/test_crc8.c \
   Tests/test_crc16.c \
   Tests/test_crc32.c \
