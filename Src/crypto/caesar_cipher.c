@@ -32,7 +32,7 @@
  *
  ****************************************************************************/
 
-#include "ciphering/caesar_cipher.h"
+#include "caesar_cipher.h"
 
 #include <string.h>
 

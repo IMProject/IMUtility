@@ -57,7 +57,6 @@ TARGET = $(TARGET_DIR)/$(TARGET_BASE)$(TARGET_EXTENSION)
 IMUTILITY_FILES=\
   Src/base64.c \
   Src/bit_manipulation.c \
-  Src/ciphering/caesar_cipher.c \
   Src/crc/crc8_base.c \
   Src/crc/crc8_variants/crc8.c \
   Src/crc/crc8_variants/crc8_8h2f.c \
@@ -106,6 +105,7 @@ IMUTILITY_FILES=\
   Src/crc/crc32_variants/crc32_posix.c \
   Src/crc/crc32_variants/crc32_q.c \
   Src/crc/crc32_variants/crc32_xfer.c \
+  Src/crypto/caesar_cipher.c \
   Src/sort/bubble_sort.c \
   Src/sort/heap_sort.c \
   Src/sort/insertion_sort.c \
@@ -140,6 +140,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_utils.c
 INC_DIRS_CODE=\
   -IInc \
+  -IInc/crypto \
   -IInc/crc \
   -IInc/crc/crc8_variants \
   -IInc/crc/crc16_variants \

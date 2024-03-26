@@ -59,10 +59,6 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - BitManipulation_clearBit
 - BitManipulation_toggleBit
 
-### Ciphering algorithms
-- CaesarCipher_encrypt
-- CaesarCipher_decrypt
-
 ### Crc8
 - Crc8Base_tableCalculator
 - Crc8Base   // Base used for calculating all Crc8 variants
@@ -119,6 +115,10 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Crc32_posix
 - Crc32_q
 - Crc32_xfer
+
+### Cryptography
+- CaesarCipher_encrypt
+- CaesarCipher_decrypt
 
 ### JSON
 - Json_startString
