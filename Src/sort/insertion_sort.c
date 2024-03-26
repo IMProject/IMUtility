@@ -32,7 +32,7 @@
  *
  ****************************************************************************/
 
-#include "sort/insertion_sort.h"
+#include "insertion_sort.h"
 
 #include <string.h>
 

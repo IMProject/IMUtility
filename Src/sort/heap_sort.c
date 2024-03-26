@@ -32,7 +32,7 @@
  *
  ****************************************************************************/
 
-#include "sort/heap_sort.h"
+#include "heap_sort.h"
 
 #include "utils.h"
 
