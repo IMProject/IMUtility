@@ -138,7 +138,13 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_scheduler.c \
   Tests/test_selection_sort.c \
   Tests/test_utils.c
-INC_DIRS_CODE=-IInc -IInc/crc -IInc/crc/crc8_variants -IInc/crc/crc16_variants -IInc/crc/crc32_variants
+INC_DIRS_CODE=\
+  -IInc \
+  -IInc/crc \
+  -IInc/crc/crc8_variants \
+  -IInc/crc/crc16_variants \
+  -IInc/crc/crc32_variants \
+  -IInc/sort
 INC_DIRS=$(INC_DIRS_CODE) -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS = -DUNITY_FIXTURE_NO_EXTRAS
 SYMBOLS += -DUNITY_INCLUDE_DOUBLE

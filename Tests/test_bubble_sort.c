@@ -1,4 +1,4 @@
-#include "sort/bubble_sort.h"
+#include "bubble_sort.h"
 
 #include "unity.h"
 #include "unity_fixture.h"

@@ -32,7 +32,7 @@
  *
  ****************************************************************************/
 
-#include "sort/selection_sort.h"
+#include "selection_sort.h"
 
 #include "utils.h"
 

@@ -1,4 +1,4 @@
-#include "sort/heap_sort.h"
+#include "heap_sort.h"
 
 #include "unity.h"
 #include "unity_fixture.h"

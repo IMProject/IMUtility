@@ -1,4 +1,4 @@
-#include "sort/selection_sort.h"
+#include "selection_sort.h"
 
 #include "unity.h"
 #include "unity_fixture.h"
