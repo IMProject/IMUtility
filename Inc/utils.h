@@ -204,7 +204,7 @@ void Utils_Serialize24LE(byte_t* buf, uint32_t value);
  *
  * @note The buffer must be at least 4 bytes long to accommodate the serialized value.
  */
-void Utils_Serialize32LE(byte_t* buf, uint32_t value);
+void Utils_Serialize32LE(byte_t* const buf, uint32_t value);
 
 /**
  * @brief Serialize a blob of data in little-endian format.

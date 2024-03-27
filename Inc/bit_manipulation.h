@@ -91,4 +91,15 @@ bool BitManipulation_clearBit(uint32_t data, uint8_t n, uint32_t* out);
  */
 bool BitManipulation_toggleBit(uint32_t data, uint8_t n, uint32_t* out);
 
+
+/**
+ * @brief This function rotates the bits of a 32-bit variable to the left.
+ *
+ * @param[in] data The input data to rotate.
+ * @param[in] n_bits The number of bits in the data to be rotated.
+ *
+ * @return The rotated data.
+ */
+uint32_t BitManipulation_rotl32(uint32_t data, uint32_t n_bits);
+
 #endif /* UTILITY_BIT_MANIPULATION_H_ */

@@ -204,7 +204,7 @@ Utils_Serialize24LE(byte_t* buf, uint32_t value) {
 }
 
 void
-Utils_Serialize32LE(byte_t* buf, uint32_t value) {
+Utils_Serialize32LE(byte_t* const buf, uint32_t value) {
     buf[3] = (uint8_t)(value >> 24u) & 0xFFu;
     buf[2] = (uint8_t)(value >> 16u) & 0xFFu;
     buf[1] = (uint8_t)(value >> 8u) & 0xFFu;
