@@ -68,7 +68,7 @@ TEST(Base64, Base64_decode) {
     {
         // Success
         char text[] = "IMProject is a very cool project!";
-        char base64[] = "SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh";
+        const char base64[] = "SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh";
         uint8_t string[200];
         int32_t success = Base64_decode(base64, strlen(base64), string, sizeof(string));
         TEST_ASSERT_EQUAL_MEMORY(text, string, strlen(text));
@@ -76,7 +76,7 @@ TEST(Base64, Base64_decode) {
     }
     {
         // Output size is too big
-        char base64[] = "SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh";
+        const char base64[] = "SU1Qcm9qZWN0IGlzIGEgdmVyeSBjb29sIHByb2plY3Qh";
         uint8_t string[10];
         int32_t success = Base64_decode(base64, strlen(base64), string, sizeof(string));
         TEST_ASSERT_EQUAL_INT32(1, success);
@@ -84,7 +84,7 @@ TEST(Base64, Base64_decode) {
     {
         // Success
         char text[] = "B?E(H+MbQeThWmZq4t7w!z%C*F)J@NcR";
-        char base64[] = "Qj9FKEgrTWJRZVRoV21acTR0N3cheiVDKkYpSkBOY1I=";
+        const char base64[] = "Qj9FKEgrTWJRZVRoV21acTR0N3cheiVDKkYpSkBOY1I=";
         uint8_t string[200];
         int32_t success = Base64_decode(base64, strlen(base64), string, sizeof(string));
         TEST_ASSERT_EQUAL_MEMORY(text, string, strlen(text));
@@ -93,7 +93,7 @@ TEST(Base64, Base64_decode) {
     {
         // Success
         char text[] = "Hehe";
-        char base64[] = "SGVoZQ==";
+        const char base64[] = "SGVoZQ==";
         uint8_t string[200];
         int32_t success = Base64_decode(base64, strlen(base64), string, sizeof(string));
         TEST_ASSERT_EQUAL_MEMORY(text, string, strlen(text));
@@ -102,7 +102,7 @@ TEST(Base64, Base64_decode) {
     {
         // Success
         char text[] = "Hehe";
-        char base64[] = "SGVoZQ1==";
+        const char base64[] = "SGVoZQ1==";
         uint8_t string[200];
         int32_t success = Base64_decode(base64, strlen(base64), string, sizeof(string));
         TEST_ASSERT_EQUAL_MEMORY(text, string, strlen(text));
@@ -110,14 +110,14 @@ TEST(Base64, Base64_decode) {
     }
     {
         // Output size is too big
-        char base64[] = "Qj9FKEgrTWJRZVRoV21acTR0N3cheiVDKkYpSkBOY1I=";
+        const char base64[] = "Qj9FKEgrTWJRZVRoV21acTR0N3cheiVDKkYpSkBOY1I=";
         uint8_t string[31];
         int32_t success = Base64_decode(base64, strlen(base64), string, sizeof(string));
         TEST_ASSERT_EQUAL_INT32(1, success);
     }
     {
         // Fail, length = 0
-        char base64[] = "SGVoZQ==";
+        const char base64[] = "SGVoZQ==";
         uint8_t string[200];
         int32_t success = Base64_decode(base64, 0U, string, sizeof(string));
         TEST_ASSERT_EQUAL_INT32(1, success);

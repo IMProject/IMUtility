@@ -66,48 +66,48 @@ TEST(Utils, Utils_StringToUint32) {
     TEST_ASSERT_TRUE(Utils_StringToUint32("2165217", 7U, &ui32_number));
     TEST_ASSERT_EQUAL_UINT32(ui32_number, 2165217U);
 
-    char number_string[] = "1234567890";
+    const char number_string[] = "1234567890";
     TEST_ASSERT_TRUE(Utils_StringToUint32(number_string, strlen(number_string), &ui32_number));
     TEST_ASSERT_EQUAL_UINT32(ui32_number, 1234567890U);
 
-    char max_uint32_number_string[] = "4294967295";
+    const char max_uint32_number_string[] = "4294967295";
     TEST_ASSERT_TRUE(Utils_StringToUint32(max_uint32_number_string, strlen(max_uint32_number_string), &ui32_number));
     TEST_ASSERT_EQUAL_UINT32(ui32_number, 4294967295U);
 
-    char overflow_1_uint32_number_string[] = "4294967296";
+    const char overflow_1_uint32_number_string[] = "4294967296";
     TEST_ASSERT_FALSE(Utils_StringToUint32(overflow_1_uint32_number_string, strlen(overflow_1_uint32_number_string),
                                            &ui32_number));
 
-    char overflow_2_uint32_number_string[] = "5294967295";
+    const char overflow_2_uint32_number_string[] = "5294967295";
     TEST_ASSERT_FALSE(Utils_StringToUint32(overflow_2_uint32_number_string, strlen(overflow_2_uint32_number_string),
                                            &ui32_number));
 
-    char not_a_number_string[] = "A";
+    const char not_a_number_string[] = "A";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_string, strlen(not_a_number_string), &ui32_number));
 
-    char not_a_number_2_string[] = "1A1";
+    const char not_a_number_2_string[] = "1A1";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_2_string, strlen(not_a_number_2_string), &ui32_number));
 
-    char not_a_number_3_string[] = "123456789A";
+    const char not_a_number_3_string[] = "123456789A";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_3_string, strlen(not_a_number_3_string), &ui32_number));
 
-    char not_a_number_4_string[] = "429496729A";
+    const char not_a_number_4_string[] = "429496729A";
     TEST_ASSERT_FALSE(Utils_StringToUint32(not_a_number_4_string, strlen(not_a_number_4_string), &ui32_number));
 
-    char number_string_edge_case_1[] = "/";
+    const char number_string_edge_case_1[] = "/";
     TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_1, strlen(number_string_edge_case_1), &ui32_number));
 
-    char number_string_edge_case_2[] = ":";
+    const char number_string_edge_case_2[] = ":";
     TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_2, strlen(number_string_edge_case_2), &ui32_number));
 
-    const uint8_t force_overflow_check_size = 10U;
-    char number_string_edge_case_3[10U] = "12345A";
+    uint8_t force_overflow_check_size = 10U;
+    const char number_string_edge_case_3[10U] = "12345A";
     TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_3, force_overflow_check_size, &ui32_number));
 
-    char number_string_edge_case_4[] = "123456789/";
+    const char number_string_edge_case_4[] = "123456789/";
     TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_4, strlen(number_string_edge_case_4), &ui32_number));
 
-    char number_string_edge_case_5[] = "123456789:";
+    const char number_string_edge_case_5[] = "123456789:";
     TEST_ASSERT_FALSE(Utils_StringToUint32(number_string_edge_case_5, strlen(number_string_edge_case_5), &ui32_number));
 }
 
