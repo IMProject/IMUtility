@@ -3,8 +3,8 @@
 bool
 CompareInt32(void* first, void* second) {
     bool ret_val = false;
-    int32_t* first_element = first;
-    int32_t* second_element = second;
+    const int32_t* first_element = first;
+    const int32_t* second_element = second;
     if (*first_element > *second_element) {
         ret_val = true;
     }
@@ -14,8 +14,8 @@ CompareInt32(void* first, void* second) {
 bool
 CompareFloat64(void* first, void* second) {
     bool ret_val = false;
-    float64_t* first_element = first;
-    float64_t* second_element = second;
+    const float64_t* first_element = first;
+    const float64_t* second_element = second;
     if (*first_element > *second_element) {
         ret_val = true;
     }
@@ -25,8 +25,8 @@ CompareFloat64(void* first, void* second) {
 bool
 CompareUint64(void* first, void* second) {
     bool ret_val = false;
-    uint64_t* first_element = first;
-    uint64_t* second_element = second;
+    const uint64_t* first_element = first;
+    const uint64_t* second_element = second;
     if (*first_element > *second_element) {
         ret_val = true;
     }
