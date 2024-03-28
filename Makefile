@@ -171,10 +171,13 @@ format:
 .PHONY: cppcheck misra
 cppcheck:
 	$(call colorecho,'Checking code with cppcheck')
-	@cppcheck cppcheck --enable=all -IInc Src Tests -iTests/Unity --suppress=missingInclude --error-exitcode=1
+	@cppcheck cppcheck --version
+	@cppcheck cppcheck --enable=all -IInc Src Tests -iTests/Unity \
+	--suppress=missingInclude --suppress=missingIncludeSystem --error-exitcode=1
 	
 misra:
 	$(call colorecho,'Checking MISRA C:2012 with cppcheck')
+	@cppcheck cppcheck --version
 	@cppcheck cppcheck $(INC_DIRS_CODE) Src --force --addon=misra.py --inline-suppr --suppress=misra-c2012-2.3 \
 	 --suppress=misra-c2012-8.7 --error-exitcode=1
 
