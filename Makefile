@@ -106,6 +106,7 @@ IMUTILITY_FILES=\
   Src/crc/crc32_variants/crc32_q.c \
   Src/crc/crc32_variants/crc32_xfer.c \
   Src/crypto/caesar_cipher.c \
+  Src/crypto/chacha20.c \
   Src/sort/bubble_sort.c \
   Src/sort/heap_sort.c \
   Src/sort/insertion_sort.c \
@@ -126,6 +127,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_bit_manipulation.c \
   Tests/test_bubble_sort.c \
   Tests/test_caesar_cipher.c \
+  Tests/test_chacha20.c \
   Tests/test_crc8.c \
   Tests/test_crc16.c \
   Tests/test_crc32.c \
@@ -138,14 +140,16 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_scheduler.c \
   Tests/test_selection_sort.c \
   Tests/test_utils.c
-INC_DIRS_CODE=\
+
+INC_DIRS_CODE= \
   -IInc \
-  -IInc/crypto \
   -IInc/crc \
   -IInc/crc/crc8_variants \
   -IInc/crc/crc16_variants \
   -IInc/crc/crc32_variants \
+  -IInc/crypto \
   -IInc/sort
+
 INC_DIRS=$(INC_DIRS_CODE) -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS = -DUNITY_FIXTURE_NO_EXTRAS
 SYMBOLS += -DUNITY_INCLUDE_DOUBLE

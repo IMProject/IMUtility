@@ -58,6 +58,7 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - BitManipulation_setBit
 - BitManipulation_clearBit
 - BitManipulation_toggleBit
+- BitManipulation_rotl32
 
 ### Crc8
 - Crc8Base_tableCalculator
@@ -119,6 +120,7 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 ### Cryptography
 - CaesarCipher_encrypt
 - CaesarCipher_decrypt
+- Chacha20_crypt
 
 ### JSON
 - Json_startString

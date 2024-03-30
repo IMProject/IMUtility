@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2023 IMProject Development Team. All rights reserved.
+ *   Copyright (c) 2023 - 2024 IMProject Development Team. All rights reserved.
  *   Authors: Juraj Ciberlin <jciberlin1@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -102,4 +102,11 @@ BitManipulation_toggleBit(uint32_t data, uint8_t n, uint32_t* out) {
         status = true;
     }
     return status;
+}
+
+uint32_t
+BitManipulation_rotl32(uint32_t data, uint32_t n_bits) {
+
+    /* -E> hide MC3R1.R12.2 1 To optimize efficiency, we do not verify whether n_bits is between 0 and 31. */
+    return ((data << n_bits) ^ (data >> (32U - n_bits)));
 }

@@ -17,6 +17,7 @@ TEST_GROUP_RUNNER(BitManipulation) {
     RUN_TEST_CASE(BitManipulation, BitManipulation_setBit);
     RUN_TEST_CASE(BitManipulation, BitManipulation_clearBit);
     RUN_TEST_CASE(BitManipulation, BitManipulation_toggleBit);
+    RUN_TEST_CASE(BitManipulation, BitManipulation_rotl32);
 }
 
 TEST(BitManipulation, BitManipulation_reflect) {
@@ -83,3 +84,23 @@ TEST(BitManipulation, BitManipulation_toggleBit) {
     TEST_ASSERT_TRUE(BitManipulation_toggleBit(data, 4U, &out_data));
     TEST_ASSERT_EQUAL_UINT32(0b10100011U, out_data);
 }
+
+TEST(BitManipulation, BitManipulation_rotl32) {
+    const uint32_t data = 0b10110011U;
+
+    uint8_t n_bits = 2U;
+    TEST_ASSERT_BITS(0xFFFFFFFF, 0b00000000000000000000001011001100U, BitManipulation_rotl32(data, n_bits));
+
+    n_bits = 3U;
+    TEST_ASSERT_BITS(0xFFFFFFFF, 0b00000000000000000000010110011000U, BitManipulation_rotl32(data, n_bits));
+
+    n_bits = 4U;
+    TEST_ASSERT_BITS(0xFFFFFFFF, 0b00000000000000000000101100110000U, BitManipulation_rotl32(data, n_bits));
+
+    n_bits = 16U;
+    TEST_ASSERT_BITS(0xFFFFFFFF, 0b00000000101100110000000000000000U, BitManipulation_rotl32(data, n_bits));
+
+    n_bits = 32U;
+    TEST_ASSERT_BITS(0xFFFFFFFF, 0b00000000000000000000000010110011U, BitManipulation_rotl32(data, n_bits));
+}
+
