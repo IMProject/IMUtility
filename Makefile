@@ -28,7 +28,7 @@ endif
 
 UNITY_ROOT=Tests/Unity
 
-CFLAGS=-std=c99
+CFLAGS=-std=c99 -std=gnu99
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Wpointer-arith
@@ -148,12 +148,14 @@ INC_DIRS_CODE= \
   -IInc/crc/crc16_variants \
   -IInc/crc/crc32_variants \
   -IInc/crypto \
-  -IInc/sort
+  -IInc/sort \
+  -ITests/
 
 INC_DIRS=$(INC_DIRS_CODE) -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS = -DUNITY_FIXTURE_NO_EXTRAS
 SYMBOLS += -DUNITY_INCLUDE_DOUBLE
 SYMBOLS += -DUNITY_DOUBLE_PRECISION=1e-12
+SYMBOLS += -DUNITY_INCLUDE_CONFIG_H
 
 #######################################
 # Astyle
