@@ -23,13 +23,15 @@ Our team has meticulously laid the foundation for everything necessary to ensure
 However, to further enhance the project's quality, we intend to achieve 100% coverage where feasible. This will serve as an additional layer of assurance that the code is of the highest quality and complies with safety-critical standards.
 
 ## ECLAIR
-<b>ECLAIR 3.12.0</b> is certified for use in safety-critical development in compliance with:
+<b>ECLAIR version 3.13.1</b>, is certified for use in safety-related development in compliance with the prescriptions of the following functional-safety standards:
 
-    ISO 26262 up to ASIL D
-    IEC 61508 up to SIL 4
-    EN 50128 up to SIL 4
-    IEC 62304 up to Class C
-    ISO 25119 up to SRL 3
+- ISO 26262 up to ASIL D
+- IEC 61508 up to SIL 4
+- EN 50128 up to SIL 4
+- EN 50657 up to SIL 4
+- IEC 62304 up to Class C
+- ISO 25119 up to SRL 3
+- ISO 19014 up to MPLr e
 
 More info at its official web page [https://www.bugseng.com/eclair](https://www.bugseng.com/eclair).
 
