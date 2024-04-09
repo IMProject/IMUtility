@@ -2,7 +2,6 @@
 #define TESTS_UNITY_UNITY_CONFIG_H_
 
 #define UNITY_INCLUDE_EXEC_TIME
-#define UNITY_CLOCK_MS
 
 #if defined(_WIN32)
 #include <time.h>
