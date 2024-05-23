@@ -20,6 +20,7 @@ RunAllTests(void) {
     RUN_TEST_GROUP(Scheduler);
     RUN_TEST_GROUP(SelectionSort);
     RUN_TEST_GROUP(Utils);
+    RUN_TEST_GROUP(VernamCipher);
 }
 
 int

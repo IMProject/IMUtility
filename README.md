@@ -123,6 +123,8 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - CaesarCipher_encrypt
 - CaesarCipher_decrypt
 - Chacha20_crypt
+- VernamCipher_encrypt
+- VernamCipher_decrypt
 
 ### JSON
 - Json_startString

@@ -107,6 +107,7 @@ IMUTILITY_FILES=\
   Src/crc/crc32_variants/crc32_xfer.c \
   Src/crypto/caesar_cipher.c \
   Src/crypto/chacha20.c \
+  Src/crypto/vernam_cipher.c \
   Src/sort/bubble_sort.c \
   Src/sort/heap_sort.c \
   Src/sort/insertion_sort.c \
@@ -139,7 +140,8 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_queue.c \
   Tests/test_scheduler.c \
   Tests/test_selection_sort.c \
-  Tests/test_utils.c
+  Tests/test_utils.c \
+  Tests/test_vernam_cipher.c
 
 INC_DIRS_CODE= \
   -IInc \
