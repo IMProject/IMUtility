@@ -256,5 +256,31 @@ uint32_t Utils_Deserialize32LE(const byte_t* buf);
  */
 void Utils_DeserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size);
 
+/**
+ * @brief Check if the given character is upper alphabetical letter.
+ *
+ * @param[in] input Input character.
+ *
+ * @return True if given character is upper alphabetical letter, otherwise false.
+ */
+bool Utils_isUpperChar(char input);
+
+/**
+ * @brief Check if the given character is lower alphabetical letter.
+ *
+ * @param[in] input Input character.
+ *
+ * @return True if given character is lower alphabetical letter, otherwise false.
+ */
+bool Utils_isLowerChar(char input);
+
+/**
+ * @brief Check if the given character is alphabetical letter.
+ *
+ * @param[in] input Input character.
+ *
+ * @return True if given character is alphabetical letter, otherwise false.
+ */
+bool Utils_isAlpha(char input);
 
 #endif /* UTILITY_UTILS_H_ */

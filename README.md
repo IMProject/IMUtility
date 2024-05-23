@@ -183,3 +183,6 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - Utils_Deserialize24LE
 - Utils_Deserialize32LE
 - Utils_DeserializeBlobLE
+- Utils_isUpperChar
+- Utils_isLowerChar
+- Utils_isAlpha

@@ -35,6 +35,10 @@
 #include "utils.h"
 
 #define MAX_UINT32_POW_10_EXPONENT 10U
+#define UPPER_A_ASCII   (65U)
+#define UPPER_Z_ASCII   (90U)
+#define LOWER_A_ASCII   (97U)
+#define LOWER_Z_ASCII   (122U)
 
 bool
 Utils_StringToUint32(const char* str, uint8_t str_length, uint32_t* integer) {
@@ -254,4 +258,32 @@ Utils_DeserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size) {
         dst[j] = buf[i];
         ++j;
     }
+}
+
+bool
+Utils_isUpperChar(char input) {
+    bool result = false;
+    uint8_t c = (uint8_t)input;
+    if ((c >= UPPER_A_ASCII) && (c <= UPPER_Z_ASCII)) {
+        result = true;
+    }
+    return result;
+}
+
+bool
+Utils_isLowerChar(char input) {
+    bool result = false;
+    uint8_t c = (uint8_t)input;
+    if ((c >= LOWER_A_ASCII) && (c <= LOWER_Z_ASCII)) {
+        result = true;
+    }
+    return result;
+}
+
+bool
+Utils_isAlpha(char input) {
+    bool is_upper = Utils_isUpperChar(input);
+    bool is_lower = Utils_isLowerChar(input);
+
+    return (is_upper || is_lower);
 }
