@@ -46,7 +46,7 @@
 void CaesarCipher_encrypt(char* msg, uint8_t shift);
 
 /**
- * @brief Decryption using Caesar cipher algorithm. Time complexity O(N);
+ * @brief Decryption using Caesar cipher algorithm. Time complexity O(N).
  *
  * @param[in/out] *msg Pointer to message that will be decrypted.
  * @param[in] shift Shift value that will be used for decryption.

@@ -36,47 +36,19 @@
 
 #include <string.h>
 
+#include "utils.h"
+
 #define MAX_SHIFT       (26U)
 #define UPPER_A_ASCII   (65U)
-#define UPPER_Z_ASCII   (90U)
 #define LOWER_A_ASCII   (97U)
-#define LOWER_Z_ASCII   (122U)
-
-static bool
-IsUpperChar(char input) {
-    bool result = false;
-    uint8_t c = (uint8_t)input;
-    if ((c >= UPPER_A_ASCII) && (c <= UPPER_Z_ASCII)) {
-        result = true;
-    }
-    return result;
-}
-
-static bool
-IsLowerChar(char input) {
-    bool result = false;
-    uint8_t c = (uint8_t)input;
-    if ((c >= LOWER_A_ASCII) && (c <= LOWER_Z_ASCII)) {
-        result = true;
-    }
-    return result;
-}
-
-static bool
-IsAlpha(char input) {
-    bool is_upper = IsUpperChar(input);
-    bool is_lower = IsLowerChar(input);
-
-    return (is_upper || is_lower);
-}
 
 void
 CaesarCipher_encrypt(char* msg, uint8_t shift) {
     const size_t length = strlen(msg);
     for (size_t i = 0U; i < length; ++i) {
-        if (IsAlpha(msg[i])) {
+        if (Utils_isAlpha(msg[i])) {
             uint8_t encrypted_char;
-            if (IsUpperChar(msg[i])) {
+            if (Utils_isUpperChar(msg[i])) {
                 encrypted_char = (((uint8_t)msg[i] + shift - UPPER_A_ASCII) % MAX_SHIFT) + UPPER_A_ASCII;
             } else {
                 encrypted_char = (((uint8_t)msg[i] + shift - LOWER_A_ASCII) % MAX_SHIFT) + LOWER_A_ASCII;
@@ -90,9 +62,9 @@ void
 CaesarCipher_decrypt(char* msg, uint8_t shift) {
     const size_t length = strlen(msg);
     for (size_t i = 0U; i < length; ++i) {
-        if (IsAlpha(msg[i])) {
+        if (Utils_isAlpha(msg[i])) {
             uint8_t decrypted_char;
-            if (IsUpperChar(msg[i])) {
+            if (Utils_isUpperChar(msg[i])) {
                 decrypted_char = (((uint8_t)msg[i] - shift - UPPER_A_ASCII) % MAX_SHIFT) + UPPER_A_ASCII;
             } else {
                 decrypted_char = (((uint8_t)msg[i] - shift - LOWER_A_ASCII) % MAX_SHIFT) + LOWER_A_ASCII;

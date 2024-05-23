@@ -52,6 +52,7 @@ TEST_GROUP_RUNNER(Utils) {
     RUN_TEST_CASE(Utils, Utils_BigEndianSerializeDeserialize);
     RUN_TEST_CASE(Utils, Utils_LittleEndianSerializeDeserialize);
 
+    RUN_TEST_CASE(Utils, Utils_Characters);
 }
 
 TEST(Utils, Utils_StringToUint32) {
@@ -397,4 +398,19 @@ TEST(Utils, Utils_LittleEndianSerializeDeserialize) {
     for (uint32_t i = 0; i < size; ++i) {
         TEST_ASSERT_EQUAL_HEX8(result_data_deserialize[i], test_data_1[i]);
     }
+}
+
+TEST(Utils, Utils_Characters) {
+    TEST_ASSERT_TRUE(Utils_isLowerChar('a'));
+    TEST_ASSERT_FALSE(Utils_isLowerChar('B'));
+    TEST_ASSERT_FALSE(Utils_isLowerChar(' '));
+
+    TEST_ASSERT_TRUE(Utils_isUpperChar('D'));
+    TEST_ASSERT_FALSE(Utils_isUpperChar('c'));
+    TEST_ASSERT_FALSE(Utils_isUpperChar(','));
+
+    TEST_ASSERT_TRUE(Utils_isAlpha('z'));
+    TEST_ASSERT_TRUE(Utils_isAlpha('e'));
+    TEST_ASSERT_FALSE(Utils_isAlpha('*'));
+    TEST_ASSERT_FALSE(Utils_isAlpha('?'));
 }
