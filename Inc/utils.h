@@ -52,7 +52,7 @@
  *
  * @return true if the conversion was successful, false otherwise.
  */
-bool Utils_StringToUint32(const char* str, uint8_t str_length, uint32_t* integer);
+bool Utils_stringToUint32(const char* str, uint8_t str_length, uint32_t* integer);
 
 /**
  * @brief Swap two elements. Swap the content of two byte arrays of the same size.
@@ -76,7 +76,7 @@ void Utils_swapElements(byte_t* first, byte_t* second, uint32_t size);
  *       The lookup table contains the precomputed values of 10^0 to 10^9.
  *       If the given exponent is greater than 9, the function returns false.
  */
-bool Utils_QuickUint32Pow10(uint8_t exponent, uint32_t* result);
+bool Utils_quickUint32Pow10(uint8_t exponent, uint32_t* result);
 
 /**
  * @brief Serialize a 8-bit value into a buffer (for little-endian and big-endian).
@@ -85,7 +85,7 @@ bool Utils_QuickUint32Pow10(uint8_t exponent, uint32_t* result);
  * @param value[in] The 8-bit value to be serialized.
  *
  */
-void Utils_Serialize8(byte_t* buf, uint8_t value);
+void Utils_serialize8(byte_t* buf, uint8_t value);
 
 /**
  * @brief Deserializes a 8-bit value from a byte buffer (for little-endian and big-endian).
@@ -94,7 +94,7 @@ void Utils_Serialize8(byte_t* buf, uint8_t value);
  * @return The deserialized 8-bit value.
  *
  */
-uint8_t Utils_Deserialize8(const byte_t* buf);
+uint8_t Utils_deserialize8(const byte_t* buf);
 
 /**
  * @brief Serialize a 16-bit value in big-endian format into a buffer.
@@ -104,7 +104,7 @@ uint8_t Utils_Deserialize8(const byte_t* buf);
  *
  * @note The buffer must be at least 2 bytes long to accommodate the serialized value.
  */
-void Utils_Serialize16BE(byte_t* buf, uint16_t value);
+void Utils_serialize16BE(byte_t* buf, uint16_t value);
 
 /**
  * @brief Serialize a 24-bit value in big-endian format into a buffer.
@@ -114,7 +114,7 @@ void Utils_Serialize16BE(byte_t* buf, uint16_t value);
  *
  * @note The buffer must be at least 3 bytes long to accommodate the serialized value.
  */
-void Utils_Serialize24BE(byte_t* buf, uint32_t value);
+void Utils_serialize24BE(byte_t* buf, uint32_t value);
 
 /**
  * @brief Serialize a 32-bit value in big-endian format into a buffer.
@@ -124,7 +124,7 @@ void Utils_Serialize24BE(byte_t* buf, uint32_t value);
  *
  * @note The buffer must be at least 4 bytes long to accommodate the serialized value.
  */
-void Utils_Serialize32BE(byte_t* buf, uint32_t value);
+void Utils_serialize32BE(byte_t* buf, uint32_t value);
 
 /**
  * @brief Serialize a blob of data in big-endian format.
@@ -135,7 +135,7 @@ void Utils_Serialize32BE(byte_t* buf, uint32_t value);
  * @param[in] src Pointer to the source data buffer to be serialized.
  * @param[in] size Number of bytes to be serialized.
  */
-void Utils_SerializeBlobBE(byte_t* buf, const byte_t* src, uint32_t size);
+void Utils_serializeBlobBE(byte_t* buf, const byte_t* src, uint32_t size);
 
 /**
  * @brief Deserializes a 16-bit value from a big-endian byte buffer.
@@ -145,7 +145,7 @@ void Utils_SerializeBlobBE(byte_t* buf, const byte_t* src, uint32_t size);
  *
  * @note The buffer must be at least 2 bytes long to accommodate the deserialized value.
  */
-uint16_t Utils_Deserialize16BE(const byte_t* buf);
+uint16_t Utils_deserialize16BE(const byte_t* buf);
 
 /**
  * @brief Deserializes a 24-bit value from a big-endian byte buffer.
@@ -155,7 +155,7 @@ uint16_t Utils_Deserialize16BE(const byte_t* buf);
  *
  * @note The buffer must be at least 3 bytes long to accommodate the deserialized value.
  */
-uint32_t Utils_Deserialize24BE(const byte_t* buf);
+uint32_t Utils_deserialize24BE(const byte_t* buf);
 
 /**
  * @brief Deserializes a 32-bit value from a big-endian byte buffer.
@@ -165,7 +165,7 @@ uint32_t Utils_Deserialize24BE(const byte_t* buf);
  *
  * @note The buffer must be at least 4 bytes long to accommodate the deserialized value.
  */
-uint32_t Utils_Deserialize32BE(const byte_t* buf);
+uint32_t Utils_deserialize32BE(const byte_t* buf);
 
 /**
  * @brief Deserializes a blob(binary large object) in big-endian format.
@@ -174,7 +174,7 @@ uint32_t Utils_Deserialize32BE(const byte_t* buf);
  * @param[out] dst The destination buffer where the deserialized blob will be stored.
  * @param[in] size The size in bytes of the blob to deserialize.
  */
-void Utils_DeserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size);
+void Utils_deserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size);
 
 /**
  * @brief Serialize a 16-bit value in little-endian format into a buffer.
@@ -184,7 +184,7 @@ void Utils_DeserializeBlobBE(const byte_t* buf, byte_t* dst, uint32_t size);
  *
  * @note The buffer must be at least 2 bytes long to accommodate the serialized value.
  */
-void Utils_Serialize16LE(byte_t* buf, uint16_t value);
+void Utils_serialize16LE(byte_t* buf, uint16_t value);
 
 /**
  * @brief Serialize a 24-bit value in little-endian format into a buffer.
@@ -194,7 +194,7 @@ void Utils_Serialize16LE(byte_t* buf, uint16_t value);
  *
  * @note The buffer must be at least 3 bytes long to accommodate the serialized value.
  */
-void Utils_Serialize24LE(byte_t* buf, uint32_t value);
+void Utils_serialize24LE(byte_t* buf, uint32_t value);
 
 /**
  * @brief Serialize a 32-bit value in little-endian format into a buffer.
@@ -204,7 +204,7 @@ void Utils_Serialize24LE(byte_t* buf, uint32_t value);
  *
  * @note The buffer must be at least 4 bytes long to accommodate the serialized value.
  */
-void Utils_Serialize32LE(byte_t* buf, uint32_t value);
+void Utils_serialize32LE(byte_t* buf, uint32_t value);
 
 /**
  * @brief Serialize a blob of data in little-endian format.
@@ -215,7 +215,7 @@ void Utils_Serialize32LE(byte_t* buf, uint32_t value);
  * @param[in] src Pointer to the source data buffer to be serialized.
  * @param[in] size Number of bytes to be serialized.
  */
-void Utils_SerializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size);
+void Utils_serializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size);
 
 /**
  * @brief Deserializes a 16-bit value from a little-endian byte buffer.
@@ -225,7 +225,7 @@ void Utils_SerializeBlobLE(byte_t* buf, const byte_t* src, uint32_t size);
  *
  * @note The buffer must be at least 2 bytes long to accommodate the deserialized value.
  */
-uint16_t Utils_Deserialize16LE(const byte_t* buf);
+uint16_t Utils_deserialize16LE(const byte_t* buf);
 
 /**
  * @brief Deserializes a 24-bit value from a little-endian byte buffer.
@@ -235,7 +235,7 @@ uint16_t Utils_Deserialize16LE(const byte_t* buf);
  *
  * @note The buffer must be at least 3 bytes long to accommodate the deserialized value.
  */
-uint32_t Utils_Deserialize24LE(const byte_t* buf);
+uint32_t Utils_deserialize24LE(const byte_t* buf);
 
 /**
  * @brief Deserializes a 32-bit value from a little-endian byte buffer.
@@ -245,7 +245,7 @@ uint32_t Utils_Deserialize24LE(const byte_t* buf);
  *
  * @note The buffer must be at least 4 bytes long to accommodate the deserialized value.
  */
-uint32_t Utils_Deserialize32LE(const byte_t* buf);
+uint32_t Utils_deserialize32LE(const byte_t* buf);
 
 /**
  * @brief Deserializes a blob(binary large object) in little-endian format.
@@ -254,7 +254,7 @@ uint32_t Utils_Deserialize32LE(const byte_t* buf);
  * @param[out] dst The destination buffer where the deserialized blob will be stored.
  * @param[in] size The size in bytes of the blob to deserialize.
  */
-void Utils_DeserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size);
+void Utils_deserializeBlobLE(const byte_t* buf, byte_t* dst, uint32_t size);
 
 /**
  * @brief Check if the given character is upper alphabetical letter.
