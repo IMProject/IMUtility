@@ -47,12 +47,11 @@ CaesarCipher_encrypt(char* msg, uint8_t shift) {
     const size_t length = strlen(msg);
     for (size_t i = 0U; i < length; ++i) {
         if (Utils_isAlpha(msg[i])) {
-            uint8_t encrypted_char;
+            uint8_t ascii_val = LOWER_A_ASCII;
             if (Utils_isUpperChar(msg[i])) {
-                encrypted_char = (((uint8_t)msg[i] + shift - UPPER_A_ASCII) % MAX_SHIFT) + UPPER_A_ASCII;
-            } else {
-                encrypted_char = (((uint8_t)msg[i] + shift - LOWER_A_ASCII) % MAX_SHIFT) + LOWER_A_ASCII;
+                ascii_val = UPPER_A_ASCII;
             }
+            uint8_t encrypted_char = (((uint8_t)msg[i] + shift - ascii_val) % MAX_SHIFT) + ascii_val;
             msg[i] = (char)encrypted_char;
         }
     }
@@ -63,12 +62,11 @@ CaesarCipher_decrypt(char* msg, uint8_t shift) {
     const size_t length = strlen(msg);
     for (size_t i = 0U; i < length; ++i) {
         if (Utils_isAlpha(msg[i])) {
-            uint8_t decrypted_char;
+            uint8_t ascii_val = LOWER_A_ASCII;
             if (Utils_isUpperChar(msg[i])) {
-                decrypted_char = (((uint8_t)msg[i] - shift - UPPER_A_ASCII) % MAX_SHIFT) + UPPER_A_ASCII;
-            } else {
-                decrypted_char = (((uint8_t)msg[i] - shift - LOWER_A_ASCII) % MAX_SHIFT) + LOWER_A_ASCII;
+                ascii_val = UPPER_A_ASCII;
             }
+            uint8_t decrypted_char = (((uint8_t)msg[i] - shift - ascii_val) % MAX_SHIFT) + ascii_val;
             msg[i] = (char)decrypted_char;
         }
     }
