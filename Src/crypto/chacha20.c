@@ -81,18 +81,18 @@ Block(const byte_t key[CHACHA20_KEY_SIZE], uint32_t counter, const byte_t nonce[
     uint32_t x1  = CHACHA_MAGIC_NUMBER_PART_2;
     uint32_t x2  = CHACHA_MAGIC_NUMBER_PART_3;
     uint32_t x3  = CHACHA_MAGIC_NUMBER_PART_4;
-    uint32_t x4  = Utils_Deserialize32LE(&key[0]);
-    uint32_t x5  = Utils_Deserialize32LE(&key[4]);
-    uint32_t x6  = Utils_Deserialize32LE(&key[8]);
-    uint32_t x7  = Utils_Deserialize32LE(&key[12]);
-    uint32_t x8  = Utils_Deserialize32LE(&key[16]);
-    uint32_t x9  = Utils_Deserialize32LE(&key[20]);
-    uint32_t x10 = Utils_Deserialize32LE(&key[24]);
-    uint32_t x11 = Utils_Deserialize32LE(&key[28]);
+    uint32_t x4  = Utils_deserialize32LE(&key[0]);
+    uint32_t x5  = Utils_deserialize32LE(&key[4]);
+    uint32_t x6  = Utils_deserialize32LE(&key[8]);
+    uint32_t x7  = Utils_deserialize32LE(&key[12]);
+    uint32_t x8  = Utils_deserialize32LE(&key[16]);
+    uint32_t x9  = Utils_deserialize32LE(&key[20]);
+    uint32_t x10 = Utils_deserialize32LE(&key[24]);
+    uint32_t x11 = Utils_deserialize32LE(&key[28]);
     uint32_t x12 = counter;
-    uint32_t x13 = Utils_Deserialize32LE(&nonce[0]);
-    uint32_t x14 = Utils_Deserialize32LE(&nonce[4]);
-    uint32_t x15 = Utils_Deserialize32LE(&nonce[8]);
+    uint32_t x13 = Utils_deserialize32LE(&nonce[0]);
+    uint32_t x14 = Utils_deserialize32LE(&nonce[4]);
+    uint32_t x15 = Utils_deserialize32LE(&nonce[8]);
 
     for (uint8_t i = 0U; i < CHACHA20_ROUNDS; ++i) {
         QuarterRound(&x0, &x4,  &x8, &x12);
@@ -109,36 +109,36 @@ Block(const byte_t key[CHACHA20_KEY_SIZE], uint32_t counter, const byte_t nonce[
     x1  += CHACHA_MAGIC_NUMBER_PART_2;
     x2  += CHACHA_MAGIC_NUMBER_PART_3;
     x3  += CHACHA_MAGIC_NUMBER_PART_4;
-    x4  += Utils_Deserialize32LE(&key[0]);
-    x5  += Utils_Deserialize32LE(&key[4]);
-    x6  += Utils_Deserialize32LE(&key[8]);
-    x7  += Utils_Deserialize32LE(&key[12]);
-    x8  += Utils_Deserialize32LE(&key[16]);
-    x9  += Utils_Deserialize32LE(&key[20]);
-    x10 += Utils_Deserialize32LE(&key[24]);
-    x11 += Utils_Deserialize32LE(&key[28]);
+    x4  += Utils_deserialize32LE(&key[0]);
+    x5  += Utils_deserialize32LE(&key[4]);
+    x6  += Utils_deserialize32LE(&key[8]);
+    x7  += Utils_deserialize32LE(&key[12]);
+    x8  += Utils_deserialize32LE(&key[16]);
+    x9  += Utils_deserialize32LE(&key[20]);
+    x10 += Utils_deserialize32LE(&key[24]);
+    x11 += Utils_deserialize32LE(&key[28]);
     x12 += counter;
-    x13 += Utils_Deserialize32LE(&nonce[0]);
-    x14 += Utils_Deserialize32LE(&nonce[4]);
-    x15 += Utils_Deserialize32LE(&nonce[8]);
+    x13 += Utils_deserialize32LE(&nonce[0]);
+    x14 += Utils_deserialize32LE(&nonce[4]);
+    x15 += Utils_deserialize32LE(&nonce[8]);
 
     /* -E> compliant MC3R1.R18.6 16 automatic storage pointed with "out" is not copied to values from this function */
-    Utils_Serialize32LE(&out[0],  x0);
-    Utils_Serialize32LE(&out[4],  x1);
-    Utils_Serialize32LE(&out[8],  x2);
-    Utils_Serialize32LE(&out[12], x3);
-    Utils_Serialize32LE(&out[16], x4);
-    Utils_Serialize32LE(&out[20], x5);
-    Utils_Serialize32LE(&out[24], x6);
-    Utils_Serialize32LE(&out[28], x7);
-    Utils_Serialize32LE(&out[32], x8);
-    Utils_Serialize32LE(&out[36], x9);
-    Utils_Serialize32LE(&out[40], x10);
-    Utils_Serialize32LE(&out[44], x11);
-    Utils_Serialize32LE(&out[48], x12);
-    Utils_Serialize32LE(&out[52], x13);
-    Utils_Serialize32LE(&out[56], x14);
-    Utils_Serialize32LE(&out[60], x15);
+    Utils_serialize32LE(&out[0],  x0);
+    Utils_serialize32LE(&out[4],  x1);
+    Utils_serialize32LE(&out[8],  x2);
+    Utils_serialize32LE(&out[12], x3);
+    Utils_serialize32LE(&out[16], x4);
+    Utils_serialize32LE(&out[20], x5);
+    Utils_serialize32LE(&out[24], x6);
+    Utils_serialize32LE(&out[28], x7);
+    Utils_serialize32LE(&out[32], x8);
+    Utils_serialize32LE(&out[36], x9);
+    Utils_serialize32LE(&out[40], x10);
+    Utils_serialize32LE(&out[44], x11);
+    Utils_serialize32LE(&out[48], x12);
+    Utils_serialize32LE(&out[52], x13);
+    Utils_serialize32LE(&out[56], x14);
+    Utils_serialize32LE(&out[60], x15);
 }
 
 void
