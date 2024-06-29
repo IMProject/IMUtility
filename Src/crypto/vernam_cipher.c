@@ -49,18 +49,14 @@ VernamCipher_encrypt(char* msg, const char* key, int32_t key_length) {
     if ((int32_t)msg_length == key_length) {
         for (int32_t i = 0; i < key_length; ++i) {
             if (Utils_isAlpha(msg[i])) {
-                int8_t c;
+                int8_t c = UPPER_A_ASCII;
                 if (Utils_isLowerChar(key[i])) {
                     c = LOWER_A_ASCII;
-                } else {
-                    c = UPPER_A_ASCII;
                 }
 
-                int32_t ascii_val;
+                int32_t ascii_val = LOWER_A_ASCII;
                 if (Utils_isUpperChar(msg[i])) {
                     ascii_val = UPPER_A_ASCII;
-                } else {
-                    ascii_val = LOWER_A_ASCII;
                 }
 
                 int32_t temp = (((int8_t)msg[i] - ascii_val + (int8_t)key[i] - c) % NUM_OF_ALPHA);
@@ -80,18 +76,14 @@ VernamCipher_decrypt(char* msg, const char* key, int32_t key_length) {
     if ((int32_t)msg_length == key_length) {
         for (int32_t i = 0; i < key_length; ++i) {
             if (Utils_isAlpha(msg[i])) {
-                int8_t c;
+                int8_t c = UPPER_A_ASCII;
                 if (Utils_isLowerChar(key[i])) {
                     c = LOWER_A_ASCII;
-                } else {
-                    c = UPPER_A_ASCII;
                 }
 
-                int32_t ascii_val;
+                int32_t ascii_val = LOWER_A_ASCII;
                 if (Utils_isUpperChar(msg[i])) {
                     ascii_val = UPPER_A_ASCII;
-                } else {
-                    ascii_val = LOWER_A_ASCII;
                 }
 
                 int32_t cipher = ((msg[i] - ascii_val) - (key[i] - c));
