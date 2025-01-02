@@ -38,7 +38,10 @@
 #include "typedefs.h"
 
 /**
- * @brief Sort elements using heap sort algorithm.
+ * @brief Sort elements using heap sort algorithm. It uses heapify to convert array into max heap.
+ * It deletes the root node of the max heap (one by one) and replaces it with the last node. After that,
+ * heapify is done again. Whole process is repeated while heap size is greater than 1.
+ * Time complexity: O(N log N)
  *
  * @param[in/out] *buffer Pointer to the buffer that contains elements that will be sorted.
  * @param[in] number_of_elements Number of elements in the buffer.

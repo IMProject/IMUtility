@@ -38,7 +38,9 @@
 #include "typedefs.h"
 
 /**
- * @brief Sort elements using bubble sort algorithm.
+ * @brief Sort elements using bubble sort algorithm. It compares the adjacent elements and swaps them
+ * if they are in the wrong order. It is done repeatedly until all elements are sorted.
+ * Time complexity: O(N^2)
  *
  * @param[in/out] *buffer Pointer to the buffer that contains elements that will be sorted.
  * @param[in] number_of_elements Number of elements in the buffer.
