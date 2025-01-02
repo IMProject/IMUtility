@@ -38,13 +38,13 @@
 #include "typedefs.h"
 
 /**
- * @brief Sort elements using selection sort algorithm. Selection sort algorithm is an in-place
- * comparison sorting algorithm that has O(N^2) time complexity. It divides the input array into
+ * @brief Sort elements using selection sort algorithm. It divides the input array into
  * two parts, sorted sub-array of items which is built up from left to right and unsorted items
  * that occupies the rest of the array. The sorted sub-array is empty and the unsorted sub-array
  * is the entire input array. The algorithm proceeds by finding the smallest element in the
  * unsorted sub-array, swapping it with the leftmost unsorted element (putting it in sorted order),
  * and moving the sub-array boundaries one element to the right.
+ * Time complexity: O(N^2)
  *
  * @param[in/out] *buffer Pointer to the buffer that contains elements that will be sorted.
  * @param[in] number_of_elements Number of elements in the buffer.

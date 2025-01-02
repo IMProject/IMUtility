@@ -40,9 +40,11 @@
 #define MAX_ELEMENT_SIZE (64)
 
 /**
- * @brief Sort elements using insertion sort algorithm. Insertion sort algorithm is a simple
- * sorting algorithm that has O(N^2) time complexity. It is efficient on smaller lists, and
- * much less efficient on large lists.
+ * @brief Sort elements using insertion sort algorithm. Divide given list into sorted and unsorted part
+ * (first element is considered sorted). Iterate through each element in the unsorted part. Pick one
+ * element at a time, and insert it into correct position in the sorted part. It is efficient on smaller
+ * lists, and much less efficient on large lists.
+ * Time complexity: O(N^2)
  *
  * NOTE: implemented that the max element size is 64 B. If element size is larger, then
  * MAX_ELEMENT_SIZE macro must be updated.
