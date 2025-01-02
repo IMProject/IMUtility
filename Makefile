@@ -111,6 +111,7 @@ IMUTILITY_FILES=\
   Src/sort/bubble_sort.c \
   Src/sort/heap_sort.c \
   Src/sort/insertion_sort.c \
+  Src/sort/merge_sort.c \
   Src/sort/selection_sort.c \
   Src/json.c \
   Src/map.c \
@@ -136,6 +137,7 @@ SRC_FILES+=$(IMUTILITY_FILES) \
   Tests/test_insertion_sort.c \
   Tests/test_json.c \
   Tests/test_map.c \
+  Tests/test_merge_sort.c \
   Tests/test_priority_queue.c \
   Tests/test_queue.c \
   Tests/test_scheduler.c \

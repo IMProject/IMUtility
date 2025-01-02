@@ -150,6 +150,7 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - BubbleSort_sort
 - HeapSort_sort
 - InsertionSort_sort
+- MergeSort_sort
 - SelectionSort_sort
 
 ### Utils
