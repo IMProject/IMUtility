@@ -1,24 +1,14 @@
-<a href="https://www.bugseng.com/eclair">
-  <img src="https://eclairit.com:3787/rsrc/eclair.svg" width="100" />
-</a>
-
-[![ECLAIR normal main](https://eclairit.com:3787/fs/var/local/eclair/github/IMProject/IMUtility.ecdf/ECLAIR_normal/main/latest/badge.svg)](https://eclairit.com:3787/fs/var/local/eclair/github/IMProject/IMUtility.ecdf/ECLAIR_normal/main/latest/index.html)
-
-[Browse all ECLAIR analyses](https://eclairit.com:3787/fs/var/local/eclair/github/IMProject/IMUtility.ecdf/)
-
+# IMUtility: A Safety-Critical Utility Code
 
 [![Discord Shield](https://discordapp.com/api/guilds/1059535033347604560/widget.png?style=shield)](https://discord.gg/R6nZxZqDH3)
 [![Build](https://github.com/IMProject/IMUtility/actions/workflows/compile.yml/badge.svg)](https://github.com/IMProject/IMUtility/actions/workflows/compile.yml?query=branch%3Amain) [![Build](https://github.com/IMProject/IMUtility/actions/workflows/checks.yml/badge.svg)](https://github.com/IMProject/IMUtility/actions/workflows/checks.yml?query=branch%3Amain)
 [![codecov](https://codecov.io/gh/IMProject/IMUtility/branch/main/graph/badge.svg?token=XF771QJZ1G)](https://codecov.io/gh/IMProject/IMUtility)
 
-
-# IMUtility: A Safety-Critical Utility Code
-
 ## About
 
 The IMUtility (<b>I</b>ncorporated <b>M</b>ISRA <b>U</b>tility Code) originated as a sub-repository of the [IMBootloader](https://github.com/IMProject/IMBootloader) project. After a thorough review of the available safety-critical utility open-source projects in C, we realized that none of them met our standards. Therefore, we made the decision to create our own project and make it publicly available.
 
-Our team has meticulously laid the foundation for everything necessary to ensure the code meets the rigorous standards required for safety-critical applications. Presently, we have incorporated unit tests using the [Unity](https://github.com/ThrowTheSwitch/Unity) framework, code coverage using gcov/lcov, ensured code style conformance through Astyle formatting, and implemented cppcheck with all checks enabled. Additionally, we have enforced MISRA C 2012 checks using both cppcheck and [ECLAIR](https://www.bugseng.com/eclair), sponsored by Bugseng.
+Our team has meticulously laid the foundation for everything necessary to ensure the code meets the rigorous standards required for safety-critical applications. Presently, we have incorporated unit tests using the [Unity](https://github.com/ThrowTheSwitch/Unity) framework, code coverage using gcov/lcov, ensured code style conformance through Astyle formatting, and implemented cppcheck with all checks enabled. Additionally, we have enforced MISRA C 2012 checks using both cppcheck and [ECLAIR](https://www.bugseng.com/eclair), sponsored by Bugseng (last [commit](https://github.com/IMProject/IMUtility/commit/08e8e444b3115841e9084212b718e94ecda3604b) with ECLAIR analysis).
 
 However, to further enhance the project's quality, we intend to achieve 100% coverage where feasible. This will serve as an additional layer of assurance that the code is of the highest quality and complies with safety-critical standards.
 
@@ -43,8 +33,7 @@ Before you open PR:
 - run `make cppcheck`
 - run `make misra`
 
-After PR is opened, ECLAIR will check your code and Bot will report if any MISRA violation exists in the code. 
-After all violations are fixed, we will review your code, and after that code can be merged into the main branch.
+After PR is opened, we will review your code, and after that code can be merged into the main branch.
 
 #### Discord
 Join us on the Discord channel https://discord.gg/R6nZxZqDH3

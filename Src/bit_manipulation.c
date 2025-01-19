@@ -49,7 +49,6 @@ BitManipulation_reflect(uint32_t data, uint8_t n_bits) {
         * If the LSB bit is set, set the reflection of it.
         */
         if (1u == (temp_data & 1u) ) {
-            /* -E> compliant MC3R1.R12.2 1 The shift count is granted to be between 0 and 31 due to bit masking. */
             reflection |= (uint32_t)((uint32_t)1U << (0x1FU & ((n_bits - 1U) - bit)));
         }
 
@@ -63,7 +62,6 @@ bool
 BitManipulation_bitSet(uint32_t data, uint8_t n, bool* bit_set) {
     bool status = false;
     if (n <= MAX_BIT_SHIFT) {
-        /* -E> compliant MC3R1.R12.2 1 Right hand operand of shift expression is between 0 and 31 due to previous IF statement. */
         uint32_t temp = (uint32_t)1U << n;
         *bit_set = ((data & temp) != 0U);
         status = true;
@@ -75,7 +73,6 @@ bool
 BitManipulation_setBit(uint32_t data, uint8_t n, uint32_t* out) {
     bool status = false;
     if (n <= MAX_BIT_SHIFT) {
-        /* -E> compliant MC3R1.R12.2 1 Right hand operand of shift expression is between 0 and 31 due to previous IF statement. */
         *out = (data | ((uint32_t)1U << n));
         status = true;
     }
@@ -86,7 +83,6 @@ bool
 BitManipulation_clearBit(uint32_t data, uint8_t n, uint32_t* out) {
     bool status = false;
     if (n <= MAX_BIT_SHIFT) {
-        /* -E> compliant MC3R1.R12.2 1 Right hand operand of shift expression is between 0 and 31 due to previous IF statement. */
         *out = (data & (~((uint32_t)1U << n)));
         status = true;
     }
@@ -97,7 +93,6 @@ bool
 BitManipulation_toggleBit(uint32_t data, uint8_t n, uint32_t* out) {
     bool status = false;
     if (n <= MAX_BIT_SHIFT) {
-        /* -E> compliant MC3R1.R12.2 1 Right hand operand of shift expression is between 0 and 31 due to previous IF statement. */
         *out = (data ^ ((uint32_t)1U << n));
         status = true;
     }
@@ -106,7 +101,5 @@ BitManipulation_toggleBit(uint32_t data, uint8_t n, uint32_t* out) {
 
 uint32_t
 BitManipulation_rotl32(uint32_t data, uint32_t n_bits) {
-
-    /* -E> hide MC3R1.R12.2 1 To optimize efficiency, we do not verify whether n_bits is between 0 and 31. */
     return ((data << n_bits) ^ (data >> (32U - n_bits)));
 }

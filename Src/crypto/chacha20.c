@@ -122,7 +122,6 @@ Block(const byte_t key[CHACHA20_KEY_SIZE], uint32_t counter, const byte_t nonce[
     x14 += Utils_deserialize32LE(&nonce[4]);
     x15 += Utils_deserialize32LE(&nonce[8]);
 
-    /* -E> compliant MC3R1.R18.6 16 automatic storage pointed with "out" is not copied to values from this function */
     Utils_serialize32LE(&out[0],  x0);
     Utils_serialize32LE(&out[4],  x1);
     Utils_serialize32LE(&out[8],  x2);

@@ -44,9 +44,6 @@ InsertionSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_s
     byte_t* element = &max_element[0];
 
     for (int32_t i = 1; i < number_of_elements; ++i) {
-        /* -E> compliant MC3R1.R21.18 4 Buffer overflow will not happen, all elements in buffer
-         * have same size, and their size is stored in element_size variable. Precondition is that
-         * element_size must be less than or equal to MAX_ELEMENT_SIZE. */
         // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
         memcpy(element, &elements[i * element_size], (size_t)element_size);
 
@@ -54,16 +51,11 @@ InsertionSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_s
         bool compare = compareFun(&elements[j * element_size], element);
 
         while ((j >= 0) && compare) {
-            /* -E> compliant MC3R1.R19.1 3 Overlap will not happen, all elements in buffer
-             * have same size, and their size is stored in element_size variable. */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&elements[(j + 1) * element_size], &elements[j * element_size], (size_t)element_size);
             --j;
             compare = compareFun(&elements[j * element_size], element);
         }
-        /* -E> compliant MC3R1.R21.18 4 Buffer overflow will not happen, all elements in buffer
-         * have same size, and their size is stored in element_size variable. Precondition is that
-         * element_size must be less than or equal to MAX_ELEMENT_SIZE. */
         // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
         memcpy(&elements[(j + 1) * element_size], element, (size_t)element_size);
     }

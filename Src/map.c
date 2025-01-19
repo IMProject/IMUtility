@@ -42,7 +42,6 @@ static int32_t
 GetIndex(const Map_t* map, const byte_t* key, int32_t size) {
     int32_t index = INDEX_NOT_FOUND;
     for (int32_t i = 0; i < size; ++i) {
-        /* -E> compliant MC3R1.R21.18 1 map->key_size is a size of the key in the map and it has appropriate value. */
         if (memcmp(&map->keys[i * map->key_size], key, (size_t)map->key_size) == 0) {
             index = i;
             break;
@@ -74,23 +73,14 @@ Map_insert(Map_t* map, const byte_t* key, const byte_t* value) {
         int32_t index = GetIndex(map, key, map->current_size);
         if (index == INDEX_NOT_FOUND) {
             if (map->current_size != map->max_map_size) {
-                /* -E> compliant MC3R1.R21.18 4 map->key_size is a size of the key in the map and it has appropriate value. */
-                /* -E> compliant MC3R1.R19.1 3 Overlap will not happen because there is a check if current map size reached
-                 * max map size. */
                 // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
                 memcpy(&map->keys[map->current_size * map->key_size], key, (size_t)map->key_size);
-                /* -E> compliant MC3R1.R21.18 4 map->value_size is a size of the value in the map and it has appropriate value. */
-                /* -E> compliant MC3R1.R19.1 3 Overlap will not happen because there is a check if current map size reached
-                 * max map size. */
                 // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
                 memcpy(&map->values[map->current_size * map->value_size], value, (size_t)map->value_size);
                 ++map->current_size;
                 status = true;
             }
         } else {
-            /* -E> compliant MC3R1.R21.18 4 map->value_size is a size of the value in the map and it has appropriate value. */
-            /* -E> compliant MC3R1.R19.1 3 Overlap will not happen since the current key is the same as the key that is
-             * previously inserted in the map. Therefore, new value will be mapped to that key. */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&map->values[index * map->value_size], value, (size_t)map->value_size);
             status = true;
@@ -105,9 +95,6 @@ Map_getValue(const Map_t* map, const byte_t* key, byte_t* value) {
     if (map != NULL_PTR) {
         int32_t index = GetIndex(map, key, map->current_size);
         if (index != INDEX_NOT_FOUND) {
-            /* -E> compliant MC3R1.R21.18 4 map->value_size is a size of the value in the map and it has appropriate value. */
-            /* -E> compliant MC3R1.R19.1 3 Overlap will not happen because the map->value_size is the size of the value
-             * and every element in map->values has that size */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(value, &map->values[index * map->value_size], (size_t)map->value_size);
             status = true;
