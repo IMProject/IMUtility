@@ -96,8 +96,6 @@ PriorityQueue_enqueue(PriorityQueue_t* queue, const PriorityQueueItem_t* item) {
     bool status = false;
     if (!Full(queue)) {
         uint8_t* buffer = queue->buffer;
-        /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, there is a guard that checks that priority
-         * queue is not full. */
         // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
         memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
         queue->priority_array[queue->size] = *(item->priority);
@@ -111,17 +109,11 @@ PriorityQueue_enqueue(PriorityQueue_t* queue, const PriorityQueueItem_t* item) {
             queue->size = queue->size - 1U;
             const uint32_t current_size = queue->size;
             for (uint32_t i = lowest_priority_index; i < current_size; ++i) {
-                /* -E> compliant MC3R1.R19.1 4 Overlap will not happen because iteration will be performed until current
-                 * queue size is reached which is previous size - 1. Therefore, last valid element that will be used in
-                 * memcpy function is placed in current size + 1. */
                 // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
                 memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
                        queue->element_size);
                 queue->priority_array[i] = queue->priority_array[i + 1U];
             }
-            /* -E> compliant MC3R1.R21.18 4 Buffer overflow will not happen, there will be one more place in buffer to
-             * insert a new element because of removing element with the lowest priority (performed in the above code,
-             * in the same function). */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
             queue->priority_array[queue->size] = *(item->priority);
@@ -138,16 +130,11 @@ PriorityQueue_dequeue(PriorityQueue_t* queue, uint8_t* element) {
         status = true;
         uint32_t highest_priority_index = GetHighestPriorityIndex(queue);
         uint8_t* buffer = queue->buffer;
-        /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, element has same size as one element
-         * in buffer, and their size is stored in element_size member. */
         // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
         memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size);
         queue->size = queue->size - 1U;
         const uint32_t current_size = queue->size;
         for (uint32_t i = highest_priority_index; i < current_size; ++i) {
-            /* -E> compliant MC3R1.R19.1 4 Overlap will not happen because iteration will be performed until current
-             * queue size is reached which is previous size - 1. Therefore, last valid element that will be used in
-             * memcpy function is placed in current size + 1. */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
                    queue->element_size);

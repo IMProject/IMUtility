@@ -67,9 +67,6 @@ Queue_enqueue(Queue_t* queue, const uint8_t* element) {
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
         if (!Queue_full(queue)) {
             uint8_t* buffer = queue->buffer;
-            /* -E> compliant MC3R1.R21.18 4 Buffer overflow will not happen, element has same size as one element
-             * in buffer, and their size is stored in element_size member. Also, there is a guard that checks that
-             * queue is not full. */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&buffer[((queue->rear + 1U) % queue->capacity) * queue->element_size], element, queue->element_size);
             queue->rear = (queue->rear + 1U) % queue->capacity;
@@ -86,8 +83,6 @@ Queue_dequeue(Queue_t* queue, uint8_t* element) {
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
         if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
-            /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, element has same size as one element
-             * in buffer, and their size is stored in element_size member. */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
             queue->front = (queue->front + 1U) % queue->capacity;
@@ -104,8 +99,6 @@ Queue_front(const Queue_t* queue, uint8_t* element) {
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
         if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
-            /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, element has same size as one element
-             * in buffer, and their size is stored in element_size member. */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
             status = true;
@@ -120,8 +113,6 @@ Queue_rear(const Queue_t* queue, uint8_t* element) {
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
         if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
-            /* -E> compliant MC3R1.R21.18 3 Buffer overflow will not happen, element has same size as one element
-             * in buffer, and their size is stored in element_size member. */
             // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(element, &buffer[queue->rear * queue->element_size], queue->element_size);
             status = true;

@@ -69,14 +69,12 @@ Json_addData(char* buffer, size_t buffer_size, const char* key, const char* valu
         strcpy(&buffer[index], "\"");
         index += strlen("\"");
         // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
-        /* -E> compliant MC3R1.R19.1 1 Overlap will not happen because of the check in if statement. */
         strcpy(&buffer[index], key);
         index += strlen(key);
         // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "\":\"");
         index += strlen("\":\"");
         // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
-        /* -E> compliant MC3R1.R19.1 1 Overlap will not happen because of the check in if statement. */
         strcpy(&buffer[index], value);
         index += strlen(value);
         // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
@@ -116,8 +114,6 @@ Json_findByKey(const char* buffer, size_t buffer_size, const char* key, char* va
 
     for (index = 0U; index < max_search_size; ++index) {
 
-        /* -E> compliant MC3R1.R21.18 2 strncmp is guarded in for loop condition to not go out of buffer boundaries
-        by calculating max_search_size from buffer size and key size */
         if (0 == strncmp(&buffer[index], key, key_size)) {
 
             if (buffer[index + key_size] == '"') {

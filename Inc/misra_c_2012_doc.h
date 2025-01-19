@@ -29,14 +29,11 @@ to be executed from interrupt handlers, or in multi-threading environments.
 
 Documentation for MISRA C:2012 Dir 4.1: read from uninitialized automatic object
 --------------------------------------------------------------------------------
-Automatic objects are always initialized before their usage. ECLAIR is used for
-MISRA rules verification, and there is no violations nor cautions regarding 9.1
-rule.
+Automatic objects are always initialized before their usage.
 
 Documentation for MISRA C:2012 Dir 4.1: read from uninitialized allocated object
 --------------------------------------------------------------------------------
-Allocated objects are not used in the code. ECLAIR is used for MISRA rules
-verification, and there is no violations nor cautions regarding 21.3 rule.
+Allocated objects are not used in the code.
 
 Documentation for MISRA C:2012 Dir 4.1: write to string literal or const object
 -------------------------------------------------------------------------------
@@ -50,8 +47,7 @@ Non-volatile access to volatile object is not used in the project.
 
 Documentation for MISRA C:2012 Dir 4.1: access to dead allocated object
 -----------------------------------------------------------------------
-Allocated objects are not used in the code. ECLAIR is used for MISRA rules
-verification, and there is no violations nor cautions regarding 21.3 rule.
+Allocated objects are not used in the code.
 
 Documentation for MISRA C:2012 Dir 4.1: access to dead automatic object
 -----------------------------------------------------------------------
