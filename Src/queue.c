@@ -67,7 +67,6 @@ Queue_enqueue(Queue_t* queue, const uint8_t* element) {
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
         if (!Queue_full(queue)) {
             uint8_t* buffer = queue->buffer;
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&buffer[((queue->rear + 1U) % queue->capacity) * queue->element_size], element, queue->element_size);
             queue->rear = (queue->rear + 1U) % queue->capacity;
             queue->size = queue->size + 1U;
@@ -83,7 +82,6 @@ Queue_dequeue(Queue_t* queue, uint8_t* element) {
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
         if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
             queue->front = (queue->front + 1U) % queue->capacity;
             queue->size = queue->size - 1U;
@@ -99,7 +97,6 @@ Queue_front(const Queue_t* queue, uint8_t* element) {
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
         if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(element, &buffer[queue->front * queue->element_size], queue->element_size);
             status = true;
         }
@@ -113,7 +110,6 @@ Queue_rear(const Queue_t* queue, uint8_t* element) {
     if ((queue != NULL_PTR) && (element != NULL_PTR)) {
         if (!Queue_empty(queue)) {
             const uint8_t* buffer = (const uint8_t*)queue->buffer;
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(element, &buffer[queue->rear * queue->element_size], queue->element_size);
             status = true;
         }

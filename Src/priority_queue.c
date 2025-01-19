@@ -96,7 +96,6 @@ PriorityQueue_enqueue(PriorityQueue_t* queue, const PriorityQueueItem_t* item) {
     bool status = false;
     if (!Full(queue)) {
         uint8_t* buffer = queue->buffer;
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
         memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
         queue->priority_array[queue->size] = *(item->priority);
         queue->size = queue->size + 1U;
@@ -109,12 +108,10 @@ PriorityQueue_enqueue(PriorityQueue_t* queue, const PriorityQueueItem_t* item) {
             queue->size = queue->size - 1U;
             const uint32_t current_size = queue->size;
             for (uint32_t i = lowest_priority_index; i < current_size; ++i) {
-                // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
                 memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
                        queue->element_size);
                 queue->priority_array[i] = queue->priority_array[i + 1U];
             }
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&buffer[queue->size * queue->element_size], item->element, queue->element_size);
             queue->priority_array[queue->size] = *(item->priority);
             queue->size = queue->size + 1U;
@@ -130,12 +127,10 @@ PriorityQueue_dequeue(PriorityQueue_t* queue, uint8_t* element) {
         status = true;
         uint32_t highest_priority_index = GetHighestPriorityIndex(queue);
         uint8_t* buffer = queue->buffer;
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
         memcpy(element, &buffer[highest_priority_index * queue->element_size], queue->element_size);
         queue->size = queue->size - 1U;
         const uint32_t current_size = queue->size;
         for (uint32_t i = highest_priority_index; i < current_size; ++i) {
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&buffer[i * queue->element_size], &buffer[(i * queue->element_size) + queue->element_size],
                    queue->element_size);
             queue->priority_array[i] = queue->priority_array[i + 1U];

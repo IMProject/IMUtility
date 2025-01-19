@@ -44,19 +44,16 @@ InsertionSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_s
     byte_t* element = &max_element[0];
 
     for (int32_t i = 1; i < number_of_elements; ++i) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
         memcpy(element, &elements[i * element_size], (size_t)element_size);
 
         int32_t j = i - 1;
         bool compare = compareFun(&elements[j * element_size], element);
 
         while ((j >= 0) && compare) {
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&elements[(j + 1) * element_size], &elements[j * element_size], (size_t)element_size);
             --j;
             compare = compareFun(&elements[j * element_size], element);
         }
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
         memcpy(&elements[(j + 1) * element_size], element, (size_t)element_size);
     }
 }

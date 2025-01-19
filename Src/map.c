@@ -73,15 +73,12 @@ Map_insert(Map_t* map, const byte_t* key, const byte_t* value) {
         int32_t index = GetIndex(map, key, map->current_size);
         if (index == INDEX_NOT_FOUND) {
             if (map->current_size != map->max_map_size) {
-                // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
                 memcpy(&map->keys[map->current_size * map->key_size], key, (size_t)map->key_size);
-                // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
                 memcpy(&map->values[map->current_size * map->value_size], value, (size_t)map->value_size);
                 ++map->current_size;
                 status = true;
             }
         } else {
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(&map->values[index * map->value_size], value, (size_t)map->value_size);
             status = true;
         }
@@ -95,7 +92,6 @@ Map_getValue(const Map_t* map, const byte_t* key, byte_t* value) {
     if (map != NULL_PTR) {
         int32_t index = GetIndex(map, key, map->current_size);
         if (index != INDEX_NOT_FOUND) {
-            // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case
             memcpy(value, &map->values[index * map->value_size], (size_t)map->value_size);
             status = true;
         }

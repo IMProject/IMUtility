@@ -43,7 +43,6 @@ Json_startString(char* buffer, size_t buffer_size) {
     bool success = false;
 
     if (buffer_size >= MINIMAL_SIZE) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[0], "{");
         success = true;
     }
@@ -59,25 +58,19 @@ Json_addData(char* buffer, size_t buffer_size, const char* key, const char* valu
     size_t total_size = strlen("\"\":\"\"") + strlen(key) + strlen(value) + 1U;
 
     if (0 == strcmp(&buffer[index - 1U], "\"")) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], ",");
         ++index;
     }
 
     if ((total_size + index) <= buffer_size) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "\"");
         index += strlen("\"");
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], key);
         index += strlen(key);
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "\":\"");
         index += strlen("\":\"");
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], value);
         index += strlen(value);
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "\"");
 
         success = true;
@@ -92,7 +85,6 @@ Json_endString(char* buffer, size_t buffer_size) {
 
     size_t index = strlen(buffer);
     if (buffer_size >= (MINIMAL_SIZE + index)) {
-        // cppcheck-suppress misra-c2012-17.7; return value is not needed in this case, therefore it is not used
         strcpy(&buffer[index], "}");
         success = true;
     }
