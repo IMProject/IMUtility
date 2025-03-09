@@ -151,6 +151,7 @@ Join us on the Discord channel https://discord.gg/R6nZxZqDH3
 - HeapSort_sort
 - InsertionSort_sort
 - MergeSort_sort
+- QuickSort_sort
 - SelectionSort_sort
 
 ### Utils
