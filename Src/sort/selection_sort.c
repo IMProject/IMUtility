@@ -39,19 +39,18 @@
 void
 SelectionSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_size,
                    bool (*compareFun)(void* first, void* second)) {
-    byte_t* elements = buffer;
     int32_t j;
 
     for (int32_t i = 0; i < (number_of_elements - 1); ++i) {
         int32_t min_index = i;
         for (j = i + 1; j < number_of_elements; ++j) {
-            if (compareFun(&elements[min_index * element_size], &elements[j * element_size])) {
+            if (compareFun(&buffer[min_index * element_size], &buffer[j * element_size])) {
                 min_index = j;
             }
         }
 
         if (min_index != i) {
-            Utils_swapElements(&elements[min_index * element_size], &elements[i * element_size], (uint32_t)element_size);
+            Utils_swapElements(&buffer[min_index * element_size], &buffer[i * element_size], (uint32_t)element_size);
         }
     }
 }

@@ -39,7 +39,6 @@
 static void
 MergeHalves(byte_t* buffer, int32_t element_size, int32_t left, int32_t mid, int32_t right,
             bool (*compareFun)(void* first, void* second)) {
-    byte_t* elements = buffer;
     byte_t left_half[MAX_HALVES_SIZE];
     byte_t right_half[MAX_HALVES_SIZE];
     int32_t i;
@@ -49,11 +48,11 @@ MergeHalves(byte_t* buffer, int32_t element_size, int32_t left, int32_t mid, int
     int32_t number_of_elements_2 =  right - mid;
 
     for (i = 0; i < number_of_elements_1; ++i) {
-        memcpy(&left_half[i * element_size], &elements[(left + i) * element_size], (size_t)element_size);
+        memcpy(&left_half[i * element_size], &buffer[(left + i) * element_size], (size_t)element_size);
     }
 
     for (j = 0; j < number_of_elements_2; ++j) {
-        memcpy(&right_half[j * element_size], &elements[(mid + 1 + j) * element_size], (size_t)element_size);
+        memcpy(&right_half[j * element_size], &buffer[(mid + 1 + j) * element_size], (size_t)element_size);
     }
 
     i = 0;
@@ -63,23 +62,23 @@ MergeHalves(byte_t* buffer, int32_t element_size, int32_t left, int32_t mid, int
     while ((i < number_of_elements_1) && (j < number_of_elements_2)) {
         bool compare = compareFun(&right_half[j * element_size], &left_half[i * element_size]);
         if (compare) {
-            memcpy(&elements[k * element_size], &left_half[i * element_size], (size_t)element_size);
+            memcpy(&buffer[k * element_size], &left_half[i * element_size], (size_t)element_size);
             ++i;
         } else {
-            memcpy(&elements[k * element_size], &right_half[j * element_size], (size_t)element_size);
+            memcpy(&buffer[k * element_size], &right_half[j * element_size], (size_t)element_size);
             ++j;
         }
         ++k;
     }
 
     while (i < number_of_elements_1) {
-        memcpy(&elements[k * element_size], &left_half[i * element_size], (size_t)element_size);
+        memcpy(&buffer[k * element_size], &left_half[i * element_size], (size_t)element_size);
         ++i;
         ++k;
     }
 
     while (j < number_of_elements_2) {
-        memcpy(&elements[k * element_size], &right_half[j * element_size], (size_t)element_size);
+        memcpy(&buffer[k * element_size], &right_half[j * element_size], (size_t)element_size);
         ++j;
         ++k;
     }
@@ -88,7 +87,6 @@ MergeHalves(byte_t* buffer, int32_t element_size, int32_t left, int32_t mid, int
 void
 MergeSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_size,
                bool (*compareFun)(void* first, void* second)) {
-    byte_t* elements = buffer;
     for (int32_t current_size = 1; current_size <= number_of_elements - 1; current_size *= 2) {
         for (int32_t left = 0; left < number_of_elements - 1; left += (2 * current_size)) {
             int32_t compare_first_1 = left + current_size - 1;
@@ -98,7 +96,7 @@ MergeSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_size,
             int32_t compare_first_2 = left + (2 * current_size) - 1;
             int32_t right = (compare_first_2 < compare_second) ? compare_first_2 : compare_second;
 
-            MergeHalves(elements, element_size, left, mid, right, compareFun);
+            MergeHalves(buffer, element_size, left, mid, right, compareFun);
         }
     }
 }
