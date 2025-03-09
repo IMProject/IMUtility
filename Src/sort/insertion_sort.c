@@ -39,21 +39,20 @@
 void
 InsertionSort_sort(byte_t* buffer, int32_t number_of_elements, int32_t element_size,
                    bool (*compareFun)(void* first, void* second)) {
-    byte_t* elements = buffer;
     static byte_t max_element[MAX_ELEMENT_SIZE];
     byte_t* element = &max_element[0];
 
     for (int32_t i = 1; i < number_of_elements; ++i) {
-        memcpy(element, &elements[i * element_size], (size_t)element_size);
+        memcpy(element, &buffer[i * element_size], (size_t)element_size);
 
         int32_t j = i - 1;
-        bool compare = compareFun(&elements[j * element_size], element);
+        bool compare = compareFun(&buffer[j * element_size], element);
 
         while ((j >= 0) && compare) {
-            memcpy(&elements[(j + 1) * element_size], &elements[j * element_size], (size_t)element_size);
+            memcpy(&buffer[(j + 1) * element_size], &buffer[j * element_size], (size_t)element_size);
             --j;
-            compare = compareFun(&elements[j * element_size], element);
+            compare = compareFun(&buffer[j * element_size], element);
         }
-        memcpy(&elements[(j + 1) * element_size], element, (size_t)element_size);
+        memcpy(&buffer[(j + 1) * element_size], element, (size_t)element_size);
     }
 }
